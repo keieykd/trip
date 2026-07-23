@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#EDE6D8">
 <title>拉拉山一日行｜神木森呼吸 × 水蜜桃採果</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍑</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     設計代幣（Design Tokens）— 莫蘭迪色系
+     設計代幣（Design Tokens）— 莫蘭迪色系（沿用既有 tokens）
      ============================================================ */
   :root{
     --cream:      #EDE6D8;   /* 主背景：暖燕麥米色 */
@@ -31,12 +33,19 @@
     --alert-line: #BC8570;
     --alert-ink:  #7A3F2A;
 
+    /* 衍生粉彩（僅由上列色微調透明度／亮度，不換色系） */
+    --sage-pale:  #E4E7DD;
+    --rose-pale:  #F3E0D8;
+    --blue-pale:  #DDE5E9;
+    --gold-pale:  #F6EBD3;
+
     --serif: "Noto Serif TC", serif;
     --sans:  "Noto Sans TC", sans-serif;
     --mono:  "JetBrains Mono", monospace;
 
-    --radius: 18px;
+    --radius: 20px;
     --shadow: 0 10px 30px -12px rgba(59,46,42,0.28);
+    --sticker: 0 0 0 3px rgba(255,253,246,0.9), 0 10px 26px -12px rgba(59,46,42,0.35);
   }
 
   *{ box-sizing:border-box; }
@@ -48,87 +57,236 @@
     font-family:var(--sans);
     line-height:1.7;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* 全站底層色暈：兩團霧綠／霧玫瑰的大光暈，固定不動、增加層次 */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(560px 420px at 8% 18%,  rgba(124,138,114,0.14), transparent 70%),
+      radial-gradient(640px 520px at 94% 34%, rgba(185,124,104,0.12), transparent 70%),
+      radial-gradient(520px 420px at 50% 88%, rgba(110,135,148,0.10), transparent 70%);
   }
   h1,h2,h3,h4{ font-family:var(--serif); margin:0; color:var(--ink); }
   a{ color:var(--blue-deep); }
   img,svg{ display:block; max-width:100%; }
   button{ font-family:inherit; }
+  ::selection{ background:#E7C9BC; color:var(--ink); }
 
-  .wrap{ max-width:980px; margin:0 auto; padding:0 24px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(20px, 4vw, 44px); }
+  .wrap.wide{ max-width:1460px; }
+
+  /* 裝飾層共通 */
+  .deco{ position:absolute; pointer-events:none; }
+  section{ scroll-margin-top:70px; }
 
   /* ============================================================
-     HERO 區塊
+     動畫 keyframes 圖書館
      ============================================================ */
-  .hero{
-    position:relative;
-    overflow:hidden;
-    padding:76px 0 64px;
-    background:
-      radial-gradient(120% 90% at 50% -10%, #F2ECDF 0%, var(--cream) 60%);
+  @keyframes drift{ 0%{transform:translateX(-6%)} 50%{transform:translateX(6%)} 100%{transform:translateX(-6%)} }
+  @keyframes cloudGo{ from{transform:translateX(-18vw)} to{transform:translateX(118vw)} }
+  @keyframes flyBy{
+    0%{transform:translate(-8vw,26px) scale(1)} 50%{transform:translate(52vw,-14px) scale(.92)}
+    100%{transform:translate(112vw,10px) scale(1)}
+  }
+  @keyframes leafFall{
+    0%  {transform:translate3d(0,-50px,0) rotate(0deg); opacity:0}
+    8%  {opacity:.85}
+    35% {transform:translate3d(var(--sw,50px),230px,0) rotate(120deg)}
+    65% {transform:translate3d(calc(var(--sw,50px) * -0.5),480px,0) rotate(220deg)}
+    92% {opacity:.55}
+    100%{transform:translate3d(calc(var(--sw,50px) * 0.4),760px,0) rotate(330deg); opacity:0}
+  }
+  @keyframes sunPulse{ 0%,100%{transform:scale(1);opacity:.55} 50%{transform:scale(1.06);opacity:.7} }
+  @keyframes spinSlow{ to{transform:rotate(360deg)} }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+  @keyframes pinHop{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes dashMarch{ to{stroke-dashoffset:-64} }
+  @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(var(--r,0deg))} 50%{transform:translateY(-10px) rotate(var(--r,0deg))} }
+  @keyframes twinkle{ 0%,100%{opacity:.2} 50%{opacity:1} }
+  @keyframes fireflyDrift{
+    0%,100%{transform:translate(0,0)} 30%{transform:translate(10px,-14px)}
+    60%{transform:translate(-8px,-24px)} 80%{transform:translate(6px,-10px)}
+  }
+  @keyframes flap{ from{transform:scaleX(1)} to{transform:scaleX(.32)} }
+  @keyframes butterflyRoam{
+    0%  {transform:translate(0,0) rotate(-8deg)}
+    25% {transform:translate(60px,-40px) rotate(10deg)}
+    50% {transform:translate(150px,10px) rotate(-6deg)}
+    75% {transform:translate(70px,50px) rotate(8deg)}
+    100%{transform:translate(0,0) rotate(-8deg)}
+  }
+  @keyframes homeDrive{ from{transform:translateX(1300px)} to{transform:translateX(-220px)} }
+  @keyframes drawLine{ from{stroke-dashoffset:260} to{stroke-dashoffset:0} }
+
+  /* ============================================================
+     置頂導覽（sticky nav）
+     ============================================================ */
+  .top-nav{
+    position:sticky; top:0; z-index:60;
+    background:rgba(237,230,216,0.86);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--card-line);
   }
-  .hero-mountains{
-    position:absolute; inset:auto 0 0 0; height:56%;
-    pointer-events:none;
+  .nav-in{
+    max-width:1460px; margin:0 auto;
+    padding:9px clamp(16px,3vw,40px);
+    display:flex; align-items:center; gap:10px;
+    overflow-x:auto; scrollbar-width:none;
   }
+  .nav-in::-webkit-scrollbar{ display:none; }
+  .nav-brand{
+    font-family:var(--serif); font-weight:900; font-size:15px;
+    white-space:nowrap; margin-right:6px; display:flex; align-items:center; gap:7px;
+  }
+  .nav-brand .dot{
+    width:22px; height:22px; border-radius:50%;
+    background:radial-gradient(circle at 38% 32%, #D9A08B, var(--rose) 72%);
+    box-shadow:inset -2px -2px 0 rgba(140,86,70,.35);
+    position:relative; flex:none;
+  }
+  .nav-brand .dot::after{
+    content:""; position:absolute; top:-4px; left:11px;
+    width:8px; height:6px; border-radius:60% 40% 60% 40%;
+    background:var(--sage); transform:rotate(28deg);
+  }
+  .nav-link{
+    font-family:var(--mono); font-size:12px; font-weight:700;
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap;
+    background:var(--card); border:1.5px solid var(--card-line);
+    border-radius:999px; padding:6px 13px;
+    transition:transform .2s ease, background .2s ease, color .2s ease;
+  }
+  .nav-link:hover{ background:var(--gold-pale); color:var(--gold-deep); transform:translateY(-1px) rotate(-1deg); }
+
+  /* ============================================================
+     HERO 區塊 — 多層山景 × 雲霧 × 落葉 × 相會的兩台小車
+     ============================================================ */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:72px 0 210px;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #F4EEE1 0%, var(--cream) 62%);
+    border-bottom:1px solid var(--card-line);
+  }
+
+  /* 太陽 + 旋轉光圈 */
   .hero-sun{
-    position:absolute; top:14%; left:50%; transform:translateX(-50%);
-    width:120px; height:120px; border-radius:50%;
-    background:radial-gradient(circle at 40% 35%, #E8D6A8, var(--gold) 70%);
-    opacity:0.55; filter:blur(0.5px);
+    position:absolute; top:5%; left:50%; transform:translateX(-50%);
+    width:130px; height:130px; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #E8D6A8, var(--gold) 72%);
+    opacity:.55; animation:sunPulse 7s ease-in-out infinite;
   }
+  .hero-sun::after{
+    content:""; position:absolute; inset:-16px; border-radius:50%;
+    border:2px dashed rgba(169,130,60,.45);
+    animation:spinSlow 70s linear infinite;
+  }
+
+  /* 雲朵（三朵，緩速橫越） */
+  .cloud{ position:absolute; left:-240px; opacity:.55; animation:cloudGo 105s linear infinite; }
+  .cloud svg{ width:100%; height:auto; }
+  .cloud.c1{ top:9%;  width:150px; animation-duration:110s; animation-delay:-30s; }
+  .cloud.c2{ top:20%; width:96px;  opacity:.4; animation-duration:80s;  animation-delay:-62s; }
+  .cloud.c3{ top:4%;  width:190px; opacity:.3; animation-duration:140s; animation-delay:-95s; }
+
+  /* 小鳥（兩組） */
+  .birds{ position:absolute; left:0; animation:flyBy 52s linear infinite; color:var(--blue-deep); opacity:.5; }
+  .birds.b2{ animation-duration:67s; animation-delay:-33s; opacity:.35; }
+  .birds svg{ width:34px; height:auto; }
+
+  /* 多層山巒 */
+  .hero-mountains{ position:absolute; left:0; right:0; bottom:96px; height:56%; }
+  .hero-mountains svg{ width:100%; height:100%; }
+
+  /* 雲霧帶 */
   .mist{
     position:absolute; left:-10%; width:130%; height:120px;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
-    filter:blur(14px);
-    opacity:0.6;
+    filter:blur(14px); opacity:.6;
     animation:drift 26s linear infinite;
   }
-  .mist.m2{ animation-duration:38s; opacity:0.4; }
-  @keyframes drift{
-    0%{ transform:translateX(-6%); }
-    50%{ transform:translateX(6%); }
-    100%{ transform:translateX(-6%); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .mist{ animation:none; }
-  }
+  .mist.m2{ animation-duration:38s; opacity:.4; }
 
-  .hero-inner{ position:relative; z-index:2; text-align:center; }
-  .eyebrow{
-    font-family:var(--mono); font-size:13px; letter-spacing:0.14em;
-    color:var(--sage-deep); text-transform:uppercase;
-    margin-bottom:18px;
+  /* 落葉與花瓣 */
+  .leaf{
+    position:absolute; top:-50px; width:14px; height:14px;
+    background:var(--sage); border-radius:0 62% 0 62%;
+    opacity:0; animation:leafFall var(--d,15s) linear infinite;
+    animation-delay:var(--delay,0s);
   }
+  .leaf.petal{ background:var(--rose); border-radius:62% 62% 62% 4px; width:12px; height:12px; }
+
+  /* 山路與兩台相會的小車（hero 最底） */
+  .hero-road{ position:absolute; left:0; right:0; bottom:0; height:150px; }
+  .hero-road svg{ width:100%; height:100%; }
+  .road-dash{
+    stroke-dasharray:22 14;
+    animation:dashMarch 1.8s linear infinite;
+  }
+  .car-a, .car-b{ animation:bob 2.6s ease-in-out infinite; }
+  .car-b{ animation-delay:-1.2s; }
+  .meet-pin{ animation:pinHop 2.4s ease-in-out infinite; transform-origin:center bottom; }
+
+  /* 兩側漂浮小圖章（樹與水蜜桃） */
+  .hero-doodle{ position:absolute; z-index:3; animation:floaty 6.5s ease-in-out infinite; }
+  .hero-doodle svg{ width:100%; height:auto; filter:drop-shadow(0 6px 10px rgba(59,46,42,.18)); }
+  .doodle-tree{  width:92px;  left:7%;  top:24%; --r:-6deg; }
+  .doodle-peach{ width:86px;  right:8%; top:20%; --r:7deg; animation-delay:-3s; }
+
+  .hero-inner{ position:relative; z-index:4; text-align:center; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.13em;
+    color:var(--sage-deep); text-transform:uppercase;
+    background:rgba(247,242,231,.8); border:1.5px dashed var(--card-line);
+    border-radius:999px; padding:7px 16px; margin-bottom:20px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:""; width:7px; height:7px; border-radius:50%; flex:none;
+  }
+  .eyebrow::before{ background:var(--sage); }
+  .eyebrow::after{ background:var(--rose); }
+
   .hero h1{
-    font-size:clamp(34px, 6vw, 58px);
-    font-weight:900;
-    letter-spacing:0.02em;
-    line-height:1.25;
+    font-size:clamp(34px, 5.4vw, 62px);
+    font-weight:900; letter-spacing:.02em; line-height:1.25;
   }
   .hero h1 span{ color:var(--rose-deep); }
+  .h1-squiggle{ width:min(300px, 60%); margin:6px auto 0; color:var(--rose); }
+  .h1-squiggle path{
+    stroke-dasharray:260; stroke-dashoffset:0;
+    animation:drawLine 1.4s ease .4s both;
+  }
   .hero p.sub{
-    margin:18px auto 0; max-width:540px;
+    margin:20px auto 0; max-width:620px;
     color:var(--ink-soft); font-size:16px;
   }
 
   .chips{
-    display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
-    margin-top:34px;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:12px;
+    margin-top:32px;
   }
   .chip{
     display:flex; align-items:center; gap:8px;
-    background:var(--card); border:1px solid var(--card-line);
-    border-radius:999px; padding:9px 16px 9px 12px;
+    background:var(--card); border:1.5px solid var(--card-line);
+    border-radius:999px; padding:9px 17px 9px 13px;
     font-family:var(--mono); font-size:13px; color:var(--ink);
-    box-shadow:var(--shadow);
+    box-shadow:var(--sticker);
+    transition:transform .22s ease;
   }
+  .chip:nth-child(odd){ rotate:-1.2deg; }
+  .chip:nth-child(even){ rotate:1deg; }
+  .chip:hover{ transform:translateY(-3px) rotate(0deg) scale(1.03); }
   .chip svg{ width:16px; height:16px; }
+  .chip:nth-child(1) svg{ color:var(--gold-deep); }
+  .chip:nth-child(2) svg{ color:var(--rose-deep); }
+  .chip:nth-child(3) svg{ color:var(--blue-deep); }
+  .chip:nth-child(4) svg{ color:var(--rose); }
 
-  /* 提醒卡片 */
+  /* 提醒卡片（黃） */
   .notice{
-    margin:36px auto 0; max-width:720px;
-    background:var(--warn-bg); border:1px solid var(--warn-line);
+    background:var(--warn-bg); border:1.5px solid var(--warn-line);
     border-radius:var(--radius); padding:16px 20px;
     text-align:left; font-size:14.5px; color:#5A4626;
     display:flex; gap:12px;
@@ -136,69 +294,104 @@
   .notice svg{ flex:none; width:22px; height:22px; margin-top:2px; color:#8C6A24; }
   .notice b{ color:#6B4E1B; }
 
-  /* 出發前狀態卡 */
+  /* 出發前狀態卡（紙膠帶 + 印章） */
   .status{
-    margin:22px auto 0; max-width:720px;
-    background:var(--alert-bg); border:1px solid var(--alert-line);
-    border-radius:var(--radius); padding:20px 24px;
+    position:relative;
+    margin:34px auto 0; max-width:1020px;
+    background:var(--alert-bg); border:1.5px solid var(--alert-line);
+    border-radius:var(--radius); padding:24px 28px 22px;
     text-align:left; font-size:14.5px; color:#5C3A2E;
-    box-shadow:var(--shadow);
+    box-shadow:var(--sticker);
+  }
+  .status::before{
+    content:""; position:absolute; top:-13px; left:50%;
+    translate:-50% 0; rotate:-2.5deg;
+    width:128px; height:26px; border-radius:4px;
+    background:repeating-linear-gradient(45deg,
+      rgba(188,133,112,.55) 0 10px, rgba(188,133,112,.38) 10px 20px);
+    box-shadow:0 2px 6px rgba(59,46,42,.12);
   }
   .status h4{
-    margin:0 0 10px; font-size:17px;
-    color:var(--alert-ink); display:flex; align-items:center; gap:8px;
+    margin:2px 0 12px; font-size:17.5px;
+    color:var(--alert-ink); display:flex; align-items:center; gap:9px;
   }
   .status h4 svg{ width:20px; height:20px; flex:none; }
   .status ul{ margin:0; padding-left:20px; }
-  .status li{ margin-bottom:7px; }
+  .status li{ margin-bottom:8px; }
   .status li:last-child{ margin-bottom:0; }
   .status b{ color:var(--alert-ink); }
   .stamp{
-    display:block; margin-top:12px; padding-top:10px;
-    border-top:1px dashed var(--alert-line);
-    font-family:var(--mono); font-size:11.5px; color:#8A6A5C;
+    display:inline-block; margin-top:14px;
+    font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.06em;
+    color:#8A5A44; border:2px solid rgba(188,133,112,.8);
+    border-radius:9px; padding:6px 12px; rotate:-1.6deg;
+    background:rgba(255,253,246,.5);
+  }
+  @media (min-width:900px){
+    .status ul{ columns:2; column-gap:36px; }
+    .status li{ break-inside:avoid; }
   }
 
   /* ============================================================
-     共用：區塊標題
+     共用：區塊標題（螢光筆畫線 + 圓點）
      ============================================================ */
-  .section-head{ text-align:center; margin-bottom:36px; }
-  .section-head .eyebrow{ justify-content:center; display:flex; }
-  .section-head h2{ font-size:clamp(26px,4vw,34px); margin-top:10px; }
+  .section-head{ text-align:center; margin-bottom:38px; position:relative; z-index:2; }
+  .section-head h2{
+    font-size:clamp(26px, 3.6vw, 36px); margin-top:12px; letter-spacing:.02em;
+  }
+  .section-head h2 .hl{
+    background:linear-gradient(transparent 60%, var(--gold-pale) 60% 94%, transparent 94%);
+    padding:0 6px; border-radius:4px;
+  }
   .section-head p.lede{
-    max-width:640px; margin:14px auto 0;
+    max-width:680px; margin:14px auto 0;
     font-size:14.5px; color:var(--ink-soft);
   }
 
   /* ============================================================
-     兩路人馬 · 集合
+     兩路人馬 · 集合 — 桌機三欄（路線×2 + 集合欄）
      ============================================================ */
-  .convoy-section{ padding:70px 0 20px; }
-  .routes{
-    display:grid; grid-template-columns:1fr 1fr; gap:20px;
-    margin-top:8px;
+  .convoy-section{ padding:74px 0 26px; position:relative; overflow:hidden; }
+  /* 背景：等高線塗鴉 + 慢轉羅盤 */
+  .contour{ left:-70px; top:30px; width:340px; opacity:.4; color:var(--sage); }
+  .compass{ right:4%; top:56px; width:88px; opacity:.35; color:var(--blue-deep); animation:spinSlow 90s linear infinite; }
+
+  .convoy-grid{ display:grid; gap:22px; grid-template-columns:1fr 1fr; position:relative; z-index:1; }
+  .rv-col{ grid-column:1 / -1; display:grid; gap:22px; }
+  @media (max-width:760px){ .convoy-grid{ grid-template-columns:1fr; } }
+  @media (min-width:1200px){
+    .convoy-grid{ grid-template-columns:1.02fr 1.02fr 1fr; align-items:start; }
+    .rv-col{ grid-column:auto; display:flex; flex-direction:column; gap:22px; }
   }
-  @media (max-width:760px){ .routes{ grid-template-columns:1fr; } }
 
   .route{
-    background:var(--card); border:1px solid var(--card-line);
+    background:var(--card); border:1.5px solid var(--card-line);
     border-radius:var(--radius); padding:22px 24px 20px;
     box-shadow:var(--shadow);
-    border-top:4px solid var(--sage);
+    border-top:5px solid var(--sage);
+    transition:translate .25s ease, rotate .25s ease, box-shadow .25s ease;
   }
+  .route:hover{ translate:0 -4px; rotate:-.3deg; box-shadow:var(--sticker); }
   .route.friend{ border-top-color:var(--blue); }
-  .route-head{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  .route-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  .route-icon{
+    flex:none; width:34px; height:34px; border-radius:11px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--sage-pale); color:var(--sage-deep); rotate:-4deg;
+  }
+  .route.friend .route-icon{ background:var(--blue-pale); color:var(--blue-deep); }
+  .route-icon svg{ width:20px; height:20px; }
   .route-head h3{ font-size:18px; }
   .route-tag{
-    font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
-    background:#E4E7DD; color:var(--sage-deep);
+    font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+    background:var(--sage-pale); color:var(--sage-deep);
     border-radius:6px; padding:2px 8px;
   }
-  .route.friend .route-tag{ background:#DDE5E9; color:var(--blue-deep); }
+  .route.friend .route-tag{ background:var(--blue-pale); color:var(--blue-deep); }
   .route-note{ font-size:13px; color:var(--ink-soft); margin:0 0 16px; }
 
   .route-step{
-    display:grid; grid-template-columns:78px 1fr; gap:0 12px;
+    display:grid; grid-template-columns:82px 1fr; gap:0 12px;
     padding:9px 0; border-top:1px dashed var(--card-line);
   }
   .route-step:first-of-type{ border-top:none; }
@@ -208,22 +401,25 @@
   }
   .route-step .rs-body{ font-size:13.5px; color:var(--ink); }
   .route-step .rs-body small{ display:block; color:var(--ink-soft); font-size:12.5px; }
-  .route-step.bonus .rs-time{ color:var(--rose-deep); }
-  .route-step.bonus .rs-body{ font-weight:700; color:var(--rose-deep); }
-  .route-step.bonus .rs-body small{ font-weight:400; color:var(--ink-soft); }
 
   .rendezvous{
-    margin-top:22px;
+    position:relative;
     background:linear-gradient(135deg,#F6EBD3,#F3E2D6);
     border:2px solid var(--gold);
     border-radius:var(--radius); padding:22px 26px;
-    box-shadow:0 12px 30px -14px rgba(169,130,60,0.7);
+    box-shadow:0 12px 30px -14px rgba(169,130,60,.7);
     display:flex; gap:16px; align-items:flex-start;
   }
   .rendezvous .rv-icon{
-    flex:none; width:44px; height:44px; border-radius:12px;
-    background:var(--gold); color:#fff;
+    flex:none; width:46px; height:46px; border-radius:14px;
+    background:var(--gold); color:#fff; position:relative;
     display:flex; align-items:center; justify-content:center;
+    rotate:-5deg;
+  }
+  .rendezvous .rv-icon::after{
+    content:""; position:absolute; inset:-7px; border-radius:18px;
+    border:2px dashed rgba(169,130,60,.55);
+    animation:spinSlow 34s linear infinite;
   }
   .rendezvous .rv-icon svg{ width:24px; height:24px; }
   .rendezvous h3{ font-size:19px; color:var(--gold-deep); margin-bottom:6px; }
@@ -231,183 +427,180 @@
   .rendezvous p:last-of-type{ margin-bottom:0; }
   .rendezvous b{ color:var(--gold-deep); }
   .rv-time{
-    font-family:var(--mono); font-size:26px; font-weight:700;
+    font-family:var(--mono); font-size:27px; font-weight:700;
     color:var(--gold-deep); line-height:1.2; display:block; margin-bottom:2px;
   }
+  @media (min-width:1200px){
+    .rendezvous{ flex-direction:column; }
+  }
 
   /* ============================================================
-     加菜景點（排序推薦）
+     時間軸區塊 — 手機直排 / 桌機雙欄拼版
      ============================================================ */
-  .bonus-section{ padding:70px 0 30px; }
-  .bonus-list{ display:flex; flex-direction:column; gap:16px; margin-top:30px; }
-  .bonus{
-    background:var(--card); border:1px solid var(--card-line);
-    border-radius:var(--radius); padding:20px 24px;
-    box-shadow:var(--shadow);
-    display:grid; grid-template-columns:52px 1fr; gap:0 18px;
+  .timeline-section{ padding:70px 0 46px; position:relative; overflow:hidden; }
+  /* 背景：兩側杉木剪影 + 霧帶 + 螢火蟲 */
+  .forest-l{ left:-30px; bottom:40px; width:220px; opacity:.5; color:var(--sage-deep); }
+  .forest-r{ right:-36px; top:120px; width:190px; opacity:.4; color:var(--sage); transform:scaleX(-1); }
+  .timeline-mist{ top:34%; }
+  .firefly{
+    position:absolute; width:7px; height:7px; border-radius:50%;
+    background:radial-gradient(circle, #E8D6A8 0%, var(--gold) 70%);
+    filter:blur(.6px);
+    animation:fireflyDrift var(--d,9s) ease-in-out infinite,
+              twinkle var(--t,3.4s) ease-in-out infinite;
+    animation-delay:var(--delay,0s);
   }
-  .bonus.top{
-    border:2px solid var(--gold);
-    background:linear-gradient(180deg,#FDF7E9 0%, var(--card) 60%);
-  }
-  .bonus .rank{
-    font-family:var(--mono); font-size:26px; font-weight:700;
-    color:var(--card-line); line-height:1; padding-top:4px;
-  }
-  .bonus.top .rank{ color:var(--gold); }
-  .bonus-head{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
-  .bonus-head h3{ font-size:18px; }
-  .dwell{
-    font-family:var(--mono); font-size:11.5px; font-weight:700;
-    background:#E4E7DD; color:var(--sage-deep);
-    border-radius:999px; padding:3px 10px; white-space:nowrap;
-  }
-  .free{
-    font-family:var(--mono); font-size:11.5px; font-weight:700;
-    background:#DDE5E9; color:var(--blue-deep);
-    border-radius:999px; padding:3px 10px; white-space:nowrap;
-  }
-  .bonus p{ margin:0 0 10px; font-size:14px; color:var(--ink-soft); }
-  .bonus p:last-of-type{ margin-bottom:0; }
-  .bonus .why{
-    font-size:13.5px; line-height:1.7; color:#6B5322;
-    background:#F6EBD3; border-left:3px solid var(--gold);
-    border-radius:0 8px 8px 0; padding:10px 13px; margin-bottom:10px;
-  }
-  .bonus .why b{ color:var(--gold-deep); }
-  .bonus .catch{
-    font-size:13px; color:#8C4A2F; background:#F3DFCE;
-    border-radius:8px; padding:8px 12px; margin-bottom:10px;
-  }
-  @media (max-width:520px){
-    .bonus{ grid-template-columns:1fr; gap:6px; }
-    .bonus .rank{ padding-top:0; }
-  }
-
-  .skip{
-    margin-top:26px;
-    background:#E9E4D8; border:1px dashed #C6BBA4;
-    border-radius:var(--radius); padding:22px 26px;
-  }
-  .skip h3{ font-size:17px; margin-bottom:6px; }
-  .skip > p{ font-size:13.5px; color:var(--ink-soft); margin:0 0 14px; }
-  .skip dl{ margin:0; }
-  .skip dt{
-    font-weight:700; font-size:14px; color:var(--ink);
-    margin-top:12px;
-  }
-  .skip dt:first-child{ margin-top:0; }
-  .skip dd{ margin:2px 0 0; font-size:13.5px; color:var(--ink-soft); }
-
-  /* ============================================================
-     時間軸區塊
-     ============================================================ */
-  .timeline-section{ padding:66px 0 40px; position:relative; }
 
   .legend{
     display:flex; align-items:center; justify-content:center; gap:9px;
-    max-width:640px; margin:18px auto 0;
-    background:#F6EBD3; border:1px solid #E0CDA2;
+    max-width:660px; margin:18px auto 0;
+    background:var(--gold-pale); border:1.5px solid #E0CDA2;
     border-radius:999px; padding:8px 18px;
     font-size:13px; color:var(--gold-deep);
   }
   .legend svg{ width:15px; height:15px; flex:none; color:var(--gold); }
   .legend b{ color:var(--gold-deep); }
 
-  .timeline{ position:relative; margin-top:44px; }
+  .timeline{ position:relative; margin-top:44px; z-index:1; }
   .spine{
-    position:absolute; top:0; bottom:0; left:50%;
-    width:2px; transform:translateX(-50%);
+    position:absolute; top:0; bottom:0; left:26px;
+    width:2px;
     background:repeating-linear-gradient(
       to bottom, var(--sage) 0 10px, transparent 10px 18px
     );
     z-index:0;
   }
-  @media (max-width:760px){
-    .spine{ left:26px; }
-  }
 
   .t-item{
     position:relative; z-index:1;
-    display:grid; grid-template-columns:1fr 64px 1fr;
-    align-items:start; gap:0 28px;
-    margin-bottom:46px;
-    opacity:0; transform:translateY(18px);
-    transition:opacity .7s ease, transform .7s ease;
+    display:grid; grid-template-columns:52px 1fr;
+    gap:0 14px; margin-bottom:30px;
   }
-  .t-item.in{ opacity:1; transform:translateY(0); }
-  .t-item .t-card{ grid-column:1; }
-  .t-item.right .t-card{ grid-column:3; }
-  .t-item .t-spacer{ grid-column:3; }
-  .t-item.right .t-spacer{ grid-column:1; }
-
   .t-node{
-    grid-column:2; display:flex; flex-direction:column; align-items:center;
-    gap:8px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
   }
   .t-medal{
-    width:56px; height:56px; border-radius:50%;
+    width:52px; height:52px; border-radius:50%;
     background:var(--card); border:2px solid var(--sage);
     display:flex; align-items:center; justify-content:center;
-    box-shadow:var(--shadow);
+    box-shadow:var(--sticker); rotate:-4deg;
   }
-  .t-medal svg{ width:26px; height:26px; color:var(--sage-deep); }
+  .t-medal svg{ width:24px; height:24px; color:var(--sage-deep); }
   .t-time{
-    font-family:var(--mono); font-weight:700; font-size:13px;
+    font-family:var(--mono); font-weight:700; font-size:12px;
     color:var(--gold); background:var(--card);
-    border:1px solid var(--card-line); border-radius:8px;
-    padding:3px 8px; white-space:nowrap;
+    border:1.5px solid var(--card-line); border-radius:8px;
+    padding:3px 7px; white-space:nowrap;
   }
 
+  /* 各階段配色 */
+  .ph-gold .t-medal{ border-color:var(--gold); background:var(--gold-pale); }
+  .ph-gold .t-medal svg{ color:var(--gold-deep); }
+  .ph-sage .t-medal{ border-color:var(--sage); background:var(--sage-pale); }
+  .ph-main .t-medal{ border-color:var(--sage-deep); background:var(--sage-pale); }
+  .ph-main .t-medal svg{ color:var(--sage-deep); }
+  .ph-rose .t-medal{ border-color:var(--rose); background:var(--rose-pale); }
+  .ph-rose .t-medal svg{ color:var(--rose-deep); }
+  .ph-blue .t-medal{ border-color:var(--blue); background:var(--blue-pale); }
+  .ph-blue .t-medal svg{ color:var(--blue-deep); }
+
   .t-card{
-    background:var(--card); border:1px solid var(--card-line);
+    background:var(--card); border:1.5px solid var(--card-line);
     border-radius:var(--radius); padding:22px 24px;
     box-shadow:var(--shadow);
+    transition:translate .25s ease, box-shadow .25s ease;
   }
-  .t-card h3{ font-size:19px; margin-bottom:8px; }
-  .t-card p{ margin:0 0 10px; color:var(--ink-soft); font-size:14.5px; }
-  .t-card p:last-child{ margin-bottom:0; }
+  .t-card:hover{ translate:0 -3px; box-shadow:var(--sticker); }
+  .ph-main .t-card{ border-top:5px solid var(--sage); }
+  .ph-rose .t-card{ border-top:5px solid var(--rose); }
+  .t-head h3{ font-size:19px; margin-bottom:8px; }
+  .t-body p{ margin:0 0 10px; color:var(--ink-soft); font-size:14.5px; max-width:78ch; }
+  .t-body p:last-child{ margin-bottom:0; }
   .t-card .tag{
     display:inline-block; font-family:var(--mono); font-size:11.5px;
-    color:var(--sage-deep); background:#E4E7DD; border-radius:6px;
-    padding:2px 8px; margin-bottom:10px; letter-spacing:0.03em;
+    color:var(--sage-deep); background:var(--sage-pale); border-radius:6px;
+    padding:2px 8px; margin-bottom:10px; letter-spacing:.03em;
   }
+  .ph-rose .tag{ color:var(--rose-deep); background:var(--rose-pale); }
+  .ph-blue .tag{ color:var(--blue-deep); background:var(--blue-pale); }
+  .ph-gold .tag{ color:var(--gold-deep); background:var(--gold-pale); }
   .t-card .inline-warn{
     display:block; margin-top:12px;
     background:var(--warn-bg); border-left:3px solid var(--warn-line);
-    border-radius:0 8px 8px 0; padding:9px 12px;
+    border-radius:0 10px 10px 0; padding:9px 12px;
     font-size:13px; color:#5A4626;
   }
   .t-card .inline-warn b{ color:#6B4E1B; }
 
-  @media (max-width:760px){
-    .t-item, .t-item.right{
-      grid-template-columns:56px 1fr;
-      gap:0 16px;
+  /* 平板以上：軌道加寬 */
+  @media (min-width:760px){
+    .spine{ left:38px; }
+    .t-item{ grid-template-columns:76px 1fr; gap:0 22px; margin-bottom:36px; }
+    .t-medal{ width:58px; height:58px; }
+    .t-medal svg{ width:26px; height:26px; }
+  }
+
+  /* 桌機 ≥1200：雙欄拼版。小卡兩兩並排、主秀與方案卡整排 */
+  @media (min-width:1200px){
+    .spine{ left:50%; transform:translateX(-50%); }
+    .timeline{
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:30px 34px; align-items:start;
     }
-    .t-item .t-card, .t-item.right .t-card{ grid-column:2; }
-    .t-item .t-spacer, .t-item.right .t-spacer{ display:none; }
-    .t-node{ grid-column:1; grid-row:1; }
+    .t-item{ display:block; margin-bottom:0; }
+    .t-item.t-full{ grid-column:1 / -1; }
+    .t-node{
+      flex-direction:row; align-items:center; gap:10px;
+      margin:0 0 12px 6px;
+    }
     .t-medal{ width:46px; height:46px; }
-    .t-medal svg{ width:21px; height:21px; }
+    .t-medal svg{ width:22px; height:22px; }
+    .t-time{ font-size:12.5px; padding:4px 10px; }
+
+    /* 主秀卡：標題欄 + 內文欄 */
+    .t-full .t-card{
+      display:grid;
+      grid-template-columns:300px 1fr;
+      grid-template-areas:"head body" "opts opts";
+      column-gap:36px;
+    }
+    .t-full .t-head{ grid-area:head; }
+    .t-full .t-body{ grid-area:body; }
+    .t-full .option-grid{ grid-area:opts; }
+    .t-full.cols .t-body{ columns:2; column-gap:32px; }
+    .t-full.cols .t-body > *{ break-inside:avoid; }
+
+    /* 過場小卡：整排橫條 */
+    .t-item.transit{ grid-column:1 / -1; display:flex; align-items:center; gap:18px; }
+    .transit .t-node{ margin:0; flex:none; }
+    .transit .t-card{
+      flex:1; display:flex; align-items:baseline; gap:6px 22px; flex-wrap:wrap;
+      padding:16px 24px;
+      background:linear-gradient(90deg, var(--blue-pale), var(--card) 45%);
+    }
+    .transit.ph-gold .t-card{ background:linear-gradient(90deg, var(--gold-pale), var(--card) 45%); }
+    .transit .t-head h3{ margin-bottom:0; font-size:17px; }
+    .transit .t-head .tag{ margin-bottom:6px; }
+    .transit .t-body{ flex:1; min-width:300px; }
+    .transit .t-body p{ font-size:13.5px; }
   }
 
   /* ============================================================
-     方案選擇卡（餐廳／果園）
+     方案選擇卡（餐廳／果園／甜點／晚餐）— 點擊可做記號
      ============================================================ */
   .option-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
     gap:14px; margin-top:16px;
   }
   .option-card{
     text-align:left; cursor:pointer;
     background:#FCFAF3; border:1.5px solid var(--card-line);
-    border-radius:14px; padding:14px 16px;
-    transition:border-color .25s ease, transform .2s ease, box-shadow .2s ease;
+    border-radius:16px; padding:14px 16px;
+    transition:border-color .25s ease, translate .2s ease, rotate .2s ease, box-shadow .2s ease;
     display:flex; flex-direction:column; gap:6px;
     position:relative;
   }
-  .option-card:hover{ transform:translateY(-3px); box-shadow:0 8px 18px -8px rgba(59,46,42,0.3); }
+  .option-card:hover{ translate:0 -3px; rotate:-.3deg; box-shadow:0 8px 18px -8px rgba(59,46,42,.3); }
   .option-card:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
   .option-card.selected{
     border-color:var(--rose-deep);
@@ -426,23 +619,23 @@
     border:2px solid var(--gold);
     padding-top:22px;
     background:linear-gradient(180deg, #FDF7E9 0%, #FCFAF3 55%);
-    box-shadow:0 10px 26px -12px rgba(169,130,60,0.62);
+    box-shadow:0 10px 26px -12px rgba(169,130,60,.62);
   }
-  .option-card.pick:hover{ box-shadow:0 14px 30px -12px rgba(169,130,60,0.7); }
+  .option-card.pick:hover{ box-shadow:0 14px 30px -12px rgba(169,130,60,.7); }
   .option-card.pick.selected{ border-color:var(--rose-deep); }
   .pick-ribbon{
     position:absolute; top:-12px; left:14px;
     display:inline-flex; align-items:center; gap:5px;
     background:var(--gold); color:#fff;
     font-family:var(--mono); font-size:11px; font-weight:700;
-    letter-spacing:0.08em; border-radius:999px; padding:4px 11px;
-    box-shadow:0 5px 12px -5px rgba(126,95,38,0.85);
-    white-space:nowrap;
+    letter-spacing:.08em; border-radius:999px; padding:4px 11px;
+    box-shadow:0 5px 12px -5px rgba(126,95,38,.85);
+    white-space:nowrap; rotate:-2deg;
   }
   .pick-ribbon svg{ width:11px; height:11px; flex:none; }
   .opt-why{
     font-size:12.5px; line-height:1.65; color:#6B5322;
-    background:#F6EBD3; border-left:3px solid var(--gold);
+    background:var(--gold-pale); border-left:3px solid var(--gold);
     border-radius:0 8px 8px 0; padding:9px 11px; margin-top:2px;
   }
   .opt-why b{ color:var(--gold-deep); }
@@ -462,6 +655,7 @@
     margin-top:14px; font-family:var(--mono); font-size:12.5px;
     color:var(--blue-deep); text-decoration:none; font-weight:700;
     border-bottom:1px solid var(--blue-deep); padding-bottom:1px;
+    width:fit-content;
   }
   .card-map svg{ width:14px; height:14px; flex:none; }
   .card-map:hover{ color:var(--rose-deep); border-color:var(--rose-deep); }
@@ -478,75 +672,341 @@
   .opt-map:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
 
   /* ============================================================
-     實用資訊區塊
+     彈性備案 — 貼紙牆
      ============================================================ */
-  .info-section{ background:#E7E1D2; padding:70px 0 80px; margin-top:20px; }
+  .bonus-section{ padding:74px 0 34px; position:relative; overflow:hidden; }
+  /* 背景：粉紅拱橋剪影 + 兩隻蝴蝶 */
+  .bridge-deco{ right:-40px; bottom:8px; width:520px; opacity:.6; color:var(--rose); }
+  .butterfly{ width:34px; color:var(--rose-deep); opacity:.65; animation:butterflyRoam 26s ease-in-out infinite; }
+  .butterfly .wing{ transform-box:fill-box; animation:flap .5s ease-in-out infinite alternate; }
+  .butterfly .wing.wl{ transform-origin:100% 50%; }
+  .butterfly .wing.wr{ transform-origin:0% 50%; animation-delay:-.25s; }
+  .bf1{ left:6%; top:120px; }
+  .bf2{ right:10%; top:70px; color:var(--blue-deep); animation-duration:32s; animation-delay:-14s; }
+
+  .bonus-list{
+    display:grid; grid-template-columns:1fr; gap:26px 22px;
+    margin-top:34px; position:relative; z-index:1;
+  }
+  @media (min-width:700px){ .bonus-list{ grid-template-columns:1fr 1fr; } }
+  @media (min-width:1200px){ .bonus-list{ grid-template-columns:1fr 1fr 1fr 1fr; } }
+
+  .bonus{
+    position:relative;
+    background:var(--card); border:1.5px solid var(--card-line);
+    border-radius:var(--radius); padding:24px 22px 20px;
+    box-shadow:var(--shadow);
+    display:flex; flex-direction:column;
+    transition:translate .25s ease, rotate .25s ease, box-shadow .25s ease;
+  }
+  .bonus:hover{ translate:0 -5px; rotate:.4deg; box-shadow:var(--sticker); }
+  .bonus .rank{
+    position:absolute; top:-14px; left:-10px;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--sage); color:#FDFBF4;
+    font-family:var(--mono); font-size:17px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    rotate:-9deg; box-shadow:var(--sticker);
+  }
+  .bonus-head{ display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; margin:0 0 10px 30px; }
+  .bonus-head h3{ font-size:17.5px; }
+  .dwell{
+    font-family:var(--mono); font-size:11.5px; font-weight:700;
+    background:var(--sage-pale); color:var(--sage-deep);
+    border-radius:999px; padding:3px 10px; white-space:nowrap;
+  }
+  .free{
+    font-family:var(--mono); font-size:11.5px; font-weight:700;
+    background:var(--blue-pale); color:var(--blue-deep);
+    border-radius:999px; padding:3px 10px; white-space:nowrap;
+  }
+  .bonus p{ margin:0 0 10px; font-size:14px; color:var(--ink-soft); }
+  .bonus p:last-of-type{ margin-bottom:0; }
+  .bonus .why{
+    font-size:13.5px; line-height:1.7; color:#6B5322;
+    background:var(--gold-pale); border-left:3px solid var(--gold);
+    border-radius:0 10px 10px 0; padding:10px 13px; margin-bottom:10px;
+  }
+  .bonus .why b{ color:var(--gold-deep); }
+  .bonus .catch{
+    font-size:13px; color:#8C4A2F; background:#F3DFCE;
+    border-radius:10px; padding:8px 12px; margin-bottom:10px;
+  }
+  .bonus .card-map{ margin-top:auto; padding-top:12px; }
+
+  /* 已排除（剪刀虛線筆記頁） */
+  .skip{
+    position:relative;
+    margin-top:30px;
+    background:#E9E4D8; border:1.5px dashed #C6BBA4;
+    border-radius:var(--radius); padding:24px 28px;
+    z-index:1;
+  }
+  .skip .scissors{
+    position:absolute; top:-13px; left:26px;
+    width:26px; height:26px; color:var(--ink-soft);
+    background:var(--cream); border-radius:50%; padding:3px;
+    rotate:-12deg;
+  }
+  .skip h3{ font-size:17px; margin-bottom:6px; }
+  .skip > p{ font-size:13.5px; color:var(--ink-soft); margin:0 0 14px; }
+  .skip dl{ margin:0; display:grid; gap:14px 26px; }
+  @media (min-width:900px){ .skip dl{ grid-template-columns:1fr 1fr; } }
+  .skip dt{ font-weight:700; font-size:14px; color:var(--ink); }
+  .skip dd{ margin:2px 0 0; font-size:13.5px; color:var(--ink-soft); }
+
+  /* ============================================================
+     實用資訊區塊 — 水玉點點 + 水蜜桃吉祥物
+     ============================================================ */
+  .info-section{
+    background:
+      radial-gradient(rgba(185,124,104,.10) 2.2px, transparent 2.6px),
+      radial-gradient(rgba(124,138,114,.10) 2.2px, transparent 2.6px),
+      #E7E1D2;
+    background-size:46px 46px, 46px 46px;
+    background-position:0 0, 23px 23px;
+    padding:74px 0 84px; margin-top:24px;
+    position:relative; overflow:hidden;
+  }
+  .peach-mascot{
+    right:5%; top:52px; width:92px;
+    animation:floaty 6s ease-in-out infinite; --r:6deg;
+  }
+  .peach-mascot svg{ filter:drop-shadow(0 6px 10px rgba(59,46,42,.16)); }
+
   .info-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-    gap:18px; margin-top:40px;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr));
+    gap:20px; margin-top:42px; position:relative; z-index:1;
   }
   .info-card{
-    background:var(--card); border:1px solid var(--card-line);
+    background:var(--card); border:1.5px solid var(--card-line);
     border-radius:var(--radius); padding:22px;
     box-shadow:var(--shadow);
+    transition:translate .25s ease, rotate .25s ease, box-shadow .25s ease;
   }
+  .info-card:hover{ translate:0 -4px; rotate:.35deg; box-shadow:var(--sticker); }
   .info-card .icon{
-    width:40px; height:40px; border-radius:10px;
+    width:42px; height:42px; border-radius:13px;
     background:var(--sage); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    margin-bottom:14px;
+    margin-bottom:14px; rotate:-5deg; box-shadow:var(--sticker);
   }
   .info-card.hot .icon{ background:var(--rose-deep); }
   .info-card .icon svg{ width:20px; height:20px; }
   .info-card h3{ font-size:16px; margin-bottom:8px; }
   .info-card p{ margin:0 0 8px; font-size:13.5px; color:var(--ink-soft); }
   .info-card p:last-child{ margin-bottom:0; }
+  @media (min-width:1000px){
+    .info-card.hot{ grid-column:span 2; }
+  }
+
+  /* ============================================================
+     回家的路（黃昏動畫場景）+ 頁尾
+     ============================================================ */
+  .homeward{ position:relative; height:190px; overflow:hidden; background:#E3DCCB; }
+  .homeward svg{ width:100%; height:100%; display:block; }
+  .home-car{ animation:homeDrive 30s linear infinite; }
+  .home-car .body-bob{ animation:bob 1.8s ease-in-out infinite; }
+  .star{ animation:twinkle var(--t,3s) ease-in-out infinite; animation-delay:var(--delay,0s); }
+  .home-window{ animation:twinkle 4.6s ease-in-out infinite; }
 
   footer{
-    padding:40px 24px 60px; text-align:center;
+    padding:38px 24px 58px; text-align:center;
     font-size:12.5px; color:var(--ink-soft);
+    background:#E3DCCB;
   }
   footer b{ color:var(--ink); }
 
-  /* 列印相容 */
+  /* ============================================================
+     進場淡入（.t-item 由 JS observer 控制；.reveal 同機制）
+     ============================================================ */
+  .t-item, .reveal{
+    opacity:0; transform:translateY(16px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .t-item.in, .reveal.in{ opacity:1; transform:none; }
+
+  /* ============================================================
+     減少動態偏好：關閉所有裝飾動畫
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+    .mist, .cloud, .birds, .leaf, .firefly, .butterfly, .home-car{ display:none; }
+    .t-item, .reveal{ opacity:1; transform:none; }
+  }
+
+  /* ============================================================
+     列印相容
+     ============================================================ */
   @media print{
-    .mist, .hero-sun, .hero-mountains{ display:none; }
-    .t-item{ opacity:1 !important; transform:none !important; }
+    .top-nav, .deco, .mist, .hero-sun, .hero-mountains, .hero-road,
+    .cloud, .birds, .leaf, .hero-doodle, .firefly, .butterfly, .homeward{ display:none !important; }
+    body::before{ display:none; }
+    .t-item, .reveal{ opacity:1 !important; transform:none !important; translate:none !important; }
     .info-section{ background:#fff; }
     body{ background:#fff; }
+    .timeline{ display:block; }
+    .t-item{ margin-bottom:24px; }
   }
 </style>
 </head>
 <body>
 
 <!-- ============================================================
+     置頂導覽
+     ============================================================ -->
+<nav class="top-nav" aria-label="頁內導覽">
+  <div class="nav-in">
+    <span class="nav-brand"><span class="dot" aria-hidden="true"></span>拉拉山一日行</span>
+    <a class="nav-link" href="#convoy">🚗 兩路會合</a>
+    <a class="nav-link" href="#together">🌲 全日行程</a>
+    <a class="nav-link" href="#backup">🎒 彈性備案</a>
+    <a class="nav-link" href="#info">📌 實用資訊</a>
+  </div>
+</nav>
+
+<!-- ============================================================
      HERO
      ============================================================ -->
 <section class="hero">
-  <div class="hero-sun"></div>
-  <div class="hero-mountains" aria-hidden="true">
-    <svg viewBox="0 0 1200 260" preserveAspectRatio="none" width="100%" height="100%">
-      <polygon points="0,260 0,150 220,60 430,140 640,40 900,150 1200,80 1200,260" fill="#8FA084" opacity="0.35"/>
-      <polygon points="0,260 0,190 260,110 520,180 760,90 1000,170 1200,120 1200,260" fill="#6E8794" opacity="0.4"/>
-      <polygon points="0,260 0,220 300,160 560,215 820,150 1080,210 1200,180 1200,260" fill="#4E5A47" opacity="0.55"/>
+  <!-- 天空層 -->
+  <div class="hero-sun deco" aria-hidden="true"></div>
+
+  <div class="cloud c1 deco" aria-hidden="true">
+    <svg viewBox="0 0 150 54"><g fill="#FDFBF4"><ellipse cx="42" cy="36" rx="34" ry="17"/><ellipse cx="82" cy="26" rx="30" ry="19"/><ellipse cx="116" cy="38" rx="28" ry="14"/></g></svg>
+  </div>
+  <div class="cloud c2 deco" aria-hidden="true">
+    <svg viewBox="0 0 150 54"><g fill="#FDFBF4"><ellipse cx="42" cy="36" rx="34" ry="17"/><ellipse cx="82" cy="26" rx="30" ry="19"/><ellipse cx="116" cy="38" rx="28" ry="14"/></g></svg>
+  </div>
+  <div class="cloud c3 deco" aria-hidden="true">
+    <svg viewBox="0 0 150 54"><g fill="#FDFBF4"><ellipse cx="42" cy="36" rx="34" ry="17"/><ellipse cx="82" cy="26" rx="30" ry="19"/><ellipse cx="116" cy="38" rx="28" ry="14"/></g></svg>
+  </div>
+
+  <div class="birds deco" style="top:15%" aria-hidden="true">
+    <svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8 Q7 2 12 8 M12 8 Q17 2 22 8"/><path d="M26 11 Q30 7 34 11 M34 11 Q38 7 42 11" opacity=".7"/></svg>
+  </div>
+  <div class="birds b2 deco" style="top:23%" aria-hidden="true">
+    <svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8 Q7 2 12 8 M12 8 Q17 2 22 8"/></svg>
+  </div>
+
+  <!-- 多層山巒 -->
+  <div class="hero-mountains deco" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,320 L0,150 Q160,86 330,132 Q500,178 680,118 Q860,62 1030,128 Q1200,192 1440,104 L1440,320 Z" fill="#6E8794" opacity=".30"/>
+      <path d="M0,320 L0,208 Q220,138 460,190 Q700,240 930,176 Q1160,116 1440,196 L1440,320 Z" fill="#8FA084" opacity=".40"/>
+      <path d="M0,320 L0,256 Q200,212 430,244 Q660,276 890,236 Q1120,198 1440,258 L1440,320 Z" fill="#4E5A47" opacity=".52"/>
+      <!-- 稜線上的小樹 -->
+      <g fill="#3F4A39" opacity=".55">
+        <path d="M120,252 l7,-16 7,16 Z"/><path d="M138,248 l6,-13 6,13 Z"/>
+        <path d="M560,258 l7,-16 7,16 Z"/><path d="M578,254 l6,-13 6,13 Z"/><path d="M545,262 l5,-11 5,11 Z"/>
+        <path d="M980,230 l7,-16 7,16 Z"/><path d="M998,226 l6,-13 6,13 Z"/>
+        <path d="M1310,248 l7,-16 7,16 Z"/><path d="M1328,252 l6,-13 6,13 Z"/>
+      </g>
     </svg>
   </div>
-  <div class="mist" style="top:38%"></div>
-  <div class="mist m2" style="top:52%"></div>
+
+  <div class="mist deco" style="top:36%" aria-hidden="true"></div>
+  <div class="mist m2 deco" style="top:50%" aria-hidden="true"></div>
+
+  <!-- 落葉與花瓣 -->
+  <i class="leaf deco"       style="left:12%; --d:16s; --delay:0s;   --sw:60px"  aria-hidden="true"></i>
+  <i class="leaf petal deco" style="left:28%; --d:19s; --delay:-6s;  --sw:-46px" aria-hidden="true"></i>
+  <i class="leaf deco"       style="left:52%; --d:14s; --delay:-10s; --sw:52px"  aria-hidden="true"></i>
+  <i class="leaf petal deco" style="left:70%; --d:21s; --delay:-3s;  --sw:-58px" aria-hidden="true"></i>
+  <i class="leaf deco"       style="left:86%; --d:17s; --delay:-13s; --sw:44px"  aria-hidden="true"></i>
+  <i class="leaf petal deco" style="left:41%; --d:23s; --delay:-17s; --sw:50px"  aria-hidden="true"></i>
+
+  <!-- 漂浮小圖章：神木與水蜜桃 -->
+  <div class="hero-doodle doodle-tree deco" aria-hidden="true">
+    <svg viewBox="0 0 90 110">
+      <rect x="40" y="72" width="10" height="26" rx="4" fill="#8C6A4F"/>
+      <circle cx="45" cy="44" r="30" fill="#7C8A72"/>
+      <circle cx="26" cy="56" r="16" fill="#8FA084"/>
+      <circle cx="64" cy="55" r="17" fill="#6E7D64"/>
+      <circle cx="37" cy="42" r="2.6" fill="#3B2E2A"/>
+      <circle cx="53" cy="42" r="2.6" fill="#3B2E2A"/>
+      <path d="M40 50 Q45 54 50 50" stroke="#3B2E2A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="31" cy="48" r="3.4" fill="#B97C68" opacity=".5"/>
+      <circle cx="59" cy="48" r="3.4" fill="#B97C68" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="hero-doodle doodle-peach deco" aria-hidden="true">
+    <svg viewBox="0 0 90 100">
+      <path d="M45 22 Q49 10 62 8 Q58 20 48 24 Z" fill="#7C8A72"/>
+      <path d="M45 24 C22 24 12 44 16 62 C20 80 34 90 45 90 C56 90 70 80 74 62 C78 44 68 24 45 24 Z" fill="#C98F7B"/>
+      <path d="M45 26 Q42 56 45 88" stroke="#8C5646" stroke-width="2.4" fill="none" opacity=".45"/>
+      <circle cx="35" cy="54" r="3" fill="#3B2E2A"/>
+      <circle cx="55" cy="54" r="3" fill="#3B2E2A"/>
+      <path d="M39 63 Q45 68 51 63" stroke="#3B2E2A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="62" r="4" fill="#B97C68" opacity=".6"/>
+      <circle cx="62" cy="62" r="4" fill="#B97C68" opacity=".6"/>
+    </svg>
+  </div>
+
+  <!-- 山路與兩台相會的小車 -->
+  <div class="hero-road deco" aria-hidden="true">
+    <svg viewBox="0 0 1440 150" preserveAspectRatio="xMidYMax slice">
+      <!-- 草地 -->
+      <path d="M0,150 L0,96 Q240,72 480,92 Q760,114 1020,88 Q1240,68 1440,92 L1440,150 Z" fill="#B9C2AC" opacity=".55"/>
+      <!-- 路面 -->
+      <path d="M-20,118 C340,84 900,142 1460,96" fill="none" stroke="#A79D8C" stroke-width="30" stroke-linecap="round" opacity=".8"/>
+      <!-- 中線（行進虛線） -->
+      <path class="road-dash" d="M-20,118 C340,84 900,142 1460,96" fill="none" stroke="#F7F2E7" stroke-width="3.4" stroke-linecap="round"/>
+      <!-- 南勢角隊小車（霧綠，往右）：外層定位、內層動畫，避免 CSS transform 蓋掉屬性 -->
+      <g transform="translate(360,74)">
+        <g class="car-a">
+          <rect x="0" y="10" width="52" height="20" rx="9" fill="#7C8A72"/>
+          <path d="M10 12 Q14 0 26 0 Q38 0 42 12 Z" fill="#7C8A72"/>
+          <rect x="16" y="3" width="18" height="9" rx="4" fill="#EDE6D8"/>
+          <circle cx="13" cy="31" r="6" fill="#3B2E2A"/><circle cx="13" cy="31" r="2.6" fill="#EDE6D8"/>
+          <circle cx="39" cy="31" r="6" fill="#3B2E2A"/><circle cx="39" cy="31" r="2.6" fill="#EDE6D8"/>
+          <circle cx="50" cy="18" r="2.6" fill="#E8D6A8"/>
+        </g>
+      </g>
+      <!-- 南港隊小車（霧藍，往左） -->
+      <g transform="translate(1020,88) scale(-1,1)">
+        <g class="car-b">
+          <rect x="0" y="10" width="52" height="20" rx="9" fill="#6E8794"/>
+          <path d="M10 12 Q14 0 26 0 Q38 0 42 12 Z" fill="#6E8794"/>
+          <rect x="16" y="3" width="18" height="9" rx="4" fill="#EDE6D8"/>
+          <circle cx="13" cy="31" r="6" fill="#3B2E2A"/><circle cx="13" cy="31" r="2.6" fill="#EDE6D8"/>
+          <circle cx="39" cy="31" r="6" fill="#3B2E2A"/><circle cx="39" cy="31" r="2.6" fill="#EDE6D8"/>
+          <circle cx="50" cy="18" r="2.6" fill="#E8D6A8"/>
+        </g>
+      </g>
+      <!-- 集合點金色大頭針 -->
+      <g transform="translate(700,36)">
+        <g class="meet-pin">
+          <path d="M0,0 C-14,0 -22,10 -22,21 C-22,34 0,52 0,52 C0,52 22,34 22,21 C22,10 14,0 0,0 Z" fill="#A9823C"/>
+          <circle cx="0" cy="20" r="8.5" fill="#F6EBD3"/>
+          <circle cx="-3" cy="18" r="1.8" fill="#7E5F26"/>
+          <circle cx="3" cy="18" r="1.8" fill="#7E5F26"/>
+          <path d="M-3.6 23 Q0 26 3.6 23" stroke="#7E5F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </g>
+      </g>
+    </svg>
+  </div>
 
   <div class="wrap hero-inner">
     <div class="eyebrow">2026 · 07 · 25（週六）· 桃園復興 · 拉拉山</div>
     <h1>神木森呼吸<br><span>× 水蜜桃採果</span>一日行</h1>
-    <p class="sub">兩路人馬、兩個出發地，在上巴陵會合。你先上山把巴陵一帶的景點掃過一輪，大家再一起走進千年檜木林，下午到果園摘一顆產季末段的水蜜桃。</p>
+    <svg class="h1-squiggle" viewBox="0 0 300 16" fill="none" aria-hidden="true">
+      <path d="M4 10 Q28 2 52 9 T100 9 T148 9 T196 9 T244 9 T296 8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <p class="sub">南勢角隊與南港隊同時 07:30 出發，在羅浮 7-ELEVEN 會合後一路上山、直進園區走千年檜木林；下午採產季末段的水蜜桃，傍晚帶著大溪豆花和一桌客家菜，畫下句點。</p>
 
     <div class="chips">
       <div class="chip">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        南勢角 06:15 · 南港 07:30
+        兩隊同時 07:30 出發
       </div>
       <div class="chip">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        上巴陵 10:20 集合
+        羅浮 7-11 09:00 集合
       </div>
       <div class="chip">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c2-6 4-8 8-8s6 2 8 8"/><circle cx="12" cy="7" r="3"/></svg>
@@ -577,56 +1037,63 @@
 <!-- ============================================================
      兩路人馬 · 集合
      ============================================================ -->
-<section class="convoy-section">
-  <div class="wrap">
+<section class="convoy-section" id="convoy">
+  <!-- 背景塗鴉：等高線 + 羅盤 -->
+  <svg class="contour deco" viewBox="0 0 340 300" fill="none" stroke="currentColor" aria-hidden="true">
+    <path d="M60 150 Q40 90 110 70 Q190 48 230 100 Q268 150 210 196 Q140 250 84 210 Q40 180 60 150 Z" stroke-width="1.5" opacity=".35"/>
+    <path d="M85 150 Q72 108 120 94 Q178 78 206 114 Q232 150 192 180 Q142 216 104 190 Q72 170 85 150 Z" stroke-width="1.5" opacity=".3"/>
+    <path d="M112 150 Q106 124 136 116 Q168 108 184 130 Q198 152 172 168 Q142 186 122 172 Q106 162 112 150 Z" stroke-width="1.5" opacity=".25"/>
+  </svg>
+  <svg class="compass deco" viewBox="0 0 88 88" fill="none" stroke="currentColor" aria-hidden="true">
+    <circle cx="44" cy="44" r="40" stroke-width="2"/>
+    <circle cx="44" cy="44" r="30" stroke-width="1" stroke-dasharray="4 6"/>
+    <path d="M44 14 L50 44 L44 74 L38 44 Z" fill="currentColor" opacity=".5" stroke="none"/>
+    <circle cx="44" cy="44" r="4" fill="currentColor" stroke="none"/>
+  </svg>
+
+  <div class="wrap wide">
     <div class="section-head">
       <div class="eyebrow">TWO ROUTES · ONE MEETING POINT</div>
-      <h2>兩台車怎麼走、在哪裡會合</h2>
-      <p class="lede">南勢角到大溪交流道比南港近了約 20–25 分鐘，你又可以更早出發——這個時間差加起來，剛好夠你在巴陵一帶多玩兩小時，而且完全不會讓大家等你。</p>
+      <h2><span class="hl">兩隊同時 07:30 出發，羅浮會合</span></h2>
+      <p class="lede">南勢角離大溪交流道比南港近約 25 分鐘，所以南勢角隊會先到羅浮——這段時間差剛好拿來上廁所、買早餐、幫大家佔好停車位。南港隊 09:00 抵達後直接會合，誰都不用趕。</p>
     </div>
 
-    <div class="routes">
-      <!-- 你 -->
-      <div class="route">
+    <div class="convoy-grid">
+      <!-- 南勢角隊 -->
+      <div class="route reveal">
         <div class="route-head">
-          <h3>你｜南勢角出發</h3>
-          <span class="route-tag">EARLY BIRD</span>
+          <span class="route-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16 6.5 9.5A2 2 0 0 1 8.5 8h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3.5" y="15" width="17" height="4.5" rx="2"/><circle cx="7.5" cy="19.5" r="1.8"/><circle cx="16.5" cy="19.5" r="1.8"/></svg>
+          </span>
+          <h3>南勢角隊</h3>
+          <span class="route-tag">07:30 GO</span>
         </div>
-        <p class="route-note">中和交流道上國3 → 大溪交流道 → 台7線。粉紅色的是加菜行程。</p>
+        <p class="route-note">中和交流道上國3 → 大溪交流道 → 台4線 → 台7線北橫。</p>
 
         <div class="route-step">
-          <span class="rs-time">06:15</span>
+          <span class="rs-time">07:30</span>
           <span class="rs-body">南勢角出發<small>中和交流道上國道3號南下</small></span>
         </div>
         <div class="route-step">
-          <span class="rs-time">06:45</span>
+          <span class="rs-time">08:00</span>
           <span class="rs-body">大溪交流道下<small>轉台4線 → 台7線北橫</small></span>
         </div>
         <div class="route-step">
-          <span class="rs-time">07:20–07:30</span>
-          <span class="rs-body">7-ELEVEN 羅浮門市<small>快速上廁所、買早餐，10 分鐘就走</small></span>
-        </div>
-        <div class="route-step bonus">
-          <span class="rs-time">08:10–08:45</span>
-          <span class="rs-body">➊ 巴陵橋群<small>巴陵大橋＋舊巴陵橋＋一號二號隧道步道，清晨完全沒人</small></span>
-        </div>
-        <div class="route-step bonus">
-          <span class="rs-time">08:50–09:55</span>
-          <span class="rs-body">➋ 巴陵古道生態園區<small>08:00 開園，1.28 公里＋四座生態館＋繩索吊橋</small></span>
-        </div>
-        <div class="route-step bonus">
-          <span class="rs-time">10:05–10:20</span>
-          <span class="rs-body">➌ 巴陵鐵塔<small>車停 7-11 走上去，來回 15–20 分，剛好接上集合</small></span>
+          <span class="rs-time">08:35</span>
+          <span class="rs-body">抵達 7-ELEVEN 羅浮門市<small>比南港隊早約 25 分鐘——上廁所、買早餐，幫大家佔好停車位</small></span>
         </div>
       </div>
 
-      <!-- 朋友 -->
-      <div class="route friend">
+      <!-- 南港隊 -->
+      <div class="route friend reveal">
         <div class="route-head">
-          <h3>朋友｜南港出發</h3>
-          <span class="route-tag">07:30 FIXED</span>
+          <span class="route-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16 6.5 9.5A2 2 0 0 1 8.5 8h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3.5" y="15" width="17" height="4.5" rx="2"/><circle cx="7.5" cy="19.5" r="1.8"/><circle cx="16.5" cy="19.5" r="1.8"/></svg>
+          </span>
+          <h3>南港隊</h3>
+          <span class="route-tag">07:30 GO</span>
         </div>
-        <p class="route-note">國道3甲 → 國道3號南下 → 大溪交流道 → 台7線。一路直達，中間只停一次。</p>
+        <p class="route-note">國道3甲 → 國道3號南下 → 大溪交流道 → 台7線。一路直達。</p>
 
         <div class="route-step">
           <span class="rs-time">07:30</span>
@@ -637,204 +1104,65 @@
           <span class="rs-body">大溪交流道下<small>週末南下車流會慢一點，抓寬一些</small></span>
         </div>
         <div class="route-step">
-          <span class="rs-time">09:00–09:15</span>
-          <span class="rs-body">7-ELEVEN 羅浮門市<small>唯一休息點。水和行動糧在這裡買齊</small></span>
-        </div>
-        <div class="route-step">
-          <span class="rs-time">10:00</span>
-          <span class="rs-body">經過下巴陵<small>過巴陵大橋後左轉桃116線上山</small></span>
-        </div>
-        <div class="route-step">
-          <span class="rs-time">10:20</span>
-          <span class="rs-body">抵達上巴陵<small>7-ELEVEN 上巴陵門市</small></span>
+          <span class="rs-time">09:00</span>
+          <span class="rs-body">抵達 7-ELEVEN 羅浮門市<small>南勢角隊已經在裡面吹冷氣等了</small></span>
         </div>
       </div>
-    </div>
 
-    <div class="rendezvous">
-      <div class="rv-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-      </div>
-      <div>
-        <span class="rv-time">10:20</span>
-        <h3>集合點：7-ELEVEN 上巴陵門市</h3>
-        <p>為什麼選這裡：<b>這是最後一個有停車位、廁所和穩定收訊的地方</b>。從這裡到拉拉山收費站還有 18 分鐘的窄路，兩台車一起走比較安全，也不會有人走錯路。朋友開了快 3 小時的彎路，本來就需要在這裡緩一下。</p>
-        <p>集合後停 10–15 分鐘，<b>10:35 兩台車一起出發</b>上收費站。若有人晚到，這裡等人也最舒服。</p>
-        <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=7-ELEVEN上巴陵門市" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-          開啟 Google 地圖導航
-        </a>
-      </div>
-    </div>
+      <!-- 集合欄：集合卡 + 誠實備註 -->
+      <div class="rv-col">
+        <div class="rendezvous reveal">
+          <div class="rv-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </div>
+          <div>
+            <span class="rv-time">09:00</span>
+            <h3>集合點：7-ELEVEN 羅浮門市</h3>
+            <p>為什麼選這裡：<b>這是進山前最後一個有停車位、廁所和穩定收訊的補給點</b>，兩隊上山都必經。羅浮之後收訊開始斷斷續續，<b>水和行動糧在這裡買齊</b>（步道 3 小時中途沒有補給），<b>要打的電話也在這裡打完</b>——跟餐廳確認 14:30 的位子、跟果園確認 15:35 採果。</p>
+            <p><b>09:15 兩台車一起出發</b>。若有人塞車晚到，先到的在店裡等就好；上山後若失聯，<b>一律約在「收費站停車場」會合</b>。</p>
+            <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=7-ELEVEN羅浮門市" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              開啟 Google 地圖導航
+            </a>
+          </div>
+        </div>
 
-    <div class="notice" style="max-width:none;margin-top:22px">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-      <div>
-        <b>老實說：朋友 07:30 從南港出發，是今天最大的時間限制。</b>這代表全隊最快 10:55 才能到收費站、11:20 才能開始走步道，午餐因此會落在 14:50。這不是排程沒排好，是物理距離造成的——台北到收費站純車程就要 2.5–3 小時。<b>如果朋友能提早到 07:00 甚至 06:30 出發，整天每個環節都會往前 30–60 分鐘，午餐就能回到正常時間。</b>值得問一下。
+        <div class="notice reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          <div>
+            <b>老實說：07:30 出發，代表最快 10:35 到收費站、11:00 起走步道、午餐落在 14:30。</b>這不是排程沒排好——台北到收費站純車程就要 2.5–3 小時，這是物理距離。這份表所有時間都以 07:30 為基準往後推；假日國3或北橫若塞車，整串往後移就好，<b>靠「約定點等人」機制對齊，不用互相催</b>。
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     加菜景點
+     全日共同行程
      ============================================================ -->
-<section class="bonus-section">
-  <div class="wrap">
+<section class="timeline-section" id="together">
+  <!-- 背景：杉木剪影 + 霧帶 + 螢火蟲 -->
+  <svg class="forest-l deco" viewBox="0 0 220 340" fill="currentColor" opacity=".1" aria-hidden="true">
+    <path d="M60 340 L60 300 L36 300 L70 240 L46 240 L80 180 L58 180 L92 110 L126 180 L104 180 L138 240 L114 240 L148 300 L124 300 L124 340 Z" opacity=".55"/>
+    <path d="M150 340 L150 312 L134 312 L158 268 L142 268 L166 224 L152 224 L176 176 L200 224 L186 224 L210 268 L194 268 L218 312 L202 312 L202 340 Z" opacity=".4"/>
+  </svg>
+  <svg class="forest-r deco" viewBox="0 0 220 340" fill="currentColor" opacity=".1" aria-hidden="true">
+    <path d="M60 340 L60 300 L36 300 L70 240 L46 240 L80 180 L58 180 L92 110 L126 180 L104 180 L138 240 L114 240 L148 300 L124 300 L124 340 Z" opacity=".55"/>
+  </svg>
+  <div class="mist m2 timeline-mist deco" aria-hidden="true"></div>
+  <i class="firefly deco" style="left:12%; top:30%; --d:9s;  --t:3.2s; --delay:0s"    aria-hidden="true"></i>
+  <i class="firefly deco" style="left:88%; top:24%; --d:11s; --t:2.7s; --delay:-2s"   aria-hidden="true"></i>
+  <i class="firefly deco" style="left:8%;  top:62%; --d:10s; --t:3.8s; --delay:-5s"   aria-hidden="true"></i>
+  <i class="firefly deco" style="left:92%; top:56%; --d:8s;  --t:3s;   --delay:-3.5s" aria-hidden="true"></i>
+  <i class="firefly deco" style="left:15%; top:84%; --d:12s; --t:2.5s; --delay:-7s"   aria-hidden="true"></i>
+  <i class="firefly deco" style="left:85%; top:88%; --d:9s;  --t:3.5s; --delay:-1s"   aria-hidden="true"></i>
+
+  <div class="wrap wide">
     <div class="section-head">
-      <div class="eyebrow">BONUS · FOR THE EARLY BIRD</div>
-      <h2>你的加菜景點（依推薦順序）</h2>
-      <p class="lede">全部集中在下巴陵～上巴陵一帶，<b>沒有一個需要繞路</b>，都在你上山的必經路線上。照 ➊➋➌ 的順序走，剛好由低到高一路往集合點推進。</p>
-    </div>
-
-    <div class="bonus-list">
-
-      <!-- 1 -->
-      <div class="bonus top">
-        <div class="rank">01</div>
-        <div>
-          <div class="bonus-head">
-            <h3>巴陵古道生態園區</h3>
-            <span class="dwell">停留 60–90 分</span>
-            <span class="free">免費 · 08:00–17:00</span>
-          </div>
-          <div class="why">
-            <b>為什麼排第一：</b>它是加菜清單裡<b>份量最足、也最容易被犧牲掉的一個</b>。原本它在下午的順遊清單裡，但走完 4 公里神木步道又採完果，幾乎不可能還有體力再走 1.28 公里——你早上先去，等於把一個本來會放棄的景點救回來。內容也扎實：蝴蝶館、甲蟲館、闊葉林館、地質館四座生態館，加上一座懸在樹林間的<b>生態探索繩橋</b>，古道本身是泰雅族人的舊部落通道。而且 08:00 開園，剛好是你抵達巴陵的時間，銜接零空窗。
-          </div>
-          <p>停車：拉拉山遊客中心旁有免費停車場（車位多）；巴陵二號隧道口也有，但只有 4 個位。園區全區免門票、現場無服務人員。</p>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵古道生態園區" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 2 -->
-      <div class="bonus top">
-        <div class="rank">02</div>
-        <div>
-          <div class="bonus-head">
-            <h3>巴陵橋群（巴陵大橋・舊巴陵橋・一號二號隧道）</h3>
-            <span class="dwell">停留 30–40 分</span>
-            <span class="free">免費 · 24 小時</span>
-          </div>
-          <div class="why">
-            <b>為什麼排第二：</b><b>一個停車位就能一次收完北橫最經典的地標群</b>，CP 值最高。粉紅色拱橋（巴陵大橋）、火紅色單向吊橋（舊巴陵橋，全長 160 公尺、北橫三大名橋之首）、兩座已改成景觀人行步道的舊隧道（登錄為歷史建築），還有巴壟紀念柱、巴陵隧道驛站，全部走路就能串起來。<b>清晨 8 點多完全沒人</b>，橋上拍照不用等，跟中午的人潮是兩個世界。而且它就在下巴陵、你上山的必經點，繞路成本是零。
-          </div>
-          <p>橋下可俯瞰大漢溪與三光溪匯流的「三龜戲珠」奇景。若時間趕，只看巴陵大橋 + 舊巴陵橋，15 分鐘也夠。</p>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵大橋" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 3 -->
-      <div class="bonus top">
-        <div class="rank">03</div>
-        <div>
-          <div class="bonus-head">
-            <h3>巴陵鐵塔</h3>
-            <span class="dwell">停留 15–25 分</span>
-            <span class="free">免費 · 24 小時</span>
-          </div>
-          <div class="why">
-            <b>為什麼排第三：</b>它是<b>最好的「緩衝景點」</b>——就在集合點 7-11 旁邊，車停原地走上去就到，來回 15–20 分鐘。朋友早到你就直接下來，朋友晚到你就多待一下，完全不會卡到集合。內容上，鐵塔位在巴陵國小上方、<b>海拔正好 1314 公尺</b>，「一生一世」的諧音是上巴陵形象商圈最好認的打卡點，居高臨下可以看整個上巴陵聚落。
-          </div>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵鐵塔" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 4 -->
-      <div class="bonus">
-        <div class="rank">04</div>
-        <div>
-          <div class="bonus-head">
-            <h3>卡拉部落・加拉教堂（方舟教堂）</h3>
-            <span class="dwell">停留 25–35 分</span>
-            <span class="free">免費</span>
-          </div>
-          <div class="why">
-            <b>為什麼推薦：</b>1992 年落成的<b>船型（諾亞方舟）教堂</b>，長 60 尺、寬 40 尺，是卡拉部落的精神地標。遊客極少，是真正的秘境級人文景點——如果你喜歡拍照或對原民聚落有興趣，這個的「獨特性」比前三名都高。「卡拉」在泰雅語是「分支」的意思，部落 1971 年因颱風交通中斷才從舊卡拉遷到現址、拉近與上巴陵的距離。
-          </div>
-          <p class="catch">⚠️ <b>要多留 20 分鐘車程</b>：需要開一小段部落聯絡道，指標不明顯、路窄。若要排進去，建議把出發時間提前到 <b>05:45</b>，插在巴陵古道之後、巴陵鐵塔之前。</p>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=加拉教堂" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 5 -->
-      <div class="bonus">
-        <div class="rank">05</div>
-        <div>
-          <div class="bonus-head">
-            <h3>恩愛農場</h3>
-            <span class="dwell">停留 45–60 分</span>
-            <span class="free">09:00–20:00 · 非花季免門票</span>
-          </div>
-          <div class="why">
-            <b>為什麼排這裡：</b>海拔高、視野好，坐下來喝杯咖啡遠眺群峰，是最悠閒的選項，非櫻花季不收門票（櫻花季才收 100 元）。<b>但它 09:00 才開</b>，會直接吃掉你巴陵古道的時間；而且如果全隊下午還想去，你早上先去就重複了。<b>比較適合的用法：拿它換掉巴陵古道</b>——想輕鬆坐著就選恩愛，想走步道看生態館就選巴陵古道，二選一。
-          </div>
-          <p>📞 03-391-2335 / 0912-576-476</p>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山恩愛農場" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 6 -->
-      <div class="bonus">
-        <div class="rank">06</div>
-        <div>
-          <div class="bonus-head">
-            <h3>上巴陵形象商圈・沿線展望點</h3>
-            <span class="dwell">停留 10–15 分</span>
-            <span class="free">免費 · 隨時</span>
-          </div>
-          <div class="why">
-            <b>為什麼墊底：</b>純粹是<b>「時間有多才用」的填空選項</b>，沒有非看不可的東西。桃116線往上巴陵沿路有幾處可停車的展望點，清晨常有山谷雲氣，隨手拍幾張不錯。中巴陵那段就是冬天的櫻花隧道，但七月只有一片綠。商圈裡有幾攤在地小農賣水蜜桃和高冷蔬菜，可以先探個價。
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 已排除 -->
-    <div class="skip">
-      <h3>這幾個我幫你排除了</h3>
-      <p>都在拉拉山一帶，但當天去會出事或不划算，原因寫在下面：</p>
-      <dl>
-        <dt>爺亨梯田</dt>
-        <dd>景色是動員泰雅族人開闢、長達 1000 公尺、超過 1200 層的梯田，確實壯觀——但<b>它在山地管制區內，要事先辦妥「甲種入山證」才能進去</b>，週六當天辦不到。想去要另外規劃行程。</dd>
-
-        <dt>嘎拉賀（新興部落）野溪溫泉 · 爺亨溫泉</dt>
-        <dd>過巴陵橋往中巴陵方向。問題在於<b>要從部落陡下到溪谷</b>，來回落差大、路面濕滑，剛下過颱風雨更不安全。走完等於報銷你當天爬神木步道的體力。</dd>
-
-        <dt>明池森林遊樂區</dt>
-        <dd>在台7線更東邊（往宜蘭方向），從下巴陵單程還要再開 50 分鐘以上，<b>而且那段正是巴威颱風災後路段、有夜間封閉管制</b>，方向也跟我們相反。</dd>
-
-        <dt>小烏來天空步道 · 慈湖 · 角板山行館</dt>
-        <dd>都在山腳下，不符合「拉拉山附近」的條件。順帶一提時間也不對：<b>慈湖衛兵交接 09:00 才開始、角板山行館 09:00 才開門</b>，你經過那裡時都還沒營業。</dd>
-      </dl>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     集合後的共同行程
-     ============================================================ -->
-<section class="timeline-section">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">TOGETHER FROM 10:20</div>
-      <h2>集合後的共同行程</h2>
-      <p class="lede">園區開放 06:00–17:00，<b>17:00 前一定要出園</b>。步道優先排在最前面，因為它是今天的主秀，也最怕午後起霧下雨。</p>
+      <div class="eyebrow">07:30 → 21:00 · FULL DAY</div>
+      <h2><span class="hl">全日行程：從神木到豆花</span></h2>
+      <p class="lede">園區開放 06:00–17:00，<b>17:00 前一定要出園</b>。步道優先排在最前面，因為它是今天的主秀，也最怕午後起霧下雨。回程順路收下巴陵大橋與大溪美食。</p>
       <div class="legend">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
         <span>金框加上 <b>★ 最推薦</b> 標籤的，是我在每一組裡最建議的選擇，卡片裡有寫原因</span>
@@ -842,90 +1170,133 @@
     </div>
 
     <div class="timeline" id="timeline">
-      <div class="spine"></div>
+      <div class="spine" aria-hidden="true"></div>
 
-      <!-- 集合 -->
-      <div class="t-item">
-        <div class="t-card">
-          <span class="tag">RENDEZVOUS</span>
-          <h3>7-ELEVEN 上巴陵門市 集合</h3>
-          <p>兩台車在這裡會合，上廁所、補水、買行動糧（步道走 3 小時，中途沒有補給）。這是最後一個有穩定收訊的地方，<b>要打的電話在這裡打完</b>——尤其跟餐廳確認 14:50 的位子、跟果園確認 16:00 還能採。</p>
-          <span class="inline-warn"><b>接下來 18 分鐘的路最窄：</b>兩台車保持前後跟車，前車放慢等後車。過了這裡收訊會斷斷續續，先講好「在收費站停車場會合」再上路。</span>
-        </div>
+      <!-- 羅浮集合 -->
+      <article class="t-item ph-gold">
         <div class="t-node">
           <div class="t-medal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
           </div>
-          <div class="t-time">10:20–10:35</div>
-        </div>
-        <div class="t-spacer"></div>
-      </div>
-
-      <!-- 收費站 -->
-      <div class="t-item right">
-        <div class="t-spacer"></div>
-        <div class="t-node">
-          <div class="t-medal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg>
-          </div>
-          <div class="t-time">10:55–11:15</div>
+          <div class="t-time">09:00–09:15</div>
         </div>
         <div class="t-card">
-          <span class="tag">購票入園</span>
-          <h3>拉拉山收費站</h3>
-          <p>導航設「<b>拉拉山國家森林遊樂區</b>」或「拉拉山收費站」，只打「拉拉山」有時會被帶到部落。門票全票 150 元／半票 75 元／優待票 10 元（65 歲以上、3–6 歲），<b>停車費另收小型車 100 元／輛，兩台車就是 200 元</b>。六位大人門票共 900 元。</p>
-          <span class="inline-warn"><b>停車是今天最大的變數：</b>園內只有約 70 個車位，滿位時採「一進一出」，暑假週末可能排隊。<b>兩台車要各佔一個位</b>，所以更要有備案：<b>①</b> 打拉拉山車隊付費接駁（<b>0989-021005</b>／<b>0981-130771</b>），搭接駁車門票還可以打 8 折；<b>②</b> 一台車停外面、六個人擠一台進去。<b>③</b> 最差就是停外面走進去，林道約 2.8 公里到遊客中心（單程約 40 分鐘，不建議）。</span>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山國家森林遊樂區" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-      </div>
-
-      <!-- 步道 -->
-      <div class="t-item">
-        <div class="t-card">
-          <span class="tag">健行 · 約3小時 · 今日主秀</span>
-          <h3>巨木群步道森呼吸</h3>
-          <p>自導式環狀步道，官方公告全長約 <b>4 公里、來回約 3 小時</b>，沿途 24 棵紅檜巨木，5 號神木樹齡約 2800 年最老，步道最高點是<b>達觀亭</b>，可以在那裡休息吃行動糧。坡度平緩、老少皆宜，但距離不短，請把 3 小時抓好抓滿。</p>
-          <p>體力或時間不夠時可以彈性折返——完整走完 1 號到 24 號巨木才需要 3 小時，中途原路回頭一樣看得到主要幾棵。</p>
-          <span class="inline-warn"><b>雨後注意：</b>這條步道正是巴威颱風造成邊坡崩落、搶修後 7/18 才重新開放的路段。請走指定動線，經過落石區不要停下來拍照。山區容易起霧下雨，<b>輕便雨衣比雨傘好用</b>（步道窄、兩手要空著）。</span>
-          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山巨木群步道" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            開啟 Google 地圖導航
-          </a>
-        </div>
-        <div class="t-node">
-          <div class="t-medal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M8 21l4-6 4 6M6 13c0-4 2-6 6-6s6 2 6 6"/></svg>
+          <div class="t-head">
+            <span class="tag">RENDEZVOUS</span>
+            <h3>7-ELEVEN 羅浮門市 集合</h3>
           </div>
-          <div class="t-time">11:20–14:20</div>
+          <div class="t-body">
+            <p>兩隊在這裡會合。這是進山前最後一個穩定收訊點——<b>水、行動糧買齊，訂位確認電話打完</b>（餐廳 14:30、果園 15:35），09:15 準時出發。</p>
+            <span class="inline-warn"><b>之後收訊斷斷續續是正常的：</b>兩台車保持前後跟車，前車放慢等後車；真的走散，一律在「收費站停車場」會合。</span>
+          </div>
         </div>
-        <div class="t-spacer"></div>
-      </div>
+      </article>
 
-      <!-- 下山 -->
-      <div class="t-item right">
-        <div class="t-spacer"></div>
+      <!-- 車隊上山 -->
+      <article class="t-item ph-sage">
         <div class="t-node">
           <div class="t-medal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13l-3-3m3 3-3 3"/><circle cx="19" cy="12" r="2"/></svg>
           </div>
-          <div class="t-time">14:20–14:50</div>
+          <div class="t-time">09:15–10:35</div>
         </div>
         <div class="t-card">
-          <span class="tag">移動</span>
-          <h3>開回上巴陵市區</h3>
-          <p>從遊客中心開回上巴陵餐廳聚落約 25–30 分鐘。這段路窄、會車多，不要趕。回到車上有訊號時就打給餐廳說「我們 15 分鐘後到」。</p>
+          <div class="t-head">
+            <span class="tag">移動 · 約80分</span>
+            <h3>兩車車隊，一路上山</h3>
+          </div>
+          <div class="t-body">
+            <p>台7線北橫一路向上：約 <b>10:00 過巴陵大橋</b>、左轉桃116線；<b>10:20 經過上巴陵不停留</b>，直接開往收費站。</p>
+            <span class="inline-warn"><b>最後 18 分鐘的路最窄：</b>上巴陵到收費站這段會車多，兩台車跟緊、放慢，不要在這裡超車。</span>
+          </div>
         </div>
-      </div>
+      </article>
 
-      <!-- 午餐 -->
-      <div class="t-item">
+      <!-- 收費站 -->
+      <article class="t-item t-full ph-sage">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg>
+          </div>
+          <div class="t-time">10:35–10:55</div>
+        </div>
         <div class="t-card">
-          <span class="tag">午餐 · 選一個方案</span>
-          <h3>上巴陵用餐時間</h3>
-          <p>六人合菜。<b>14:50 已經過了山上餐廳的午市尾聲，所以「前一天訂位並講明抵達時間」不是建議，是必要條件</b>，不然很可能撲空。</p>
+          <div class="t-head">
+            <span class="tag">購票入園</span>
+            <h3>拉拉山收費站</h3>
+            <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山國家森林遊樂區" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              開啟 Google 地圖導航
+            </a>
+          </div>
+          <div class="t-body">
+            <p>導航設「<b>拉拉山國家森林遊樂區</b>」或「拉拉山收費站」，只打「拉拉山」有時會被帶到部落。門票全票 150 元／半票 75 元／優待票 10 元（65 歲以上、3–6 歲），<b>停車費另收小型車 100 元／輛，兩台車就是 200 元</b>。六位大人門票共 900 元。</p>
+            <span class="inline-warn"><b>停車是今天最大的變數：</b>園內只有約 70 個車位，滿位時採「一進一出」，暑假週末可能排隊。<b>兩台車要各佔一個位</b>，所以更要有備案：<b>①</b> 打拉拉山車隊付費接駁（<b>0989-021005</b>／<b>0981-130771</b>），搭接駁車門票還可以打 8 折；<b>②</b> 一台車停外面、六個人擠一台進去。<b>③</b> 最差就是停外面走進去，林道約 2.8 公里到遊客中心（單程約 40 分鐘，不建議）。</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 步道（主秀，整排） -->
+      <article class="t-item t-full cols ph-main">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M8 21l4-6 4 6M6 13c0-4 2-6 6-6s6 2 6 6"/></svg>
+          </div>
+          <div class="t-time">11:00–14:00</div>
+        </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">健行 · 約3小時 · 今日主秀</span>
+            <h3>巨木群步道森呼吸</h3>
+            <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山巨木群步道" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              開啟 Google 地圖導航
+            </a>
+          </div>
+          <div class="t-body">
+            <p>自導式環狀步道，官方公告全長約 <b>4 公里、來回約 3 小時</b>，沿途 24 棵紅檜巨木，5 號神木樹齡約 2800 年最老，步道最高點是<b>達觀亭</b>，可以在那裡休息吃行動糧。坡度平緩、老少皆宜，但距離不短，請把 3 小時抓好抓滿。</p>
+            <p>體力或時間不夠時可以彈性折返——完整走完 1 號到 24 號巨木才需要 3 小時，中途原路回頭一樣看得到主要幾棵。</p>
+            <span class="inline-warn"><b>雨後注意：</b>這條步道正是巴威颱風造成邊坡崩落、搶修後 7/18 才重新開放的路段。請走指定動線，經過落石區不要停下來拍照。山區容易起霧下雨，<b>輕便雨衣比雨傘好用</b>（步道窄、兩手要空著）。</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 下山（過場橫條） -->
+      <article class="t-item transit ph-blue">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13l-3-3m3 3-3 3"/><circle cx="19" cy="12" r="2"/></svg>
+          </div>
+          <div class="t-time">14:00–14:30</div>
+        </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">移動</span>
+            <h3>開回上巴陵市區</h3>
+          </div>
+          <div class="t-body">
+            <p>從遊客中心開回上巴陵餐廳聚落約 25–30 分鐘。這段路窄、會車多，不要趕。回到車上有訊號時就打給餐廳說「我們 15 分鐘後到」。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 午餐（整排 + 三個方案） -->
+      <article class="t-item t-full ph-rose">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v7a3 3 0 0 0 3 3v10M6 2v7M18 2v20M18 2c-2 0-3 2-3 5v2c0 1.5 1 2 3 2"/></svg>
+          </div>
+          <div class="t-time">14:30–15:30</div>
+        </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">午餐 · 選一個方案</span>
+            <h3>上巴陵用餐時間</h3>
+          </div>
+          <div class="t-body">
+            <p>六人合菜。<b>14:30 已過山上餐廳的午市尾聲，所以「前一天訂位並講明抵達時間」不是建議，是必要條件</b>，不然很可能撲空。</p>
+            <p><b>想吃下午茶？不用另外排</b>——得拉蜜本身就有咖啡下午茶菜單，午餐吃完緊接著點杯咖啡看山景，這一小時就同時是今天的下午茶時間。</p>
+          </div>
           <div class="option-grid">
             <div class="option-card pick" tabindex="0" role="button">
               <span class="pick-ribbon">
@@ -936,7 +1307,7 @@
               <span class="opt-name">得拉蜜景觀咖啡餐廳</span>
               <span class="opt-meta">甕缸雞・景觀座位・有咖啡菜單</span>
               <span class="opt-desc">位在上巴陵停車場旁，山景第一排，甕缸雞是招牌。</span>
-              <span class="opt-why"><b>為什麼推薦：</b>因為我們是 <b>14:50 才入座</b>，這間是三家裡<b>唯一同時有正餐和咖啡下午茶菜單</b>的——就算廚房收了午市，還是有東西吃、有位子坐，不會全隊卡在山上餓肚子。加上它就在上巴陵停車場旁，下山過來最順、最好找。走完 3 小時步道能坐在山景第一排喝杯東西，也是這天最舒服的一段。</span>
+              <span class="opt-why"><b>為什麼推薦：</b>因為我們是 <b>14:30 才入座</b>，這間是三家裡<b>唯一同時有正餐和咖啡下午茶菜單</b>的——就算廚房收了午市，還是有東西吃、有位子坐，不會全隊卡在山上餓肚子。加上它就在上巴陵停車場旁，下山過來最順、最好找。走完 3 小時步道能坐在山景第一排喝杯東西，午餐、下午茶一次滿足。</span>
               <span class="opt-warn">📞 03-391-2510（電話未經官方查證，請先撥打確認）</span>
               <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=得拉蜜景觀咖啡餐廳" target="_blank" rel="noopener" onclick="event.stopPropagation()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -947,7 +1318,7 @@
               <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
               <span class="opt-name">泰雅廚房</span>
               <span class="opt-meta">馬告烤雞・原民風味</span>
-              <span class="opt-desc">上巴陵派出所旁，馬告烤雞、馬告香腸、蒸鱒魚、炒山菜，飯後金針湯清爽收尾。三家裡唯一查得到官方資訊、且明確 7、8 月暑假天天營業。<b>菜色最有代表性，但一定要先問他們願不願意留 14:50 的位子。</b></span>
+              <span class="opt-desc">上巴陵派出所旁，馬告烤雞、馬告香腸、蒸鱒魚、炒山菜，飯後金針湯清爽收尾。三家裡唯一查得到官方資訊、且明確 7、8 月暑假天天營業。<b>菜色最有代表性，但一定要先問他們願不願意留 14:30 的位子。</b></span>
               <span class="opt-warn">📞 03-391-2539 · 務必先訂位</span>
               <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=泰雅廚房" target="_blank" rel="noopener" onclick="event.stopPropagation()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -958,7 +1329,7 @@
               <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
               <span class="opt-name">山源小吃店</span>
               <span class="opt-meta">碳烤山豬肉・熱炒</span>
-              <span class="opt-desc">在地評價不錯的家常山產店，碳烤山豬肉、蒜泥白肉、當季高山蔬菜都下飯。走實惠路線，不走景觀。小店人手少，14:50 收攤的機率最高。</span>
+              <span class="opt-desc">在地評價不錯的家常山產店，碳烤山豬肉、蒜泥白肉、當季高山蔬菜都下飯。走實惠路線，不走景觀。小店人手少，午後收攤的機率最高。</span>
               <span class="opt-warn">📞 03-391-2733（電話未經官方查證，請先撥打確認）</span>
               <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=山源小吃店" target="_blank" rel="noopener" onclick="event.stopPropagation()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -967,28 +1338,24 @@
             </div>
           </div>
         </div>
-        <div class="t-node">
-          <div class="t-medal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v7a3 3 0 0 0 3 3v10M6 2v7M18 2v20M18 2c-2 0-3 2-3 5v2c0 1.5 1 2 3 2"/></svg>
-          </div>
-          <div class="t-time">14:50–15:50</div>
-        </div>
-        <div class="t-spacer"></div>
-      </div>
+      </article>
 
-      <!-- 採果 -->
-      <div class="t-item right">
-        <div class="t-spacer"></div>
+      <!-- 採果（整排 + 兩個方案） -->
+      <article class="t-item t-full ph-rose">
         <div class="t-node">
           <div class="t-medal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c3.5 4 5.5 6.5 5.5 9.5A5.5 5.5 0 0 1 6.5 12.5C6.5 9.5 8.5 7 12 3Z"/><path d="M12 3c1 1 1.5 2 1.5 2"/></svg>
           </div>
-          <div class="t-time">15:55–16:45</div>
+          <div class="t-time">15:35–16:25</div>
         </div>
         <div class="t-card">
-          <span class="tag">水蜜桃採果 · 選一個方案</span>
-          <h3>現採現吃的甜蜜時間</h3>
-          <p>拉拉山水蜜桃產期約 6 月初到 8 月初，<b>7 月下旬已進入產季末段</b>，晚生種還在但果量會逐週減少。果園 17:00 打烊，我們 15:55 到、只有約 50 分鐘，<b>訂位時一定要講明「我們大約 16:00 才會到」</b>，確認他們願意等。果園地面不平，穿防滑好走的鞋。</p>
+          <div class="t-head">
+            <span class="tag">水蜜桃採果 · 選一個方案</span>
+            <h3>現採現吃的甜蜜時間</h3>
+          </div>
+          <div class="t-body">
+            <p>拉拉山水蜜桃產期約 6 月初到 8 月初，<b>7 月下旬已進入產季末段</b>，晚生種還在但果量會逐週減少。果園 17:00 打烊，我們 15:35 就到、比舊安排從容許多，但<b>訂位時仍要講明「大約 15:30–15:40 會到」</b>，確認他們留果區給我們。果園地面不平，穿防滑好走的鞋。<b>要帶回家的水蜜桃在這裡直接買最新鮮。</b></p>
+          </div>
           <div class="option-grid">
             <div class="option-card pick" tabindex="0" role="button">
               <span class="pick-ribbon">
@@ -999,7 +1366,7 @@
               <span class="opt-name">龍園果園（龍園網室果園）</span>
               <span class="opt-meta">中心路210巷・網室栽培</span>
               <span class="opt-desc">全台高山罕見的網室果園，果實大又多汁。營業 08:00–17:00，中午 12:00–13:30 休息。</span>
-              <span class="opt-why"><b>為什麼推薦：</b>三個理由都對應 7/25 這天——<b>①</b> 園內晚生種<b>7/10 之後才成熟</b>，正好卡在產季末段還有果；<b>②</b> 它是<b>網室</b>栽培，當天有午後雷陣雨機率，下雨照樣採（另一家明說下雨天下方果園不開放）；<b>③</b> 它 13:30 午休結束後一路開到 17:00，我們 15:55 到剛好在營業時段內。電話有手機和市話兩支，最找得到人。</span>
+              <span class="opt-why"><b>為什麼推薦：</b>三個理由都對應 7/25 這天——<b>①</b> 園內晚生種<b>7/10 之後才成熟</b>，正好卡在產季末段還有果；<b>②</b> 它是<b>網室</b>栽培，當天有午後雷陣雨機率，下雨照樣採（另一家明說下雨天下方果園不開放）；<b>③</b> 它 13:30 午休結束後一路開到 17:00，我們 15:35 到還有充裕時間。電話有手機和市話兩支，最找得到人。</span>
               <span class="opt-warn">📞 0910-026-097 · 另有市話 03-391-2221</span>
               <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山龍園果園" target="_blank" rel="noopener" onclick="event.stopPropagation()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -1019,42 +1386,314 @@
             </div>
           </div>
         </div>
-      </div>
+      </article>
 
-      <!-- 回程 -->
-      <div class="t-item">
-        <div class="t-card">
-          <span class="tag">賦歸</span>
-          <h3>啟程返回台北</h3>
-          <p>假日午後北橫車潮較多、山路會車需減速，回程一樣抓 2.5–3 小時。<b>台7線巴陵以東（往宜蘭方向）有夜間封閉管制</b>，不過我們是往桃園方向下山，不受影響。</p>
-          <p>兩台車在這裡就可以分道揚鑣——朋友回南港、你回南勢角，都是走台7線接國3，只是下交流道不同。<b>先講好不用互等</b>，天黑後山路難開，各自安全下山比較重要。</p>
-          <span class="inline-warn"><b>回程順路的小彩蛋：</b>下山一定會經過巴陵大橋。你早上已經看過了，但朋友還沒——想拍照可以停 10 分鐘，紅橋加粉紅拱橋在傍晚光線下很好看，而且完全不繞路。</span>
+      <!-- 冰沙甜點站（整排 + 兩個方案） -->
+      <article class="t-item t-full ph-rose">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10l-1.5 9a3.5 3.5 0 0 1-7 0Z"/><path d="M12 13v7m-3 0h6"/></svg>
+          </div>
+          <div class="t-time">16:30–16:55</div>
         </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">冰沙 · 甜點站</span>
+            <h3>水蜜桃冰沙時間</h3>
+          </div>
+          <div class="t-body">
+            <p>採完果剛好口渴，這 25 分鐘拿來喝冰沙、補買伴手。<b>產季裡上巴陵形象商圈和神木路沿線常有小農攤現打水蜜桃冰沙</b>（季節限定、沒有固定店號），看到攤就買，順便探探水蜜桃的價。</p>
+            <span class="inline-warn"><b>冰沙名店老實說：</b>角板山商圈的「大摳呆冰品店」（60 元巨杯，假日只開到 17:00）和「馬告香腸」（現打冰沙，開到 18:00）都有名，但我們回程經過角板山已超過 18:00，<b>趕不上，別特地繞</b>。想喝就在上巴陵解決最實際。</span>
+          </div>
+          <div class="option-grid">
+            <div class="option-card pick" tabindex="0" role="button">
+              <span class="pick-ribbon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+                最推薦
+              </span>
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">上巴陵商圈快閃</span>
+              <span class="opt-meta">現打冰沙・小農攤・零繞路</span>
+              <span class="opt-desc">形象商圈就在下山必經的路上，攤上現剖現打，喝完直接上路。</span>
+              <span class="opt-why"><b>為什麼推薦：</b>零繞路、零風險——買了就走，完全不壓縮晚上大溪的豆花和晚餐。商圈幾攤在地小農同時賣水蜜桃和高冷蔬菜，<b>果園沒買夠的伴手在這裡補</b>，還能比個價。</span>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">恩愛農場 坐下來喝</span>
+              <span class="opt-meta">09:00–20:00・非花季免門票</span>
+              <span class="opt-desc">離龍園最近的景觀農場，海拔高、視野好，坐下來喝杯咖啡遠眺群峰，水蜜桃季有農場風味餐點。<b>⚠️ 會多花 30–40 分鐘，之後豆花、晚餐、到家時間整串往後移</b>——想悠閒就選它，想準時吃晚餐就快閃。</span>
+              <span class="opt-warn">📞 03-391-2335 / 0912-576-476</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山恩愛農場" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 巴陵大橋 -->
+      <article class="t-item ph-blue">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18 Q12 6 21 18"/><path d="M3 18h18M7 18v-4M12 18v-7M17 18v-4"/></svg>
+          </div>
+          <div class="t-time">17:10–17:20</div>
+        </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">回程第一站 · 拍照</span>
+            <h3>巴陵大橋 10 分鐘</h3>
+          </div>
+          <div class="t-body">
+            <p>下山必經、完全不繞路。傍晚光線裡，粉紅色拱橋（巴陵大橋）配火紅色單向吊橋（舊巴陵橋，北橫三大名橋之首）最好看，橋下還能俯瞰大漢溪與三光溪匯流的「三龜戲珠」。<b>今天上山時大家都只是路過，這 10 分鐘是唯一好好看它、拍全隊合照的機會。</b></p>
+            <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵大橋" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              開啟 Google 地圖導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 下山往大溪 -->
+      <article class="t-item ph-blue">
         <div class="t-node">
           <div class="t-medal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12h-13l3 3m-3-3 3-3"/><circle cx="5" cy="12" r="2"/></svg>
           </div>
-          <div class="t-time">17:00</div>
+          <div class="t-time">17:20–18:45</div>
         </div>
-        <div class="t-spacer"></div>
-      </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">移動 · 約85分</span>
+            <h3>台7線下山，往大溪</h3>
+          </div>
+          <div class="t-body">
+            <p>假日午後北橫車潮較多、山路會車需減速，這段抓約 85 分鐘。<b>台7線巴陵以東（往宜蘭方向）有夜間封閉管制，我們往桃園方向下山，不受影響。</b></p>
+            <p>天色漸暗，<b>兩台車不用互等</b>，各自安全開，約在大溪豆花店會合就好。</p>
+          </div>
+        </div>
+      </article>
 
-      <!-- 結束 -->
-      <div class="t-item right">
-        <div class="t-spacer"></div>
+      <!-- 大溪食光（整排：豆花 + 晚餐方案） -->
+      <article class="t-item t-full ph-gold">
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16v2a8 8 0 0 1-16 0Z"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/></svg>
+          </div>
+          <div class="t-time">18:50–20:15</div>
+        </div>
+        <div class="t-card">
+          <div class="t-head">
+            <span class="tag">甜點+晚餐 · 大溪</span>
+            <h3>大溪食光：豆花與晚餐</h3>
+            <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=賴家祖傳豆花" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              豆花店 Google 地圖導航
+            </a>
+          </div>
+          <div class="t-body">
+            <p><b>第一站（18:50）：賴家祖傳豆花</b>——大溪區仁和路一段59號，<b>就在大溪交流道附近、回程幾乎零繞路</b>。傳承一甲子的古早味，非基改黃豆、古法手藝，一碗任選三種配料約 50 元。<b>外帶專門（沒有內用）</b>，買了當車上甜點或帶回家當宵夜都合適。</p>
+            <p><b>第二站（19:15）：晚餐三選一</b>，下面都是大溪在地口碑店，六人合菜都合適——但假日生意都很好，<b>7/24 訂位時一併訂晚餐</b>。</p>
+            <span class="inline-warn"><b>豆花營業時間注意：</b>各來源寫 20:00–21:00 不一致。我們 18:50 到一定還開著，但保險起見，<b>訂晚餐時順手打 03-390-9840 確認一下</b>。</span>
+          </div>
+          <div class="option-grid">
+            <div class="option-card pick" tabindex="0" role="button">
+              <span class="pick-ribbon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+                最推薦
+              </span>
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">老地方客家菜</span>
+              <span class="opt-meta">客家合菜・白斬雞・員林路一段489號</span>
+              <span class="opt-desc">飄香 30 年的在地客家老店，白斬雞是招牌，菜分大中小份好點餐，平日假日都客滿。</span>
+              <span class="opt-why"><b>為什麼推薦：</b><b>①</b> 每天開到 <b>20:30</b>，我們 19:15 入座、吃一小時剛剛好；<b>②</b> 離大溪交流道近，吃完直接上國3回台北；<b>③</b> 天天排隊的店品質最穩，六人合菜最對路。缺點是熱門——<b>所以一定要提前訂位</b>。</span>
+              <span class="opt-warn">📞 03-390-6863 · 天天排隊，務必訂位</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=大溪老地方客家菜" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">客滿堂餐廳</span>
+              <span class="opt-meta">台菜客家合菜・埔頂路二段157號</span>
+              <span class="opt-desc">就在大溪交流道旁、三家裡位置最順路。大圓桌台菜＋客家料理，遊覽車等級的出菜速度，客家小炒、五更腸旺都是熟面孔。週六全日營業（平日晚上只到 20:00）。</span>
+              <span class="opt-warn">📞 03-307-5024 · 假日先電話確認並訂位</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=大溪客滿堂餐廳" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">巴耐無菜單料理</span>
+              <span class="opt-meta">無菜單・880元起+10%・儲蓄路49號</span>
+              <span class="opt-desc">離大溪交流道約 5 分鐘的私廚無菜單，880 元起 8–10 道菜，自設停車場。<b>開到 21:00、三家裡最晚，時間最保險</b>；但採預約制，臨時到不了會很尷尬——想吃它就要最晚 7/24 訂好。</span>
+              <span class="opt-warn">📞 03-390-9808 · 預約制 · 週三公休</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=大溪巴耐無菜單料理" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 結束（過場橫條） -->
+      <article class="t-item transit ph-gold">
         <div class="t-node">
           <div class="t-medal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/></svg>
           </div>
-          <div class="t-time">19:45–20:15</div>
+          <div class="t-time">20:45–21:05</div>
         </div>
         <div class="t-card">
-          <span class="tag">END</span>
-          <h3>抵達台北，行程結束</h3>
-          <p>順利的話 19:45–20:15 各自到家。你從南勢角出發、也從南勢角回，全天車程約 5 小時；朋友南港來回會多個 20–25 分鐘。</p>
+          <div class="t-head">
+            <span class="tag">END</span>
+            <h3>回到台北，行程結束</h3>
+          </div>
+          <div class="t-body">
+            <p>晚餐後在大溪交流道各自上國3——南勢角約 30 分鐘、南港約 50 分鐘到家。全天約 13.5 小時，回家好好睡一覺，水蜜桃明天當早餐。</p>
+          </div>
         </div>
-      </div>
+      </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     彈性備案
+     ============================================================ -->
+<section class="bonus-section" id="backup">
+  <!-- 背景：粉紅拱橋剪影 + 蝴蝶 -->
+  <svg class="bridge-deco deco" viewBox="0 0 520 170" fill="none" aria-hidden="true">
+    <path d="M20 150 Q260 -60 500 150" stroke="currentColor" stroke-width="7" opacity=".16"/>
+    <path d="M20 150 L500 150" stroke="currentColor" stroke-width="5" opacity=".16"/>
+    <g stroke="currentColor" stroke-width="2.5" opacity=".13">
+      <path d="M95 150 L95 110"/><path d="M160 150 L160 78"/><path d="M260 150 L260 46"/>
+      <path d="M360 150 L360 78"/><path d="M425 150 L425 110"/>
+    </g>
+  </svg>
+  <div class="butterfly bf1 deco" aria-hidden="true">
+    <svg viewBox="0 0 40 32">
+      <path class="wing wl" d="M18 16 C6 2 -2 8 4 18 C-2 26 8 32 18 18 Z" fill="currentColor" opacity=".8"/>
+      <path class="wing wr" d="M22 16 C34 2 42 8 36 18 C42 26 32 32 22 18 Z" fill="currentColor" opacity=".8"/>
+      <rect x="18.6" y="8" width="2.8" height="18" rx="1.4" fill="#3B2E2A"/>
+    </svg>
+  </div>
+  <div class="butterfly bf2 deco" aria-hidden="true">
+    <svg viewBox="0 0 40 32">
+      <path class="wing wl" d="M18 16 C6 2 -2 8 4 18 C-2 26 8 32 18 18 Z" fill="currentColor" opacity=".8"/>
+      <path class="wing wr" d="M22 16 C34 2 42 8 36 18 C42 26 32 32 22 18 Z" fill="currentColor" opacity=".8"/>
+      <rect x="18.6" y="8" width="2.8" height="18" rx="1.4" fill="#3B2E2A"/>
+    </svg>
+  </div>
+
+  <div class="wrap wide">
+    <div class="section-head">
+      <div class="eyebrow">PLAN B · JUST IN CASE</div>
+      <h2><span class="hl">彈性備案（時間多出來才用）</span></h2>
+      <p class="lede">這版行程已經排滿，下面幾個景點<b>不用刻意排</b>——它們的價值是「備案」：午後雷陣雨把步道砍半、或哪一段提早結束時，把多出來的時間換到這裡，全部都在必經路線上、零繞路。</p>
+    </div>
+
+    <div class="bonus-list">
+
+      <!-- 1 -->
+      <article class="bonus reveal">
+        <div class="rank">B1</div>
+        <div class="bonus-head">
+          <h3>巴陵古道生態園區</h3>
+          <span class="dwell">停留 60–90 分</span>
+          <span class="free">免費 · 08:00–17:00</span>
+        </div>
+        <div class="why">
+          <b>雨天備援首選：</b>若午後雷陣雨把步道砍半、提早下山，把時間換到這裡剛剛好——蝴蝶館、甲蟲館、闊葉林館、地質館<b>四座生態館可以躲雨</b>，加上懸在樹林間的<b>生態探索繩橋</b>，古道本身是泰雅族人的舊部落通道，1.28 公里平緩好走。
+        </div>
+        <p>停車：拉拉山遊客中心旁有免費停車場（車位多）；巴陵二號隧道口也有，但只有 4 個位。全區免門票、現場無服務人員。</p>
+        <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵古道生態園區" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          開啟 Google 地圖導航
+        </a>
+      </article>
+
+      <!-- 2 -->
+      <article class="bonus reveal">
+        <div class="rank">B2</div>
+        <div class="bonus-head">
+          <h3>巴陵鐵塔</h3>
+          <span class="dwell">停留 15–25 分</span>
+          <span class="free">免費 · 24 小時</span>
+        </div>
+        <div class="why">
+          <b>零碎時間最好用：</b>車停上巴陵 7-11 走上去就到，來回 15–20 分鐘。鐵塔位在巴陵國小上方、<b>海拔正好 1314 公尺</b>，「一生一世」的諧音是上巴陵最好認的打卡點，居高臨下可以看整個上巴陵聚落。行程哪裡多出 20 分鐘，就把它塞進去。
+        </div>
+        <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵鐵塔" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          開啟 Google 地圖導航
+        </a>
+      </article>
+
+      <!-- 3 -->
+      <article class="bonus reveal">
+        <div class="rank">B3</div>
+        <div class="bonus-head">
+          <h3>巴陵一號・二號隧道步道</h3>
+          <span class="dwell">停留 20–30 分</span>
+          <span class="free">免費 · 24 小時</span>
+        </div>
+        <div class="why">
+          <b>巴陵大橋停留的加碼版：</b>回程 17:10 停巴陵大橋時，若大家腳還有力，兩座已改成景觀人行步道的舊隧道（登錄歷史建築）就在旁邊，連同舊巴陵橋（160 公尺火紅吊橋）、巴壟紀念柱、巴陵隧道驛站，<b>一個停車位全部走路串起來</b>。10 分鐘變 30 分鐘的差別而已。
+        </div>
+        <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵大橋" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          開啟 Google 地圖導航
+        </a>
+      </article>
+
+      <!-- 4 -->
+      <article class="bonus reveal">
+        <div class="rank">B4</div>
+        <div class="bonus-head">
+          <h3>卡拉部落・加拉教堂（方舟教堂）</h3>
+          <span class="dwell">停留 25–35 分</span>
+          <span class="free">免費</span>
+        </div>
+        <div class="why">
+          <b>留給下次的口袋名單：</b>1992 年落成的<b>船型（諾亞方舟）教堂</b>，長 60 尺、寬 40 尺，是卡拉部落的精神地標，遊客極少的秘境級人文景點。「卡拉」在泰雅語是「分支」的意思。<b>這版行程塞不下它</b>——需要多留 20 分鐘車程開部落聯絡道、指標不明顯，硬排會壓縮主行程，下次再來專程走。
+        </div>
+        <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=加拉教堂" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          開啟 Google 地圖導航
+        </a>
+      </article>
+
+    </div>
+
+    <!-- 已排除 -->
+    <div class="skip reveal">
+      <svg class="scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M8.2 7.6 20 18M8.2 16.4 20 6"/></svg>
+      <h3>這幾個直接排除了</h3>
+      <p>都在拉拉山一帶，但當天去會出事或不划算，原因寫在下面：</p>
+      <dl>
+        <div class="skip-item">
+          <dt>爺亨梯田</dt>
+          <dd>景色是動員泰雅族人開闢、長達 1000 公尺、超過 1200 層的梯田，確實壯觀——但<b>它在山地管制區內，要事先辦妥「甲種入山證」才能進去</b>，週六當天辦不到。想去要另外規劃行程。</dd>
+        </div>
+        <div class="skip-item">
+          <dt>嘎拉賀（新興部落）野溪溫泉 · 爺亨溫泉</dt>
+          <dd>過巴陵橋往中巴陵方向。問題在於<b>要從部落陡下到溪谷</b>，來回落差大、路面濕滑，剛下過颱風雨更不安全。走完等於報銷當天爬神木步道的體力。</dd>
+        </div>
+        <div class="skip-item">
+          <dt>明池森林遊樂區</dt>
+          <dd>在台7線更東邊（往宜蘭方向），從下巴陵單程還要再開 50 分鐘以上，<b>而且那段正是巴威颱風災後路段、有夜間封閉管制</b>，方向也跟我們相反。</dd>
+        </div>
+        <div class="skip-item">
+          <dt>小烏來天空步道 · 慈湖 · 角板山行館</dt>
+          <dd>都在山腳下，不符合「拉拉山附近」的條件。時間也不對：<b>上山經過時（08:30 前後）都還沒營業</b>——慈湖衛兵交接 09:00 才開始、角板山行館 09:00 才開門；回程經過時又太晚、多半打烊了。</dd>
+        </div>
+      </dl>
     </div>
   </div>
 </section>
@@ -1062,85 +1701,155 @@
 <!-- ============================================================
      實用資訊
      ============================================================ -->
-<section class="info-section">
-  <div class="wrap">
+<section class="info-section" id="info">
+  <!-- 角落水蜜桃吉祥物 -->
+  <div class="peach-mascot deco" aria-hidden="true">
+    <svg viewBox="0 0 90 100">
+      <path d="M45 22 Q49 10 62 8 Q58 20 48 24 Z" fill="#7C8A72"/>
+      <path d="M45 24 C22 24 12 44 16 62 C20 80 34 90 45 90 C56 90 70 80 74 62 C78 44 68 24 45 24 Z" fill="#C98F7B"/>
+      <path d="M45 26 Q42 56 45 88" stroke="#8C5646" stroke-width="2.4" fill="none" opacity=".45"/>
+      <circle cx="35" cy="54" r="3" fill="#3B2E2A"/>
+      <circle cx="55" cy="54" r="3" fill="#3B2E2A"/>
+      <path d="M39 63 Q45 68 51 63" stroke="#3B2E2A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="62" r="4" fill="#B97C68" opacity=".6"/>
+      <circle cx="62" cy="62" r="4" fill="#B97C68" opacity=".6"/>
+    </svg>
+  </div>
+
+  <div class="wrap wide">
     <div class="section-head">
       <div class="eyebrow">GOOD TO KNOW</div>
-      <h2>出發前的實用提醒</h2>
+      <h2><span class="hl">出發前的實用提醒</span></h2>
     </div>
     <div class="info-grid">
-      <div class="info-card hot">
+      <div class="info-card hot reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div>
         <h3>7/24（五）晚上要做的三件事</h3>
         <p><b>① 查颱風：</b>「紅霞」7/24–25 最接近台灣，雖預估主要影響花東恆春，但路徑會變，看一下氣象署有無新警報。</p>
         <p><b>② 查路況：</b>台7線羅浮～巴陵段目前正常通行，但雨後易落石。</p>
         <p><b>③ 查園區：</b>確認拉拉山國家森林遊樂區沒有再度預警性休園。</p>
       </div>
-      <div class="info-card hot">
+      <div class="info-card hot reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2Z"/></svg></div>
         <h3>明天（7/24）一定要打的電話</h3>
-        <p><b>餐廳：</b>訂位，並明講「六個人、<b>14:50</b> 才會到」，確認他們願意留位子。這通不打，很可能撲空。</p>
-        <p><b>果園：</b>先問「25 號還有果可以採嗎」，再訂時段，並講明<b>16:00 才到</b>。</p>
+        <p><b>午餐：</b>訂位，並明講「六個人、<b>14:30</b> 才會到」，確認他們願意留位子。這通不打，很可能撲空。</p>
+        <p><b>果園：</b>先問「25 號還有果可以採嗎」，再訂時段，講明<b>15:30–15:40 到</b>。</p>
+        <p><b>晚餐：</b>大溪的店訂 <b>19:15、六位</b>；訂老地方 03-390-6863，順手打 03-390-9840 確認豆花開到幾點。</p>
         <p><b>接駁（備案）：</b>拉拉山車隊 0989-021005 / 0981-130771。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div>
         <h3>門票與停車費</h3>
         <p>全票 150 元／半票 75 元（軍警、學生、7–12 歲兒童）／優待票 10 元（65 歲以上、3–6 歲）。<b>停車費另計：小型車 100 元／輛。</b></p>
         <p>六位大人門票 900 元 + <b>兩台車停車費 200 元</b>＝ 1,100 元。搭接駁車門票可享 8 折。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M5 11 7 6h10l2 5M7 17v2M17 17v2"/></svg></div>
         <h3>車輛限制（重要）</h3>
         <p>園區只開放<b>車長 6 公尺、車寬 2 公尺以內</b>的車輛進入，<b>大客車與保母車不得入園</b>。</p>
         <p>一般自用小客車與 9 人座（約 5.4 公尺）都符合；但若有人打算租「營業用保母車／包車」，那台車進不去，得在外面轉搭接駁。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14M6 17V9l6-4 6 4v8M9 17v-4h6v4"/></svg></div>
         <h3>停車與入園時間</h3>
         <p>園區開放 <b>06:00–17:00</b>（僅除夕休園），遊客中心 08:00–17:00。</p>
         <p>園內車位僅約 70 個，滿位時採「一進一出」。<b>我們有兩台車，等於要搶兩個位</b>——若現場回堵，讓六個人擠一台進去、另一台停外面，是最快的解法。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M8 21l4-6 4 6M6 13c0-4 2-6 6-6s6 2 6 6"/></svg></div>
         <h3>步道實況</h3>
         <p>巨木群步道官方公告全長約 <b>4 公里、來回約 3 小時</b>，自導式環狀路線，最高點為達觀亭。</p>
         <p>這段步道在巴威颱風後曾因邊坡土石崩落封閉，7/18 才搶修完成復開。雨後土石含水飽和仍有零星崩落風險，<b>請走指定動線、通過落石區勿逗留</b>。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4 12H2m20 0h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/><circle cx="12" cy="12" r="4"/></svg></div>
         <h3>服裝與裝備</h3>
-        <p>園區海拔約 1500–2100 公尺，山下 36 度時山上約 24–28 度，早晚溫差大，帶一件輕薄外套。你 08:00 就在巴陵，清晨更涼。</p>
+        <p>園區海拔約 1500–2100 公尺，山下 36 度時山上約 24–28 度，早晚溫差大，帶一件輕薄外套。</p>
         <p>穿好走防滑的健走鞋（步道 4 公里、果園地面不平）。<b>雨衣比雨傘實用</b>，山區午後常有雷陣雨。另備防蚊液與水。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8.8a16 16 0 0 1 20 0M5 12.3a11 11 0 0 1 14 0M8.5 15.8a6 6 0 0 1 7 0M12 19.5h.01"/></svg></div>
         <h3>收訊與兩車聯絡</h3>
         <p>羅浮之後部分路段收訊不穩，收費站往上更弱。出發前先<b>下載 Google 地圖離線區域</b>（範圍抓大溪到上巴陵）。</p>
-        <p>兩台車先講好：<b>失聯時一律在下一個約定點等</b>（羅浮 7-11 → 上巴陵 7-11 → 收費站停車場）。行動電源記得帶。</p>
+        <p>兩台車先講好：<b>失聯時一律在下一個約定點等</b>（羅浮 7-11 → 收費站停車場；晚上在大溪豆花店會合）。行動電源記得帶。</p>
       </div>
-      <div class="info-card">
+      <div class="info-card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10Z"/></svg></div>
         <h3>水蜜桃產季提醒</h3>
         <p>拉拉山水蜜桃產期約 6 月初～8 月初，<b>7 月下旬屬產季末段</b>，晚生種尚有果但量遞減。</p>
         <p>龍園果園的晚生種 7/10 後才成熟，時間點正好；但仍請先電話確認果況。現採價格依當日果況現場計價。</p>
       </div>
+      <div class="info-card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16v2a8 8 0 0 1-16 0Z"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/></svg></div>
+        <h3>回程大溪補給站</h3>
+        <p><b>賴家祖傳豆花</b>：仁和路一段59號 · 03-390-9840，外帶專門、近大溪交流道零繞路；營業時間來源不一（20:00–21:00），訂晚餐時順手確認。</p>
+        <p><b>晚餐三選一都要先訂</b>：老地方 03-390-6863（到 20:30）／客滿堂 03-307-5024（週六全日）／巴耐 03-390-9808（預約制、到 21:00）。</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ============================================================
+     回家的路（黃昏場景）
+     ============================================================ -->
+<div class="homeward" aria-hidden="true">
+  <svg viewBox="0 0 1440 190" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="duskSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#DCCFB4"/>
+        <stop offset="1" stop-color="#C9BFAF"/>
+      </linearGradient>
+    </defs>
+    <rect width="1440" height="190" fill="url(#duskSky)"/>
+    <!-- 星星 -->
+    <circle class="star" style="--t:2.8s; --delay:0s"    cx="200"  cy="34" r="2.2" fill="#F6EBD3"/>
+    <circle class="star" style="--t:3.6s; --delay:-1s"   cx="480"  cy="22" r="1.8" fill="#F6EBD3"/>
+    <circle class="star" style="--t:3s;   --delay:-2s"   cx="900"  cy="30" r="2"   fill="#F6EBD3"/>
+    <circle class="star" style="--t:4s;   --delay:-1.6s" cx="1150" cy="18" r="1.7" fill="#F6EBD3"/>
+    <circle class="star" style="--t:3.3s; --delay:-.6s"  cx="1330" cy="40" r="2.1" fill="#F6EBD3"/>
+    <!-- 夕陽 -->
+    <circle cx="1080" cy="112" r="34" fill="#A9823C" opacity=".55"/>
+    <!-- 山巒 -->
+    <path d="M0,190 L0,120 Q200,70 420,112 Q640,152 860,104 Q1080,60 1440,124 L1440,190 Z" fill="#6E8794" opacity=".5"/>
+    <path d="M0,190 L0,152 Q260,112 540,146 Q820,178 1100,140 Q1280,116 1440,150 L1440,190 Z" fill="#4E5A47" opacity=".55"/>
+    <!-- 路 -->
+    <rect y="168" width="1440" height="22" fill="#8A8070" opacity=".6"/>
+    <path d="M0,179 L1440,179" stroke="#EDE6D8" stroke-width="2.4" stroke-dasharray="26 20" opacity=".7"/>
+    <!-- 回家小屋 -->
+    <g transform="translate(1290,120)">
+      <path d="M0,26 L26,4 L52,26 Z" fill="#8C5646"/>
+      <rect x="6" y="26" width="40" height="30" rx="2" fill="#B9A98E"/>
+      <rect class="home-window" x="20" y="34" width="13" height="13" rx="2" fill="#E8D6A8"/>
+    </g>
+    <!-- 開回台北的小車：外層水平行駛動畫、中層定位、內層彈跳 -->
+    <g class="home-car">
+      <g transform="translate(0,146) scale(-1,1)">
+        <g class="body-bob">
+          <rect x="-52" y="0" width="52" height="18" rx="8" fill="#7C8A72"/>
+          <path d="M-42 2 Q-38 -9 -26 -9 Q-14 -9 -10 2 Z" fill="#7C8A72"/>
+          <rect x="-35" y="-6" width="17" height="8" rx="3.5" fill="#EDE6D8"/>
+          <circle cx="-39" cy="19" r="5.6" fill="#3B2E2A"/><circle cx="-39" cy="19" r="2.4" fill="#EDE6D8"/>
+          <circle cx="-13" cy="19" r="5.6" fill="#3B2E2A"/><circle cx="-13" cy="19" r="2.4" fill="#EDE6D8"/>
+          <circle cx="-2" cy="8" r="2.4" fill="#E8D6A8"/>
+        </g>
+      </g>
+    </g>
+  </svg>
+</div>
+
 <footer>
-  行程與資訊查證於 <b>2026 年 7 月 23 日（四）</b>，資料來源包含林業及自然保育署台灣山林悠遊網、公路局路況公告、桃園觀光導覽網與中央氣象署預報。<br>
-  餐廳／果園營業時間與電話請以現場公告或店家官方社群為準；<b>出發前一天（7/24）請務必再次致電確認，並複查颱風動態與台7線路況。</b>
+  行程與拉拉山資訊查證於 <b>2026 年 7 月 23 日（四）</b>，資料來源包含林業及自然保育署台灣山林悠遊網、公路局路況公告、桃園觀光導覽網與中央氣象署預報；大溪豆花與晚餐餐廳為同日網路查證，電話與營業時間請以店家現場為準。<br>
+  <b>出發前一天（7/24）請務必完成所有訂位電話，並複查颱風動態與台7線路況。</b>
 </footer>
 
 <script>
   // ------------------------------------------------------------
-  // 時間軸卡片：滾動進場淡入效果（尊重減少動態偏好設定）
+  // 卡片滾動進場淡入效果（尊重減少動態偏好設定）
+  // .t-item 為時間軸卡片；.reveal 為路線／備案／資訊卡
   // ------------------------------------------------------------
   (function initScrollReveal() {
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var items = document.querySelectorAll('.t-item');
+    var items = document.querySelectorAll('.t-item, .reveal');
 
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
       // 若使用者偏好減少動態效果，或瀏覽器不支援，直接全部顯示
