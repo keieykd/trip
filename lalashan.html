@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拉拉山一日行｜神木森呼吸 × 水蜜桃採果</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     設計代幣（Design Tokens）— 莫蘭迪色系
+     ============================================================ */
+  :root{
+    --cream:      #EDE6D8;   /* 主背景：暖燕麥米色 */
+    --card:       #F7F2E7;   /* 卡片底色：偏亮米白 */
+    --card-line:  #DCD2BE;   /* 卡片邊線 */
+    --ink:        #3B2E2A;   /* 主文字：深咖啡棕（非預設灰黑） */
+    --ink-soft:   #6B5B52;   /* 次要文字 */
+    --sage:       #7C8A72;   /* 霧灰綠：森林／步道 */
+    --sage-deep:  #4E5A47;   /* 深綠：對比文字／邊線 */
+    --rose:       #B97C68;   /* 霧玫瑰棕：水蜜桃／飲食 */
+    --rose-deep:  #8C5646;   /* 深玫瑰棕 */
+    --blue:       #6E8794;   /* 霧藍灰：山嵐／天空 */
+    --blue-deep:  #47606C;   /* 深藍灰 */
+    --gold:       #A9823C;   /* 霧金：強調數字 */
+    --warn-bg:    #EFE0C8;   /* 提醒色塊底 */
+    --warn-line:  #C99A4C;
+    --alert-bg:   #F3DFD6;   /* 高優先提醒（出發前必看） */
+    --alert-line: #BC8570;
+    --alert-ink:  #7A3F2A;
+
+    --serif: "Noto Serif TC", serif;
+    --sans:  "Noto Sans TC", sans-serif;
+    --mono:  "JetBrains Mono", monospace;
+
+    --radius: 18px;
+    --shadow: 0 10px 30px -12px rgba(59,46,42,0.28);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:var(--serif); margin:0; color:var(--ink); }
+  a{ color:var(--blue-deep); }
+  img,svg{ display:block; max-width:100%; }
+  button{ font-family:inherit; }
+
+  .wrap{ max-width:980px; margin:0 auto; padding:0 24px; }
+
+  /* ============================================================
+     HERO 區塊
+     ============================================================ */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:76px 0 64px;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #F2ECDF 0%, var(--cream) 60%);
+    border-bottom:1px solid var(--card-line);
+  }
+  .hero-mountains{
+    position:absolute; inset:auto 0 0 0; height:56%;
+    pointer-events:none;
+  }
+  .hero-sun{
+    position:absolute; top:14%; left:50%; transform:translateX(-50%);
+    width:120px; height:120px; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #E8D6A8, var(--gold) 70%);
+    opacity:0.55; filter:blur(0.5px);
+  }
+  .mist{
+    position:absolute; left:-10%; width:130%; height:120px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+    filter:blur(14px);
+    opacity:0.6;
+    animation:drift 26s linear infinite;
+  }
+  .mist.m2{ animation-duration:38s; opacity:0.4; }
+  @keyframes drift{
+    0%{ transform:translateX(-6%); }
+    50%{ transform:translateX(6%); }
+    100%{ transform:translateX(-6%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .mist{ animation:none; }
+  }
+
+  .hero-inner{ position:relative; z-index:2; text-align:center; }
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.14em;
+    color:var(--sage-deep); text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(34px, 6vw, 58px);
+    font-weight:900;
+    letter-spacing:0.02em;
+    line-height:1.25;
+  }
+  .hero h1 span{ color:var(--rose-deep); }
+  .hero p.sub{
+    margin:18px auto 0; max-width:520px;
+    color:var(--ink-soft); font-size:16px;
+  }
+
+  .chips{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+    margin-top:34px;
+  }
+  .chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--card); border:1px solid var(--card-line);
+    border-radius:999px; padding:9px 16px 9px 12px;
+    font-family:var(--mono); font-size:13px; color:var(--ink);
+    box-shadow:var(--shadow);
+  }
+  .chip svg{ width:16px; height:16px; }
+
+  /* 提醒卡片 */
+  .notice{
+    margin:36px auto 0; max-width:720px;
+    background:var(--warn-bg); border:1px solid var(--warn-line);
+    border-radius:var(--radius); padding:16px 20px;
+    text-align:left; font-size:14.5px; color:#5A4626;
+    display:flex; gap:12px;
+  }
+  .notice svg{ flex:none; width:22px; height:22px; margin-top:2px; color:#8C6A24; }
+  .notice b{ color:#6B4E1B; }
+
+  /* 出發前狀態卡：比 .notice 更高優先，放已查證的即時狀況 */
+  .status{
+    margin:22px auto 0; max-width:720px;
+    background:var(--alert-bg); border:1px solid var(--alert-line);
+    border-radius:var(--radius); padding:20px 24px;
+    text-align:left; font-size:14.5px; color:#5C3A2E;
+    box-shadow:var(--shadow);
+  }
+  .status h4{
+    margin:0 0 10px; font-family:var(--serif); font-size:17px;
+    color:var(--alert-ink); display:flex; align-items:center; gap:8px;
+  }
+  .status h4 svg{ width:20px; height:20px; flex:none; }
+  .status ul{ margin:0; padding-left:20px; }
+  .status li{ margin-bottom:7px; }
+  .status li:last-child{ margin-bottom:0; }
+  .status b{ color:var(--alert-ink); }
+  .stamp{
+    display:block; margin-top:12px; padding-top:10px;
+    border-top:1px dashed var(--alert-line);
+    font-family:var(--mono); font-size:11.5px; color:#8A6A5C;
+  }
+
+  /* ============================================================
+     時間軸區塊
+     ============================================================ */
+  .timeline-section{ padding:76px 0 40px; position:relative; }
+  .section-head{ text-align:center; margin-bottom:36px; }
+  .section-head .eyebrow{ justify-content:center; display:flex; }
+  .section-head h2{ font-size:clamp(26px,4vw,34px); margin-top:10px; }
+  .section-head p.lede{
+    max-width:600px; margin:14px auto 0;
+    font-size:14.5px; color:var(--ink-soft);
+  }
+
+  .timeline{ position:relative; margin-top:44px; }
+  .spine{
+    position:absolute; top:0; bottom:0; left:50%;
+    width:2px; transform:translateX(-50%);
+    background:repeating-linear-gradient(
+      to bottom, var(--sage) 0 10px, transparent 10px 18px
+    );
+    z-index:0;
+  }
+  @media (max-width:760px){
+    .spine{ left:26px; }
+  }
+
+  .t-item{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr 64px 1fr;
+    align-items:start; gap:0 28px;
+    margin-bottom:46px;
+    opacity:0; transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .t-item.in{ opacity:1; transform:translateY(0); }
+  .t-item .t-card{ grid-column:1; }
+  .t-item.right .t-card{ grid-column:3; }
+  .t-item .t-spacer{ grid-column:3; }
+  .t-item.right .t-spacer{ grid-column:1; }
+
+  .t-node{
+    grid-column:2; display:flex; flex-direction:column; align-items:center;
+    gap:8px;
+  }
+  .t-medal{
+    width:56px; height:56px; border-radius:50%;
+    background:var(--card); border:2px solid var(--sage);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow);
+  }
+  .t-medal svg{ width:26px; height:26px; color:var(--sage-deep); }
+  .t-time{
+    font-family:var(--mono); font-weight:700; font-size:13px;
+    color:var(--gold); background:var(--card);
+    border:1px solid var(--card-line); border-radius:8px;
+    padding:3px 8px; white-space:nowrap;
+  }
+
+  .t-card{
+    background:var(--card); border:1px solid var(--card-line);
+    border-radius:var(--radius); padding:22px 24px;
+    box-shadow:var(--shadow);
+  }
+  .t-card h3{ font-size:19px; margin-bottom:8px; }
+  .t-card p{ margin:0 0 10px; color:var(--ink-soft); font-size:14.5px; }
+  .t-card p:last-child{ margin-bottom:0; }
+  .t-card .tag{
+    display:inline-block; font-family:var(--mono); font-size:11.5px;
+    color:var(--sage-deep); background:#E4E7DD; border-radius:6px;
+    padding:2px 8px; margin-bottom:10px; letter-spacing:0.03em;
+  }
+  /* 卡片內的小提醒條 */
+  .t-card .inline-warn{
+    display:block; margin-top:12px;
+    background:var(--warn-bg); border-left:3px solid var(--warn-line);
+    border-radius:0 8px 8px 0; padding:9px 12px;
+    font-size:13px; color:#5A4626;
+  }
+  .t-card .inline-warn b{ color:#6B4E1B; }
+
+  @media (max-width:760px){
+    .t-item, .t-item.right{
+      grid-template-columns:56px 1fr;
+      gap:0 16px;
+    }
+    .t-item .t-card, .t-item.right .t-card{ grid-column:2; }
+    .t-item .t-spacer, .t-item.right .t-spacer{ display:none; }
+    .t-node{ grid-column:1; grid-row:1; }
+    .t-medal{ width:46px; height:46px; }
+    .t-medal svg{ width:21px; height:21px; }
+  }
+
+  /* ============================================================
+     方案選擇卡（餐廳／果園／景點）
+     ============================================================ */
+  .option-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:12px; margin-top:14px;
+  }
+  .option-card{
+    text-align:left; cursor:pointer;
+    background:#FCFAF3; border:1.5px solid var(--card-line);
+    border-radius:14px; padding:14px 16px;
+    transition:border-color .25s ease, transform .2s ease, box-shadow .2s ease;
+    display:flex; flex-direction:column; gap:6px;
+    position:relative;
+  }
+  .option-card:hover{ transform:translateY(-3px); box-shadow:0 8px 18px -8px rgba(59,46,42,0.3); }
+  .option-card:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
+  .option-card.selected{
+    border-color:var(--rose-deep);
+    background:#FBF0EA;
+  }
+  .option-card .opt-name{ font-weight:700; font-size:15px; color:var(--ink); }
+  .option-card .opt-meta{ font-size:12.5px; color:var(--ink-soft); font-family:var(--mono); }
+  .option-card .opt-desc{ font-size:13px; color:var(--ink-soft); }
+  .option-card .opt-warn{
+    font-size:12px; color:#8C4A2F; background:#F3DFCE;
+    border-radius:6px; padding:2px 7px; display:inline-block; width:fit-content;
+  }
+  /* 已確認當天不可行的方案：不可點選 */
+  .option-card.unavailable{
+    background:#EFEBE1; border-style:dashed; cursor:not-allowed;
+    opacity:0.75;
+  }
+  .option-card.unavailable:hover{ transform:none; box-shadow:none; }
+  .option-card.unavailable .opt-name{ color:var(--ink-soft); text-decoration:line-through; }
+  .option-card .opt-block{
+    font-size:12px; color:#fff; background:#9C4A32;
+    border-radius:6px; padding:3px 8px; display:inline-block; width:fit-content;
+    font-weight:700;
+  }
+  .check-badge{
+    position:absolute; top:10px; right:10px;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--rose-deep); color:#fff;
+    display:none; align-items:center; justify-content:center;
+  }
+  .check-badge svg{ width:12px; height:12px; }
+  .option-card.selected .check-badge{ display:flex; }
+
+  /* 單一地點卡片的地圖連結 */
+  .card-map{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:14px; font-family:var(--mono); font-size:12.5px;
+    color:var(--blue-deep); text-decoration:none; font-weight:700;
+    border-bottom:1px solid var(--blue-deep); padding-bottom:1px;
+  }
+  .card-map svg{ width:14px; height:14px; flex:none; }
+  .card-map:hover{ color:var(--rose-deep); border-color:var(--rose-deep); }
+  .card-map:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
+
+  /* 方案卡片內的地圖連結（避免點擊時觸發選取狀態，見 JS stopPropagation） */
+  .opt-map{
+    display:inline-flex; align-items:center; gap:5px;
+    margin-top:2px; font-family:var(--mono); font-size:12px;
+    color:var(--blue-deep); text-decoration:none; font-weight:700;
+    width:fit-content; position:relative; z-index:2;
+  }
+  .opt-map svg{ width:13px; height:13px; flex:none; }
+  .opt-map:hover{ color:var(--rose-deep); }
+  .opt-map:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
+
+  /* ============================================================
+     B 方案（維持 07:30 出發）對照
+     ============================================================ */
+  .planb{
+    max-width:720px; margin:10px auto 0;
+    background:var(--card); border:1px dashed var(--card-line);
+    border-radius:var(--radius); padding:20px 24px;
+  }
+  .planb h3{ font-size:17px; margin-bottom:10px; }
+  .planb p{ margin:0 0 10px; font-size:14px; color:var(--ink-soft); }
+  .planb p:last-child{ margin-bottom:0; }
+  .planb ul{ margin:0 0 10px; padding-left:20px; font-size:14px; color:var(--ink-soft); }
+  .planb li{ margin-bottom:5px; }
+
+  /* ============================================================
+     實用資訊區塊
+     ============================================================ */
+  .info-section{ background:#E7E1D2; padding:70px 0 80px; margin-top:20px; }
+  .info-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+    gap:18px; margin-top:40px;
+  }
+  .info-card{
+    background:var(--card); border:1px solid var(--card-line);
+    border-radius:var(--radius); padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .info-card .icon{
+    width:40px; height:40px; border-radius:10px;
+    background:var(--sage); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  .info-card.hot .icon{ background:var(--rose-deep); }
+  .info-card .icon svg{ width:20px; height:20px; }
+  .info-card h3{ font-size:16px; margin-bottom:8px; }
+  .info-card p{ margin:0 0 8px; font-size:13.5px; color:var(--ink-soft); }
+  .info-card p:last-child{ margin-bottom:0; }
+  .info-card a{ font-family:var(--mono); font-size:12.5px; font-weight:700; }
+
+  footer{
+    padding:40px 24px 60px; text-align:center;
+    font-size:12.5px; color:var(--ink-soft);
+  }
+  footer b{ color:var(--ink); }
+
+  /* 列印相容 */
+  @media print{
+    .mist, .hero-sun, .hero-mountains{ display:none; }
+    .t-item{ opacity:1 !important; transform:none !important; }
+    .info-section{ background:#fff; }
+    body{ background:#fff; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-sun"></div>
+  <div class="hero-mountains" aria-hidden="true">
+    <svg viewBox="0 0 1200 260" preserveAspectRatio="none" width="100%" height="100%">
+      <polygon points="0,260 0,150 220,60 430,140 640,40 900,150 1200,80 1200,260" fill="#8FA084" opacity="0.35"/>
+      <polygon points="0,260 0,190 260,110 520,180 760,90 1000,170 1200,120 1200,260" fill="#6E8794" opacity="0.4"/>
+      <polygon points="0,260 0,220 300,160 560,215 820,150 1080,210 1200,180 1200,260" fill="#4E5A47" opacity="0.55"/>
+    </svg>
+  </div>
+  <div class="mist" style="top:38%"></div>
+  <div class="mist m2" style="top:52%"></div>
+
+  <div class="wrap hero-inner">
+    <div class="eyebrow">2026 · 07 · 25（週六）· 桃園復興 · 拉拉山</div>
+    <h1>神木森呼吸<br><span>× 水蜜桃採果</span>一日行</h1>
+    <p class="sub">從台北出發，走進北橫雲霧森林，健行千年檜木步道，再到產季正盛的果園親手摘一顆水蜜桃。六人同行的悠閒週末。</p>
+
+    <div class="chips">
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        06:30 台北出發
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13l-3-3m3 3-3 3"/><circle cx="19" cy="12" r="2"/></svg>
+        單程車程約 2.5–3 小時
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c2-6 4-8 8-8s6 2 8 8"/><circle cx="12" cy="7" r="3"/></svg>
+        6 位大人
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10Z"/></svg>
+        水蜜桃產季末段
+      </div>
+    </div>
+
+    <div class="status">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+        出發前必看｜2026/07/23 查證的最新狀況
+      </h4>
+      <ul>
+        <li><b>園區已恢復開園。</b>巴威颱風（7/9–7/11）造成巨木步道邊坡土石崩落，園區一度休園；搶修完成後已於 <b>7/18（六）正式恢復開園</b>。但雨後山區土石仍含水飽和，通過落石區請勿逗留。</li>
+        <li><b>道路已解除封閉。</b>台7線羅浮至巴陵（22K+800～46K+400）於 7/12 中午解除封閉，這是我們上山的路段。往宜蘭方向的巴陵至西村路段另有夜間封閉管制，<b>我們不會走到</b>。</li>
+        <li><b>天氣：颱風「紅霞」7/24–25 最接近台灣</b>，預估通過巴士海峽、距鵝鑾鼻約 300–400 公里，主要影響花東與恆春半島；北部反而因背風沉降偏熱。桃園山區當天以「高溫 + 午後局部雷陣雨」為主，<b>雨具一定要帶</b>。</li>
+        <li><b>颱風路徑會變。</b>請在 <b>7/24（五）晚上</b>再確認一次氣象署警報、台7線路況與園區公告，若北轉就要考慮改期。</li>
+      </ul>
+      <span class="stamp">資料查證日期：2026/07/23（四）· 出發前一天請再複查一次</span>
+    </div>
+
+    <div class="notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+      <div>
+        <b>為什麼建議提早到 06:30 出發：</b>台北到拉拉山收費站，<b>純開車就要 2.5–3 小時</b>（台北→大溪約 50 分，大溪→收費站不塞車還要 1 小時 40 分～2 小時），再加上中途兩個休息點約 45 分鐘，實際抵達時間會落在出發後 <b>3 小時 15 分～3 小時 35 分</b>。若維持 07:30 出發，會在 11:00 左右才進園、下午 3 點才吃得到午餐，山上餐廳多半那時已收午市。提早一小時，整天就會鬆很多。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     時間軸
+     ============================================================ -->
+<section class="timeline-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">FULL-DAY ITINERARY</div>
+      <h2>當天完整行程</h2>
+      <p class="lede">以 06:30 出發推算。園區開放 06:00–17:00，<b>17:00 前一定要出園</b>；步道排在上午，可避開午後雷陣雨、也比較搶得到車位。</p>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <div class="spine"></div>
+
+      <!-- 1 出發 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">START</span>
+          <h3>台北出發</h3>
+          <p>國道3號 → 大溪交流道 → 台7線北橫公路 → 下巴陵左轉桃116線上山。六人建議分兩台車，或開一台 9 人座輪流開，山路彎多可備暈車藥。</p>
+          <span class="inline-warn"><b>車輛尺寸要先確認：</b>園區只開放<b>車長 6 公尺、車寬 2 公尺以內</b>的車進入，大客車與保母車不得入園。一般 9 人座自用車（約 5.4 公尺）沒問題，但如果是租「營業用保母車」就進不去，只能停外面轉搭接駁。</span>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M5 11 7 6h10l2 5M7 17v2M17 17v2"/></svg>
+          </div>
+          <div class="t-time">06:30</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 2 大溪 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M6 3h12l-1 8a5 5 0 0 1-10 0L6 3Z"/></svg>
+          </div>
+          <div class="t-time">07:20–07:35</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">中途休息 1</span>
+          <h3>大溪 快速補給</h3>
+          <p>開約 50 分鐘後的第一個休息點，離開市區、正式上山前的最後一次「城市級」補給：上廁所、買早餐、加油。停留 15 分鐘就好。</p>
+          <span class="inline-warn"><b>這個時間老街還沒開：</b>大溪和平老街的豆干、豆花、伴手禮店多半 <b>09:00–10:00 才開門</b>（週末部分店家 07:30 起）。07:20 到只能當休息站用，想逛老街要留到回程。</span>
+          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=大溪老街" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            開啟 Google 地圖導航
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 角板山 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">中途休息 2</span>
+          <h3>角板山公園 賞景休息</h3>
+          <p>離開大溪後車程約 40 分鐘。這裡海拔較高、視野好，可以遠眺大漢溪谷與石門水庫山景，園區有廁所，旁邊形象商圈也有小吃和水蜜桃冰沙。建議停留 20 分鐘，下車伸展一下腿，接下來就要進入彎道密集的山路。</p>
+          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=角板山公園" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            開啟 Google 地圖導航
+          </a>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17 9 9l4 5 3-4 5 7" /><circle cx="12" cy="6" r="2"/></svg>
+          </div>
+          <div class="t-time">08:15–08:35</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 4 上巴陵 7-11 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v16M4 10h16"/></svg>
+          </div>
+          <div class="t-time">09:40–09:50</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">最後補給</span>
+          <h3>上巴陵門市 便利商店休息</h3>
+          <p>海拔約 1200 公尺，北橫沿線少數的便利商店，有 ATM 與洗手間。在這裡上廁所、買水和行動糧、檢查油量。過了這裡往收費站的路更彎、收訊也更弱。</p>
+          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=7-ELEVEN上巴陵門市" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            開啟 Google 地圖導航
+          </a>
+        </div>
+      </div>
+
+      <!-- 5 收費站 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">抵達</span>
+          <h3>拉拉山收費站・購票入園</h3>
+          <p>導航請設「<b>拉拉山國家森林遊樂區</b>」或「拉拉山收費站」，只打「拉拉山」有時會被帶到部落。門票全票 150 元／半票 75 元／優待票 10 元（65 歲以上、3–6 歲），<b>另收停車費小型車 100 元／輛</b>。園區開放 06:00–17:00。</p>
+          <span class="inline-warn"><b>停車是今天最大的變數：</b>園內只有約 70 個車位，滿位時採「一進一出」，暑假週末可能排隊等很久。這也是建議提早出發的主因。若現場回堵，兩個備案：<b>①</b> 打拉拉山車隊付費接駁（<b>0989-021005</b>／<b>0981-130771</b>），搭接駁車門票可打 8 折；<b>②</b> 停外面走進去，林道約 2.8 公里到遊客中心（單程約 40 分鐘，來回會多花 1.5 小時，不建議）。</span>
+          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山國家森林遊樂區" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            開啟 Google 地圖導航
+          </a>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg>
+          </div>
+          <div class="t-time">10:00–10:15</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 6 步道 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M8 21l4-6 4 6M6 13c0-4 2-6 6-6s6 2 6 6"/></svg>
+          </div>
+          <div class="t-time">10:30–13:30</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">健行 · 約3小時</span>
+          <h3>巨木群步道森呼吸</h3>
+          <p>自導式環狀步道，官方公告全長約 <b>4 公里、來回約 3 小時</b>，沿途 24 棵紅檜巨木，5 號神木樹齡約 2800 年最老。坡度平緩、老少皆宜，但距離不短，請把 3 小時抓好抓滿。</p>
+          <span class="inline-warn"><b>雨後注意：</b>這條步道正是巴威颱風造成邊坡崩落、搶修後 7/18 才重新開放的路段。請走指定動線，經過落石區不要停下來拍照。山區午後容易起霧下雨，<b>輕便雨衣比雨傘好用</b>（步道窄、兩手要空著）。</span>
+          <a class="card-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山巨木群步道" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            開啟 Google 地圖導航
+          </a>
+        </div>
+      </div>
+
+      <!-- 7 下山 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">移動</span>
+          <h3>開回上巴陵市區</h3>
+          <p>從遊客中心開回上巴陵餐廳聚落約 25–30 分鐘。這段路窄、會車多，不要趕。建議在步道結束前就先打電話跟餐廳說「我們快到了」。</p>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13l-3-3m3 3-3 3"/><circle cx="19" cy="12" r="2"/></svg>
+          </div>
+          <div class="t-time">13:30–14:00</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 8 午餐 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v7a3 3 0 0 0 3 3v10M6 2v7M18 2v20M18 2c-2 0-3 2-3 5v2c0 1.5 1 2 3 2"/></svg>
+          </div>
+          <div class="t-time">14:00–15:15</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">午餐 · 選一個方案</span>
+          <h3>上巴陵用餐時間</h3>
+          <p>六人合菜為主。<b>因為是 14:00 才入座，務必提前一天訂位並告知抵達時間</b>，山上餐廳午市常在 14:00–14:30 收；一通電話就能省掉撲空的風險。</p>
+          <div class="option-grid">
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">泰雅廚房</span>
+              <span class="opt-meta">馬告烤雞・原民風味</span>
+              <span class="opt-desc">上巴陵派出所旁，馬告烤雞、馬告香腸、蒸鱒魚、炒山菜，飯後金針湯清爽收尾。7、8 月暑假期間天天營業。</span>
+              <span class="opt-warn">📞 03-391-2539 · 建議先訂位</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=泰雅廚房" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">山源小吃店</span>
+              <span class="opt-meta">碳烤山豬肉・熱炒</span>
+              <span class="opt-desc">在地評價不錯的家常山產店，碳烤山豬肉、蒜泥白肉、當季高山蔬菜都下飯。</span>
+              <span class="opt-warn">📞 03-391-2733（電話未經官方查證，請先撥打確認）</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=山源小吃店" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">得拉蜜景觀咖啡餐廳</span>
+              <span class="opt-meta">甕缸雞・景觀座位</span>
+              <span class="opt-desc">位在上巴陵停車場旁，山景第一排，甕缸雞為招牌，也有下午茶咖啡菜單，14 點後入座相對彈性。</span>
+              <span class="opt-warn">📞 03-391-2510（電話未經官方查證，請先撥打確認）</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=得拉蜜景觀咖啡餐廳" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card unavailable" aria-disabled="true">
+              <span class="opt-name">光明農場</span>
+              <span class="opt-meta">馬告磚窯雞・合菜</span>
+              <span class="opt-desc">招牌磚窯雞外皮酥香、沾馬告醬汁提味，戶外綠意環繞。可惜當天吃不到。</span>
+              <span class="opt-block">✕ 7/25 週六 16:00 才開門，午餐不可行</span>
+              <span class="opt-warn">週一、三、四、五、日 11:00–18:00；<b>週六只做 16:00–19:00</b>；週二公休。若真的很想吃，只能整天行程往後推、當晚餐吃，但這樣回到台北會超過 21:30。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 採果 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">水蜜桃採果 · 選一個方案</span>
+          <h3>現採現吃的甜蜜時間</h3>
+          <p>拉拉山水蜜桃產期約 6 月初到 8 月初，<b>7 月下旬已進入產季末段</b>，晚生種還在但果量會逐週減少。兩個方案都<b>務必明天（7/24）就打電話預約</b>時段與人數，並直接問「25 號還有沒有果可以採」。果園地面不平，穿防滑好走的鞋。</p>
+          <div class="option-grid">
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">龍園果園（龍園網室果園）</span>
+              <span class="opt-meta">中心路210巷・網室栽培</span>
+              <span class="opt-desc">全台高山罕見的網室果園，果實大又多汁。園內有中生種與晚生種，<b>晚生種 7/10 之後才成熟，正好對上我們這天</b>。營業 08:00–17:00，中午 12:00–13:30 休息，所以 15:20 到剛剛好。</span>
+              <span class="opt-warn">📞 0910-026-097 · 另有市話 03-391-2221</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山龍園果園" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">拉拉山水蜜桃達人農場</span>
+              <span class="opt-meta">上巴陵・海拔1400–1600m</span>
+              <span class="opt-desc">農家第二代「阿義老闆」經營，2026 年產季自 5 月起開放團體與散客預約入園。抵達後致電報到，下雨天下方果園區不開放。</span>
+              <span class="opt-warn">📞 0934-195496（未經官方查證）· 官網 mrpeach.com.tw 可線上預約</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山水蜜桃達人農場" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c3.5 4 5.5 6.5 5.5 9.5A5.5 5.5 0 0 1 6.5 12.5C6.5 9.5 8.5 7 12 3Z"/><path d="M12 3c1 1 1.5 2 1.5 2"/></svg>
+          </div>
+          <div class="t-time">15:20–16:20</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 10 順遊 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17 9 9l4 5 3-4 5 7" /><circle cx="12" cy="6" r="2"/></svg>
+          </div>
+          <div class="t-time">16:20–16:50</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">順遊景點 · 可選，擇一</span>
+          <h3>回程前的悠閒時光</h3>
+          <p>這段是<b>彈性的</b>——走完 4 公里步道再加採果，大家可能已經累了。若體力還有再挑一個，時間緊就直接跳過、提早回程更輕鬆。</p>
+          <div class="option-grid">
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">巴陵大橋・觀景台</span>
+              <span class="opt-meta">10–15分鐘・順路不繞路</span>
+              <span class="opt-desc"><b>最推薦的順遊選項</b>：就在下山回程路上，紅色大橋橫跨山谷，停下來拍幾張就走，完全不影響回程時間。</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵大橋" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">恩愛農場</span>
+              <span class="opt-meta">上巴陵・喝咖啡賞景</span>
+              <span class="opt-desc">居高臨下可遠眺群峰，坐下來喝杯咖啡吹山風，最悠閒的選項。營業 09:00–20:00，非櫻花季不收門票（櫻花季才收 100 元）。</span>
+              <span class="opt-warn">📞 03-391-2335 / 0912-576-476</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=拉拉山恩愛農場" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+            <div class="option-card" tabindex="0" role="button">
+              <span class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="opt-name">巴陵古道生態園區</span>
+              <span class="opt-meta">1.28km・免費・08:00–17:00</span>
+              <span class="opt-desc">蝴蝶館、甲蟲館、地質館加一座懸在林間的生態探索繩橋。免費入場、現場無人員。<b>17:00 關園，走完 4 公里步道後再走 1.28 公里可能會吃不消。</b></span>
+              <span class="opt-warn">📞 03-391-2761</span>
+              <a class="opt-map" href="https://www.google.com/maps/dir/?api=1&destination=巴陵古道生態園區" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Google 地圖導航
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 回程 -->
+      <div class="t-item">
+        <div class="t-card">
+          <span class="tag">賦歸</span>
+          <h3>啟程返回台北</h3>
+          <p>假日午後北橫車潮較多、山路會車需減速，回程一樣抓 2.5–3 小時。<b>台7線巴陵以東（往宜蘭方向）有夜間封閉管制</b>，不過我們是往桃園方向下山，不受影響。天黑後山路更難開，建議 17:00 前一定要離開上巴陵。</p>
+        </div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12h-13l3 3m-3-3 3-3"/><circle cx="5" cy="12" r="2"/></svg>
+          </div>
+          <div class="t-time">17:00</div>
+        </div>
+        <div class="t-spacer"></div>
+      </div>
+
+      <!-- 12 結束 -->
+      <div class="t-item right">
+        <div class="t-spacer"></div>
+        <div class="t-node">
+          <div class="t-medal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/></svg>
+          </div>
+          <div class="t-time">19:30–20:00</div>
+        </div>
+        <div class="t-card">
+          <span class="tag">END</span>
+          <h3>抵達台北，行程結束</h3>
+          <p>順利的話 19:30–20:00 到家。如果大家都還有精神，也可以在大溪吃個晚餐再回家——這時候老街店家都還開著，剛好補上早上沒逛到的部分。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- B 方案 -->
+    <div class="planb">
+      <h3>如果還是想 07:30 出發（B 方案）</h3>
+      <p>不是不行，但整天會被往後推一小時，且會擠掉一個環節。實際會變成這樣：</p>
+      <ul>
+        <li>08:20 大溪 → 09:20 角板山 → 10:40 上巴陵 7-11 → <b>11:00–11:15 才進得了收費站</b></li>
+        <li>11:30–14:30 巨木群步道 → 15:00 回到上巴陵</li>
+        <li><b>午餐要拖到 15:00</b>，多數山上餐廳午市已收，只剩得拉蜜（有下午茶菜單）比較保險</li>
+        <li>採果改 16:00–17:00（果園 17:00 打烊，會很趕）</li>
+        <li><b>順遊景點整段砍掉</b>，17:15 直接下山，到家約 20:15</li>
+      </ul>
+      <p>另一種折衷：維持 07:30 但<b>把午餐提前到上山前</b>（11:00 先在上巴陵吃，12:30 才進園健行 12:45–15:45），但這樣健行整段落在午後雷陣雨時段，山上又常起濃霧看不到樹，反而可惜。所以還是推薦 06:30 出發、上午走步道。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     實用資訊
+     ============================================================ -->
+<section class="info-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">GOOD TO KNOW</div>
+      <h2>出發前的實用提醒</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card hot">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div>
+        <h3>7/24（五）晚上要做的三件事</h3>
+        <p><b>① 查颱風：</b>「紅霞」7/24–25 最接近台灣，雖預估主要影響花東恆春，但路徑會變，看一下氣象署有無新警報。</p>
+        <p><b>② 查路況：</b>台7線羅浮～巴陵段目前正常通行，但雨後易落石。</p>
+        <p><b>③ 查園區：</b>確認拉拉山國家森林遊樂區沒有再度預警性休園。</p>
+      </div>
+      <div class="info-card hot">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2Z"/></svg></div>
+        <h3>明天（7/24）一定要打的電話</h3>
+        <p><b>果園：</b>7 月下旬已是產季末段，一定要先問「25 號還有果可以採嗎」再訂時段人數。</p>
+        <p><b>餐廳：</b>我們 14:00 才入座，務必訂位並講明抵達時間，不然午市會收。</p>
+        <p><b>接駁（備案）：</b>拉拉山車隊 0989-021005 / 0981-130771。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div>
+        <h3>門票與停車費</h3>
+        <p>全票 150 元／半票 75 元（軍警、學生、7–12 歲兒童）／優待票 10 元（65 歲以上、3–6 歲）。<b>停車費另計：小型車 100 元、機車 20 元。</b></p>
+        <p>搭乘與林保署合作的付費接駁車，門票可享 8 折（10 元優待票不再折扣）。</p>
+        <p>六位大人以全票計，門票 900 元 + 停車 100 元／車。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M5 11 7 6h10l2 5M7 17v2M17 17v2"/></svg></div>
+        <h3>車輛限制（重要）</h3>
+        <p>園區只開放<b>車長 6 公尺、車寬 2 公尺以內</b>的車輛進入，<b>大客車與保母車不得入園</b>。</p>
+        <p>一般 9 人座自用車（車長約 5.4 公尺）符合規定；但若打算租「營業用保母車／包車」，車子進不去，六個人得在外面轉搭接駁。訂車前先確認車型。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14M6 17V9l6-4 6 4v8M9 17v-4h6v4"/></svg></div>
+        <h3>停車與入園時間</h3>
+        <p>園區開放 <b>06:00–17:00</b>（僅除夕休園），遊客中心 08:00–17:00。</p>
+        <p>園內車位僅約 70 個，滿位時採「一進一出」，暑假週末等待時間可能很長——這是建議 06:30 出發的核心理由。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M8 21l4-6 4 6M6 13c0-4 2-6 6-6s6 2 6 6"/></svg></div>
+        <h3>步道實況</h3>
+        <p>巨木群步道官方公告全長約 <b>4 公里、來回約 3 小時</b>，自導式環狀路線，坡度平緩。</p>
+        <p>這段步道在巴威颱風後曾因邊坡土石崩落封閉，7/18 才搶修完成復開。雨後土石含水飽和仍有零星崩落風險，<b>請走指定動線、通過落石區勿逗留</b>。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4 12H2m20 0h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <h3>服裝與裝備</h3>
+        <p>園區海拔約 1500–2100 公尺，山下 36 度時山上約 24–28 度，早晚溫差大，帶一件輕薄外套。</p>
+        <p>穿好走防滑的健走鞋（步道 4 公里、果園地面不平）。<b>雨衣比雨傘實用</b>，山區午後常有雷陣雨。另備防蚊液與水。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8.8a16 16 0 0 1 20 0M5 12.3a11 11 0 0 1 14 0M8.5 15.8a6 6 0 0 1 7 0M12 19.5h.01"/></svg></div>
+        <h3>收訊與離線準備</h3>
+        <p>上巴陵之後部分路段收訊不穩。出發前先<b>下載 Google 地圖離線區域</b>（範圍抓大溪到上巴陵）。</p>
+        <p>把餐廳、果園、接駁車電話先存進手機，不要只靠現場查。行動電源記得帶。</p>
+      </div>
+      <div class="info-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10Z"/></svg></div>
+        <h3>水蜜桃產季提醒</h3>
+        <p>拉拉山水蜜桃產期約 6 月初～8 月初，<b>7 月下旬屬產季末段</b>，晚生種尚有果但量遞減。</p>
+        <p>龍園果園的晚生種 7/10 後才成熟，時間點正好；但仍請先電話確認果況，避免白跑。現採價格依當日果況現場計價。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  行程與資訊查證於 <b>2026 年 7 月 23 日（四）</b>，資料來源包含林業及自然保育署台灣山林悠遊網、公路局路況公告與中央氣象署預報。<br>
+  餐廳／果園營業時間與電話請以現場公告或店家官方社群為準；<b>出發前一天（7/24）請務必再次致電確認，並複查颱風動態與台7線路況。</b>
+</footer>
+
+<script>
+  // ------------------------------------------------------------
+  // 時間軸卡片：滾動進場淡入效果（尊重減少動態偏好設定）
+  // ------------------------------------------------------------
+  (function initScrollReveal() {
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items = document.querySelectorAll('.t-item');
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      // 若使用者偏好減少動態效果，或瀏覽器不支援，直接全部顯示
+      items.forEach(function (item) { item.classList.add('in'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    items.forEach(function (item) { observer.observe(item); });
+  })();
+
+  // ------------------------------------------------------------
+  // 方案選擇卡：點擊切換「已選擇」狀態，方便討論時做記號
+  // 標記 .unavailable 的方案（當天不營業）不綁事件，無法被選取
+  // ------------------------------------------------------------
+  (function initOptionCards() {
+    var optionCards = document.querySelectorAll('.option-card:not(.unavailable)');
+    optionCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        card.classList.toggle('selected');
+      });
+      // 因為卡片改用 div[role="button"] 而非原生 <button>，
+      // 需要自行處理鍵盤 Enter / 空白鍵 觸發選取（點擊地圖連結時已用 stopPropagation 排除）
+      card.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+          event.preventDefault();
+          card.classList.toggle('selected');
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
