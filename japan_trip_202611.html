@@ -303,10 +303,11 @@ tbody tr:last-child td{border-bottom:none;}
 /* ===================== 路線全覽地圖 ===================== */
 .map-svg{display:block;width:100%;height:auto;border-radius:var(--radius-sm);}
 .map-svg text{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;}
-.rt-base{fill:none;stroke:#F6F3ED;stroke-width:5;stroke-linecap:round;opacity:.85;}
-.rt{fill:none;stroke-width:2.3;stroke-linecap:round;stroke-dasharray:5 7;}
-.rt--thin{stroke-width:1.7;stroke-dasharray:2 6;}
-.rt--back{opacity:.5;stroke-dasharray:2 7;}
+.rt-base{fill:none;stroke:#F6F3ED;stroke-width:5.4;stroke-linecap:round;opacity:.9;}
+/* 虛線週期一律讓 24 整除(12 / 8),流動動畫每圈位移 -24 → 接縫完全隱形、不會有重播跳格 */
+.rt{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:6 6;}
+.rt--thin{stroke-width:1.8;stroke-dasharray:2 6;}
+.rt--back{opacity:.55;stroke-dasharray:2 6;}
 .map-city{fill:#FBFAF5;stroke:#463F36;stroke-width:2.2;}
 .map-hub{fill:#27241F;}
 /* 文字白色描邊光暈,壓在路線上仍清楚 */
@@ -315,10 +316,61 @@ tbody tr:last-child td{border-bottom:none;}
 .map-sub{font-size:11.5px;font-weight:700;fill:#5A5346;}
 .map-faded{opacity:.7;}
 .dbadge{font-size:12px;font-weight:900;fill:#fff;stroke:none;}
-.maplegend{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:9px 16px;margin-top:16px;}
-.maplegend .lg{display:flex;gap:.55em;align-items:flex-start;font-size:var(--fs-small);color:var(--ink-2);}
-.lg .sw{flex:none;width:26px;border-top:4px dashed var(--c);border-radius:2px;margin-top:.6em;}
-.lg b{color:var(--ink);}
+/* 地圖：每日篩選 */
+.map-wrap{position:relative;}
+.mapfilter{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px;}
+.mapfilter button{
+    font-family:inherit;font-size:var(--fs-small);font-weight:900;cursor:pointer;
+    color:var(--ink-2);background:var(--card-bright);border:1px solid var(--line);
+    padding:.34em .8em;border-radius:999px;line-height:1.5;
+    display:inline-flex;align-items:center;gap:.4em;
+    transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.mapfilter button:hover{border-color:var(--line-strong);background:var(--card);}
+.mapfilter button .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--ink-3));flex:none;}
+.mapfilter button[aria-pressed="true"]{background:var(--ink-2);border-color:var(--ink-2);color:#fff;}
+.mapfilter button:focus-visible{outline:3px solid var(--slate);outline-offset:2px;}
+.dimmable{transition:opacity .35s ease;}
+.dayg{--dim:.07;}
+.fday{--dim:.28;}
+.map-wrap[data-focus="d1"] .dimmable:not([data-day="d1"]){opacity:var(--dim);}
+.map-wrap[data-focus="d2"] .dimmable:not([data-day="d2"]){opacity:var(--dim);}
+.map-wrap[data-focus="d3"] .dimmable:not([data-day="d3"]){opacity:var(--dim);}
+.map-wrap[data-focus="d4"] .dimmable:not([data-day="d4"]){opacity:var(--dim);}
+.map-wrap[data-focus="d5"] .dimmable:not([data-day="d5"]){opacity:var(--dim);}
+.map-wrap[data-focus="d6"] .dimmable:not([data-day="d6"]){opacity:var(--dim);}
+.map-wrap[data-focus="d7"] .dimmable:not([data-day="d7"]){opacity:var(--dim);}
+
+/* 七日流程條 */
+.flow-list{margin-top:18px;display:grid;gap:10px;}
+.fday{
+    background:var(--card-bright);border:1px solid var(--line);
+    border-left:5px solid var(--c);border-radius:var(--radius-sm);
+    padding:12px 14px;cursor:pointer;
+}
+.fday:hover{border-color:var(--line-strong);}
+.fday__head{display:flex;flex-wrap:wrap;align-items:center;gap:.5em;margin-bottom:9px;}
+.fbadge{
+    font-family:"Noto Serif TC",serif;font-size:.78rem;font-weight:900;color:#fff;background:var(--c);
+    padding:.1em .55em;border-radius:6px;letter-spacing:.04em;flex:none;
+}
+.fdate{font-size:var(--fs-small);font-weight:900;color:var(--ink);}
+.ftag{font-size:.76rem;font-weight:900;color:var(--c);background:var(--cb);padding:.1em .6em;border-radius:999px;}
+.fchain{display:flex;flex-wrap:wrap;align-items:center;gap:6px 7px;}
+.fstop{
+    font-size:.84rem;font-weight:900;color:var(--ink);background:var(--card);
+    border:1px solid var(--line-strong);border-radius:7px;padding:.2em .55em;white-space:nowrap;
+}
+.fstop--stay{background:var(--c);border-color:var(--c);color:#fff;}
+.fstop--key{background:var(--cb);border-color:var(--c);}
+.fmode{font-size:.76rem;font-weight:700;color:var(--ink-3);white-space:nowrap;}
+.farr{flex:none;width:16px;height:2px;background:var(--c);opacity:.7;border-radius:2px;position:relative;}
+.farr::after{
+    content:"";position:absolute;right:-1px;top:-3.2px;
+    border-left:6px solid var(--c);border-top:4.2px solid transparent;border-bottom:4.2px solid transparent;
+}
+.fhi{margin-top:9px;font-size:var(--fs-small);color:var(--ink-2);}
+.fhi b{color:var(--ink);}
 
 /* 頁尾 */
 .foot{text-align:center;margin-top:46px;padding-top:26px;border-top:1px solid var(--line);color:var(--ink-3);font-size:var(--fs-small);}
@@ -335,6 +387,31 @@ tbody tr:last-child td{border-bottom:none;}
     .step{grid-template-columns:1fr;gap:5px;}
     .time{justify-self:start;}
     .ticket,.reserve{padding:16px 16px;}
+
+    /* 地圖篩選：手機改為可橫向滑動的一列,不擠壓成兩三行 */
+    .mapfilter{
+        flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+        scrollbar-width:none;padding-bottom:4px;margin:0 -2px 12px;
+    }
+    .mapfilter::-webkit-scrollbar{display:none;}
+    .mapfilter button{flex:none;padding:.42em .8em;}
+    /* 地圖：手機寬度只有約 323px,原字級換算後僅 6–8px 讀不到。
+       改為「純地理概觀」——放大主要地名、隱藏次要小字,所有細節由下方流程條承擔。 */
+    .map-svg .map-name{font-size:23px;stroke-width:4.6px;}
+    .map-svg .map-sub{display:none;}
+    .map-svg .map-north{display:block;font-size:19px;}
+    .map-svg .map-scale{display:none;}
+    .map-svg .dbadge{font-size:15px;}
+    .rt{stroke-width:3.2;stroke-dasharray:6 6;}
+    .rt--thin{stroke-width:2.4;}
+    .rt-base{stroke-width:7;}
+    /* 流程條：手機縮字級、縮間距,箭頭變短 */
+    .fday{padding:11px 12px;border-left-width:4px;}
+    .fchain{gap:5px 5px;}
+    .fstop{font-size:.8rem;padding:.18em .48em;}
+    .fmode{font-size:.72rem;}
+    .farr{width:12px;}
+    .flow-list{gap:9px;}
 }
 
 /* 動效 */
@@ -369,9 +446,10 @@ tbody tr:last-child td{border-bottom:none;}
         100%{transform:translate(14px,132px) rotate(360deg);opacity:0;}
     }
 
-    /* 地圖路線:虛線沿行進方向流動 */
-    .flow{animation:flowDash 1.5s linear infinite;}
-    @keyframes flowDash{to{stroke-dashoffset:-32;}}
+    /* 地圖路線:虛線沿行進方向流動。位移 -24 為所有虛線週期(12 / 8)的公倍數,
+       每圈結束時圖樣正好對齊下一圈起點 → 無接縫、不會有跳格重播感。 */
+    .flow{animation:flowDash 2s linear infinite;}
+    @keyframes flowDash{from{stroke-dashoffset:0;}to{stroke-dashoffset:-24;}}
 }
 
 /* 列印 */
@@ -379,7 +457,9 @@ tbody tr:last-child td{border-bottom:none;}
     body{background:#fff;padding:0;}
     body::before,body::after{display:none;}
     .nav{display:none;}
-    .hero,.alert,.panel,.day,.ticket,.reserve,.opts,table{box-shadow:none;break-inside:avoid;page-break-inside:avoid;}
+    .hero,.alert,.panel,.day,.ticket,.reserve,.opts,table,.fday{box-shadow:none;break-inside:avoid;page-break-inside:avoid;}
+    .mapfilter{display:none;}
+    .dimmable{opacity:1 !important;}
     a{background:none;border:none;color:#1a4a66;}
     .section-h{page-break-after:avoid;}
     *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
@@ -671,13 +751,25 @@ tbody tr:last-child td{border-bottom:none;}
     <h2 class="section-h" id="map"><span class="num">路線</span><svg class="ic"><use href="#i-pin"/></svg>七日移動路線全覽圖</h2>
 
     <div class="panel">
-        <svg class="map-svg" viewBox="0 0 660 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="七日行程路線地圖：上野、草津、立川、川越、鶴卷溫泉、橫濱與成田的地理位置與每日移動方向">
+        <div class="map-wrap" data-focus="all">
+        <div class="mapfilter" role="group" aria-label="依日期篩選路線">
+            <button type="button" data-target="all" aria-pressed="true">全部 7 天</button>
+            <button type="button" data-target="d1" aria-pressed="false" style="--c:#7B7188;"><span class="dot"></span>D1 抵達</button>
+            <button type="button" data-target="d2" aria-pressed="false" style="--c:#788A71;"><span class="dot"></span>D2 市區</button>
+            <button type="button" data-target="d3" aria-pressed="false" style="--c:#67808A;"><span class="dot"></span>D3 草津</button>
+            <button type="button" data-target="d4" aria-pressed="false" style="--c:#A2864E;"><span class="dot"></span>D4 立川</button>
+            <button type="button" data-target="d5" aria-pressed="false" style="--c:#AC7C77;"><span class="dot"></span>D5 川越</button>
+            <button type="button" data-target="d6" aria-pressed="false" style="--c:#7B7188;"><span class="dot"></span>D6 橫濱</button>
+            <button type="button" data-target="d7" aria-pressed="false" style="--c:#788A71;"><span class="dot"></span>D7 返程</button>
+        </div>
+        <svg class="map-svg" viewBox="0 0 660 566" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="七日行程路線地圖：上野、草津、立川、川越、鶴卷溫泉、橫濱與成田的地理位置與每日移動方向">
             <defs>
-                <marker id="ar-plum" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="#7B7188"/></marker>
-                <marker id="ar-sage" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="#788A71"/></marker>
-                <marker id="ar-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="#67808A"/></marker>
-                <marker id="ar-mustard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="#A2864E"/></marker>
-                <marker id="ar-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="#AC7C77"/></marker>
+                <!-- 箭頭：鏢形(尾端內凹)、tip 對齊路徑終點(refX=9.4)、放大至 5.6 倍線寬 -->
+                <marker id="ar-plum" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto-start-reverse"><path d="M0.6 1 L9.4 5 L0.6 9 L3.1 5 Z" fill="#7B7188"/></marker>
+                <marker id="ar-sage" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto-start-reverse"><path d="M0.6 1 L9.4 5 L0.6 9 L3.1 5 Z" fill="#788A71"/></marker>
+                <marker id="ar-slate" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto-start-reverse"><path d="M0.6 1 L9.4 5 L0.6 9 L3.1 5 Z" fill="#67808A"/></marker>
+                <marker id="ar-mustard" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto-start-reverse"><path d="M0.6 1 L9.4 5 L0.6 9 L3.1 5 Z" fill="#A2864E"/></marker>
+                <marker id="ar-rose" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto-start-reverse"><path d="M0.6 1 L9.4 5 L0.6 9 L3.1 5 Z" fill="#AC7C77"/></marker>
             </defs>
 
             <!-- 海 -->
@@ -711,37 +803,47 @@ tbody tr:last-child td{border-bottom:none;}
             <!-- 成田小飛機 -->
             <path d="M588 318 l24 -9 -10 21 -6 -7 z" fill="#67808A"/>
 
-            <!-- ===== 路線:每日一條獨立車道、彩色流動虛線,虛線流向=行進方向 ===== -->
+            <!-- ===== 路線:每日一組獨立車道(可用上方按鈕單獨顯示),流動虛線方向=行進方向 ===== -->
             <!-- D1 成田→上野(往北弧) -->
-            <path class="rt-base" d="M540 375 C480 350 430 360 386 388"/>
-            <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M540 375 C480 350 430 360 386 388"/>
-            <!-- D7 上野→成田(往南弧,與 D1 分道) -->
-            <path class="rt-base" d="M384 404 C440 432 492 412 540 383"/>
-            <path class="rt flow" stroke="#788A71" marker-end="url(#ar-sage)" d="M384 404 C440 432 492 412 540 383"/>
+            <g class="dayg dimmable" data-day="d1">
+                <path class="rt-base" d="M540 375 C480 350 430 360 386 388"/>
+                <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M540 375 C480 350 430 360 386 388"/>
+            </g>
+            <!-- D2 市區觀光(以上野為據點的內環) -->
+            <g class="dayg dimmable" data-day="d2">
+                <circle class="rt rt--thin flow" stroke="#788A71" cx="378" cy="396" r="13" fill="none"/>
+            </g>
             <!-- D3 上野→大宮→高崎→長野原草津口→草津(走廊偏南側) -->
-            <path class="rt-base" d="M373 391 C352 360 348 350 331 334 C270 279 210 229 168 200 C128 172 92 137 64 101"/>
-            <path class="rt flow" stroke="#67808A" marker-end="url(#ar-slate)" d="M373 391 C352 360 348 350 331 334 C270 279 210 229 168 200 C128 172 92 137 64 101"/>
-            <!-- D4 草津→高崎→大宮→新宿→立川(走廊偏北側,末段折向西南,不進上野) -->
-            <path class="rt-base" d="M71 90 C101 120 142 158 179 189 C240 242 300 294 341 323 C336 352 310 382 288 394"/>
-            <path class="rt flow" stroke="#A2864E" marker-end="url(#ar-mustard)" d="M71 90 C101 120 142 158 179 189 C240 242 300 294 341 323 C336 352 310 382 288 394"/>
-            <!-- D4 立川→上野(夜間回程,淡線) -->
-            <path class="rt rt--back flow" stroke="#A2864E" marker-end="url(#ar-mustard)" d="M282 406 C312 414 346 410 369 402"/>
-            <!-- D5 上野→池袋→川越(去) -->
-            <path class="rt-base" d="M369 386 C346 368 318 348 300 335"/>
-            <path class="rt flow" stroke="#AC7C77" marker-end="url(#ar-rose)" d="M369 386 C346 368 318 348 300 335"/>
-            <!-- D5 川越→池袋→後樂園(回程,淡線、另一車道) -->
-            <path class="rt rt--back flow" stroke="#AC7C77" marker-end="url(#ar-rose)" d="M292 343 C310 362 340 382 370 394"/>
-            <!-- D6 上野→新宿→鶴卷溫泉(去) -->
-            <path class="rt-base" d="M371 404 C330 432 276 472 244 500"/>
-            <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M371 404 C330 432 276 472 244 500"/>
-            <!-- D6 鶴卷溫泉→海老名→橫濱 -->
-            <path class="rt-base" d="M244 512 C272 516 310 502 328 490"/>
-            <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M244 512 C272 516 310 502 328 490"/>
-            <!-- D6 橫濱→上野(夜間回程,淡線) -->
-            <path class="rt rt--back flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M340 474 C354 450 368 424 376 406"/>
-            <!-- D2 / D7 市區觀光(以上野為據點的環狀) -->
-            <circle class="rt rt--thin flow" stroke="#788A71" cx="378" cy="396" r="13" fill="none"/>
-            <circle class="rt rt--thin flow" stroke="#788A71" cx="378" cy="396" r="19" fill="none"/>
+            <g class="dayg dimmable" data-day="d3">
+                <path class="rt-base" d="M373 391 C352 360 348 350 331 334 C270 279 210 229 168 200 C128 172 92 137 64 101"/>
+                <path class="rt flow" stroke="#67808A" marker-end="url(#ar-slate)" d="M373 391 C352 360 348 350 331 334 C270 279 210 229 168 200 C128 172 92 137 64 101"/>
+            </g>
+            <!-- D4 草津→高崎→大宮→新宿→立川(走廊偏北側,末段折向西南、不進上野)＋夜間回程淡線 -->
+            <g class="dayg dimmable" data-day="d4">
+                <path class="rt-base" d="M71 90 C101 120 142 158 179 189 C240 242 300 294 341 323 C336 352 310 382 288 394"/>
+                <path class="rt flow" stroke="#A2864E" marker-end="url(#ar-mustard)" d="M71 90 C101 120 142 158 179 189 C240 242 300 294 341 323 C336 352 310 382 288 394"/>
+                <path class="rt rt--back flow" stroke="#A2864E" marker-end="url(#ar-mustard)" d="M282 406 C312 414 346 410 369 402"/>
+            </g>
+            <!-- D5 上野→池袋→川越(去)＋川越→池袋→後樂園(回程淡線) -->
+            <g class="dayg dimmable" data-day="d5">
+                <path class="rt-base" d="M369 386 C346 368 318 348 300 335"/>
+                <path class="rt flow" stroke="#AC7C77" marker-end="url(#ar-rose)" d="M369 386 C346 368 318 348 300 335"/>
+                <path class="rt rt--back flow" stroke="#AC7C77" marker-end="url(#ar-rose)" d="M292 343 C310 362 340 382 370 394"/>
+            </g>
+            <!-- D6 上野→新宿→鶴卷溫泉→海老名→橫濱＋夜間回程淡線 -->
+            <g class="dayg dimmable" data-day="d6">
+                <path class="rt-base" d="M371 404 C330 432 276 472 244 500"/>
+                <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M371 404 C330 432 276 472 244 500"/>
+                <path class="rt-base" d="M244 512 C272 516 310 502 328 490"/>
+                <path class="rt flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M244 512 C272 516 310 502 328 490"/>
+                <path class="rt rt--back flow" stroke="#7B7188" marker-end="url(#ar-plum)" d="M340 474 C354 450 368 424 376 406"/>
+            </g>
+            <!-- D7 市區外環＋上野→成田(往南弧,與 D1 分道) -->
+            <g class="dayg dimmable" data-day="d7">
+                <circle class="rt rt--thin flow" stroke="#788A71" cx="378" cy="396" r="19" fill="none"/>
+                <path class="rt-base" d="M384 404 C440 432 492 412 540 383"/>
+                <path class="rt flow" stroke="#788A71" marker-end="url(#ar-sage)" d="M384 404 C440 432 492 412 540 383"/>
+            </g>
 
             <!-- ===== 地點節點與名稱 ===== -->
             <!-- 草津 -->
@@ -783,38 +885,81 @@ tbody tr:last-child td{border-bottom:none;}
             <text class="map-sub" x="226" y="521" text-anchor="end">親戚午餐</text>
 
             <!-- ===== Day 標籤(小徽章＋光暈日期,貼近各自路線、不壓節點) ===== -->
-            <g><rect x="428" y="347" width="30" height="19" rx="9.5" fill="#7B7188"/><text class="dbadge" x="443" y="360" text-anchor="middle">D1</text><text class="map-sub" x="462" y="361">11/22</text></g>
-            <g><rect x="472" y="440" width="30" height="19" rx="9.5" fill="#788A71"/><text class="dbadge" x="487" y="453" text-anchor="middle">D7</text><text class="map-sub" x="506" y="454">11/28</text></g>
-            <g><rect x="196" y="243" width="30" height="19" rx="9.5" fill="#67808A"/><text class="dbadge" x="211" y="256" text-anchor="middle">D3</text><text class="map-sub" x="230" y="257">11/24</text></g>
-            <g><rect x="120" y="150" width="30" height="19" rx="9.5" fill="#A2864E"/><text class="dbadge" x="135" y="163" text-anchor="middle">D4</text><text class="map-sub" x="154" y="164">11/25</text></g>
-            <g><rect x="316" y="292" width="30" height="19" rx="9.5" fill="#AC7C77"/><text class="dbadge" x="331" y="305" text-anchor="middle">D5</text><text class="map-sub" x="350" y="306">11/26</text></g>
-            <g><rect x="276" y="452" width="30" height="19" rx="9.5" fill="#7B7188"/><text class="dbadge" x="291" y="465" text-anchor="middle">D6</text><text class="map-sub" x="310" y="466">11/27</text></g>
-            <g><rect x="392" y="452" width="46" height="19" rx="9.5" fill="#6E6579"/><text class="dbadge" x="415" y="465" text-anchor="middle">D2·D7</text><text class="map-sub" x="443" y="466">市區據點</text></g>
+            <g class="dayg dimmable" data-day="d1"><rect x="428" y="347" width="30" height="19" rx="9.5" fill="#7B7188"/><text class="dbadge" x="443" y="360" text-anchor="middle">D1</text><text class="map-sub" x="462" y="361">11/22</text></g>
+            <g class="dayg dimmable" data-day="d7"><rect x="472" y="440" width="30" height="19" rx="9.5" fill="#788A71"/><text class="dbadge" x="487" y="453" text-anchor="middle">D7</text><text class="map-sub" x="506" y="454">11/28</text></g>
+            <g class="dayg dimmable" data-day="d3"><rect x="196" y="243" width="30" height="19" rx="9.5" fill="#67808A"/><text class="dbadge" x="211" y="256" text-anchor="middle">D3</text><text class="map-sub" x="230" y="257">11/24</text></g>
+            <g class="dayg dimmable" data-day="d4"><rect x="120" y="150" width="30" height="19" rx="9.5" fill="#A2864E"/><text class="dbadge" x="135" y="163" text-anchor="middle">D4</text><text class="map-sub" x="154" y="164">11/25</text></g>
+            <g class="dayg dimmable" data-day="d5"><rect x="316" y="292" width="30" height="19" rx="9.5" fill="#AC7C77"/><text class="dbadge" x="331" y="305" text-anchor="middle">D5</text><text class="map-sub" x="350" y="306">11/26</text></g>
+            <g class="dayg dimmable" data-day="d6"><rect x="276" y="452" width="30" height="19" rx="9.5" fill="#7B7188"/><text class="dbadge" x="291" y="465" text-anchor="middle">D6</text><text class="map-sub" x="310" y="466">11/27</text></g>
+            <g class="dayg dimmable" data-day="d2"><rect x="330" y="358" width="30" height="19" rx="9.5" fill="#788A71"/><text class="dbadge" x="345" y="371" text-anchor="middle">D2</text><text class="map-sub" x="364" y="372">11/23 市區</text></g>
 
             <!-- 指北針與比例尺 -->
             <g>
                 <line x1="625" y1="52" x2="625" y2="22" stroke="#463F36" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M625 16 L619 30 L631 30 Z" fill="#463F36"/>
-                <text class="map-sub" x="625" y="70" text-anchor="middle">N</text>
+                <text class="map-sub map-north" x="625" y="70" text-anchor="middle">N</text>
             </g>
-            <g>
-                <line x1="30" y1="672" x2="185" y2="672" stroke="#463F36" stroke-width="2.5" stroke-linecap="round"/>
-                <line x1="30" y1="666" x2="30" y2="678" stroke="#463F36" stroke-width="2.5"/>
-                <line x1="185" y1="666" x2="185" y2="678" stroke="#463F36" stroke-width="2.5"/>
-                <text class="map-sub" x="36" y="662">約 50 km</text>
+            <g class="map-scale">
+                <line x1="430" y1="548" x2="585" y2="548" stroke="#463F36" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="430" y1="542" x2="430" y2="554" stroke="#463F36" stroke-width="2.5"/>
+                <line x1="585" y1="542" x2="585" y2="554" stroke="#463F36" stroke-width="2.5"/>
+                <text class="map-sub" x="436" y="538">約 50 km</text>
             </g>
         </svg>
 
-        <div class="maplegend">
-            <div class="lg" style="--c:#7B7188;"><span class="sw"></span><span><b>Day 1（11/22）</b>成田 14:20 抵 → Skyliner＋山手線 → 鶯谷 16:30 入住,阿美橫＋不忍池,鶯谷園燒肉</span></div>
-            <div class="lg" style="--c:#788A71;"><span class="sw"></span><span><b>Day 2（11/23・假日）</b>東京市區:<b>東大銀杏 08:00</b> → 根津・谷根千 →(銀座線直達)→ 表參道逛街 → <b>外苑銀杏＋神宮外苑聖誕市集</b></span></div>
-            <div class="lg" style="--c:#67808A;"><span class="sw"></span><span><b>Day 3（11/24）</b>上野 10:00 →(特急 2h18m)→ 長野原草津口 12:18 →(巴士 25 分)→ 草津溫泉,湯畑點燈</span></div>
-            <div class="lg" style="--c:#A2864E;"><span class="sw"></span><span><b>Day 4（11/25）</b>草津 09:20 →(巴士＋吾妻線)→ 高崎 →(新幹線)→ 大宮 → 新宿 → <b>立川・昭和紀念公園</b>(白天楓紅＋夜間點燈),<b>不進上野</b>;夜間回程為淡線</span></div>
-            <div class="lg" style="--c:#AC7C77;"><span class="sw"></span><span><b>Day 5（11/26）</b>上野 →(東武東上線)→ <b>川越</b>喜多院・藏造老街;回程 → <b>小石川後樂園楓紅</b> → <b>東京巨蛋城燈飾</b>(淡線)</span></div>
-            <div class="lg" style="--c:#7B7188;"><span class="sw"></span><span><b>Day 6（11/27）</b>上野 → 新宿 →(小田急)→ <b>鶴卷溫泉</b>親戚午餐 →(相鐵)→ <b>橫濱紅磚倉庫聖誕市集</b>・中華街;夜間回程為淡線</span></div>
-            <div class="lg" style="--c:#788A71;"><span class="sw"></span><span><b>Day 7（11/28）</b>上野近距散策(舊岩崎邸・東博・阿美橫退稅)→(Skyliner 約 44 分)→ 成田,JX805 20:10 起飛</span></div>
+        <div class="flow-list">
+            <div class="fday dimmable" data-day="d1" role="button" tabindex="0" style="--c:#7B7188;--cb:var(--plum-bg);">
+                <div class="fday__head"><span class="fbadge">D1</span><span class="fdate">11/22（日）</span><span class="ftag">抵達日</span></div>
+                <div class="fchain">
+                    <span class="fstop">成田 T2 14:20</span><span class="farr"></span><span class="fmode">Skyliner</span><span class="farr"></span><span class="fstop">日暮里</span><span class="farr"></span><span class="fmode">山手線 1 站</span><span class="farr"></span><span class="fstop fstop--stay">鶯谷 16:30 宿</span>
+                </div>
+                <div class="fhi">夜間：阿美橫＋不忍池（順便掃第一輪退稅採買）→ <b>鶯谷園燒肉 20:00</b></div>
+            </div>
+            <div class="fday dimmable" data-day="d2" role="button" tabindex="0" style="--c:#788A71;--cb:var(--sage-bg);">
+                <div class="fday__head"><span class="fbadge">D2</span><span class="fdate">11/23（一・勤勞感謝之日）</span><span class="ftag">市區・全天只搭 1 趟車</span></div>
+                <div class="fchain">
+                    <span class="fstop">鶯谷</span><span class="farr"></span><span class="fmode">千代田線</span><span class="farr"></span><span class="fstop fstop--key">東大 08:00</span><span class="farr"></span><span class="fstop">根津神社・谷中銀座</span><span class="farr"></span><span class="fmode">銀座線直達 27 分</span><span class="farr"></span><span class="fstop">表參道 12:00</span><span class="farr"></span><span class="fstop fstop--key">外苑銀杏 15:45</span><span class="farr"></span><span class="fstop fstop--key">聖誕市集 16:30</span><span class="farr"></span><span class="fstop fstop--stay">鶯谷 宿</span>
+                </div>
+                <div class="fhi">亮點：<b>東大銀杏並木（假日清晨幾乎無人）</b>＋<b>神宮外苑聖誕市集</b>（銀杏點燈 16:30，市集需日時指定前售券）</div>
+            </div>
+            <div class="fday dimmable" data-day="d3" role="button" tabindex="0" style="--c:#67808A;--cb:var(--slate-bg);">
+                <div class="fday__head"><span class="fbadge">D3</span><span class="fdate">11/24（二）</span><span class="ftag">上山・唯一要劃位的一天</span></div>
+                <div class="fchain">
+                    <span class="fstop">上野 10:00</span><span class="farr"></span><span class="fmode">特急草津・四萬 1 號 2h18</span><span class="farr"></span><span class="fstop">長野原草津口 12:18</span><span class="farr"></span><span class="fmode">JR 巴士 25 分</span><span class="farr"></span><span class="fstop fstop--key">草津溫泉 12:50</span><span class="farr"></span><span class="fstop fstop--stay">望雲 17:00 宿</span>
+                </div>
+                <div class="fhi">亮點：西之河原露天風呂 → 熱乃湯揉湯 15:30 → 一泊二食 → <b>浴衣看湯畑點燈 20:00</b>。大箱留鶯谷、只帶登機箱</div>
+            </div>
+            <div class="fday dimmable" data-day="d4" role="button" tabindex="0" style="--c:#A2864E;--cb:var(--mustard-bg);">
+                <div class="fday__head"><span class="fbadge">D4</span><span class="fdate">11/25（三）</span><span class="ftag">下山直奔立川・不進上野</span></div>
+                <div class="fchain">
+                    <span class="fstop">草津 09:20</span><span class="farr"></span><span class="fmode">巴士</span><span class="farr"></span><span class="fstop">長野原草津口 10:08</span><span class="farr"></span><span class="fmode">吾妻線普通</span><span class="farr"></span><span class="fstop">高崎 11:35</span><span class="farr"></span><span class="fmode">上越新幹線・自由席</span><span class="farr"></span><span class="fstop">大宮 12:00</span><span class="farr"></span><span class="fmode">湘南新宿</span><span class="farr"></span><span class="fstop">新宿 12:35</span><span class="farr"></span><span class="fmode">中央線特快</span><span class="farr"></span><span class="fstop">西立川 13:15 寄物</span><span class="farr"></span><span class="fstop fstop--key">昭和紀念公園</span><span class="farr"></span><span class="fstop fstop--stay">鶯谷 21:30 宿</span>
+                </div>
+                <div class="fhi">亮點：<b>語らいのイチョウ並木（300m・98 棵）</b>白天 → 16:00 日本庭園退場 → <b>夜間點燈 16:30–20:30</b>（觀賞券到訪前 1 週才開賣）</div>
+            </div>
+            <div class="fday dimmable" data-day="d5" role="button" tabindex="0" style="--c:#AC7C77;--cb:var(--rose-bg);">
+                <div class="fday__head"><span class="fbadge">D5</span><span class="fdate">11/26（四）</span><span class="ftag">小江戶＋大名庭園＋燈飾</span></div>
+                <div class="fchain">
+                    <span class="fstop">鶯谷 08:20</span><span class="farr"></span><span class="fmode">東武東上線急行 30 分</span><span class="farr"></span><span class="fstop fstop--key">川越 09:40</span><span class="farr"></span><span class="fmode">同線回池袋</span><span class="farr"></span><span class="fmode">丸之內線</span><span class="farr"></span><span class="fstop fstop--key">小石川後樂園 15:15</span><span class="farr"></span><span class="fstop fstop--key">巨蛋城燈飾 17:00</span><span class="farr"></span><span class="fstop fstop--stay">鶯谷 宿</span>
+                </div>
+                <div class="fhi">亮點：<b>喜多院楓紅（8:50 開門即到）</b>→ 藏造老街 → <b>小石川後樂園白天＋黃昏</b>→ 免費燈飾。<b>11/26 全東京夜楓都還沒開燈</b>，故不排六義園</div>
+            </div>
+            <div class="fday dimmable" data-day="d6" role="button" tabindex="0" style="--c:#7B7188;--cb:var(--plum-bg);">
+                <div class="fday__head"><span class="fbadge">D6</span><span class="fdate">11/27（五）</span><span class="ftag">親戚午餐＋橫濱平日場市集</span></div>
+                <div class="fchain">
+                    <span class="fstop">鶯谷 09:15</span><span class="farr"></span><span class="fmode">山手線</span><span class="farr"></span><span class="fstop">新宿 10:05</span><span class="farr"></span><span class="fmode">小田急急行（非快速急行）</span><span class="farr"></span><span class="fstop fstop--key">鶴卷溫泉 11:15</span><span class="farr"></span><span class="fmode">小田急→海老名</span><span class="farr"></span><span class="fmode">相鐵本線</span><span class="farr"></span><span class="fstop fstop--key">橫濱 15:45</span><span class="farr"></span><span class="fstop fstop--key">紅磚倉庫 16:45</span><span class="farr"></span><span class="fstop">中華街 19:00</span><span class="farr"></span><span class="fstop fstop--stay">鶯谷 22:00 宿</span>
+                </div>
+                <div class="fhi">亮點：<b>與親戚的午餐（12:00–14:00）</b>→ 汽車道燈飾 → <b>橫濱紅磚倉庫聖誕市集（平日場，比 D2 舒服很多）</b>→ 大棧橋夜景</div>
+            </div>
+            <div class="fday dimmable" data-day="d7" role="button" tabindex="0" style="--c:#788A71;--cb:var(--sage-bg);">
+                <div class="fday__head"><span class="fbadge">D7</span><span class="fdate">11/28（六）</span><span class="ftag">返程・全程步行圈</span></div>
+                <div class="fchain">
+                    <span class="fstop">鶯谷 08:30 退房寄物</span><span class="farr"></span><span class="fstop fstop--key">舊岩崎邸 09:00</span><span class="farr"></span><span class="fstop">上野公園・東博</span><span class="farr"></span><span class="fstop">阿美橫・多慶屋 12:00</span><span class="farr"></span><span class="fstop">京成上野 16:20</span><span class="farr"></span><span class="fmode">Skyliner 44 分</span><span class="farr"></span><span class="fstop">成田 T2 17:10</span><span class="farr"></span><span class="fstop fstop--key">JX805 20:10</span>
+                </div>
+                <div class="fhi">亮點：交通風險壓到零，全部景點都在上野走路可達。<b>機場退稅預留 60–90 分</b>（Refund 新制第一個月）</div>
+            </div>
         </div>
-        <p class="note" style="margin-top:12px;">方位與相對距離依實際經緯度換算繪製(海岸線簡化);每日為獨立車道、虛線流動方向即當日行進方向;細虛線圈為以上野為據點的市區觀光(Day 2・Day 7)、淡色線為當日回程。宇都宮、熱海與六義園已自本版行程移除。</p>
+        <p class="note" style="margin-top:14px;">上方色點可<strong>單獨顯示某一天的路線</strong>（點流程條的任一天也可以，再點一次或按「全部 7 天」還原）。地圖方位與相對距離依實際經緯度換算繪製（海岸線簡化）；每日為獨立車道、<strong>虛線流動方向即當日行進方向</strong>、<strong>淡色細線為當日回程</strong>；細虛線圓環為以上野為據點的市區觀光。流程條的 <span class="fstop fstop--stay" style="--c:var(--ink-2);">深色框</span> 為當晚住宿、<span class="fstop fstop--key" style="--c:var(--sage);--cb:var(--sage-bg);">淺底框</span> 為當日主要景點、無框小字為交通方式。</p>
+        </div>
     </div>
 
     <!-- ===================== 第三章 ===================== -->
@@ -1138,5 +1283,44 @@ tbody tr:last-child td{border-bottom:none;}
     </footer>
 
 </div>
+
+<script>
+/* 路線圖：每日篩選。無 JS 時預設顯示全部 7 天，不影響閱讀。 */
+(function () {
+    var wrap = document.querySelector('.map-wrap');
+    if (!wrap) return;
+    var btns = wrap.querySelectorAll('.mapfilter button');
+
+    function focus(day) {
+        wrap.setAttribute('data-focus', day);
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-target') === day ? 'true' : 'false');
+        }
+    }
+
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener('click', function () {
+            focus(this.getAttribute('data-target'));
+        });
+    }
+
+    /* 點流程條的任一天也能聚焦；再點一次還原全部 */
+    var cards = wrap.querySelectorAll('.fday[data-day]');
+    for (var j = 0; j < cards.length; j++) {
+        var toggle = function (el) {
+            return function () {
+                var d = el.getAttribute('data-day');
+                focus(wrap.getAttribute('data-focus') === d ? 'all' : d);
+            };
+        }(cards[j]);
+        cards[j].addEventListener('click', toggle);
+        cards[j].addEventListener('keydown', function (fn) {
+            return function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
+            };
+        }(toggle));
+    }
+})();
+</script>
 </body>
 </html>
