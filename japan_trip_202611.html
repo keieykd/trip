@@ -195,6 +195,13 @@ strong{font-weight:900;color:var(--ink);}
 .panel li:last-child{margin-bottom:0;}
 .panel li::marker{color:var(--accent,var(--slate));font-weight:900;}
 .note{font-size:var(--fs-small);color:var(--ink-3);}
+/* 章節導語：一句話說明這章要不要現在讀 */
+.lede{
+    margin:-6px 0 20px;color:var(--ink-2);
+    font-size:calc(var(--fs-body) - .02rem);line-height:1.8;
+    border-left:3px solid var(--line-strong);padding-left:14px;
+}
+.lede strong{color:var(--ink);}
 
 .t-slate{--accent:var(--slate);}
 .t-sage{--accent:var(--sage);}
@@ -381,6 +388,14 @@ tbody tr:last-child td{border-bottom:none;}
     body{padding:16px 11px 48px;}
     .hero{padding:24px 18px 0;}
     .hero__art{width:calc(100% + 36px);margin:0 -18px -2px;}
+    /* Hero 標籤在手機會各佔一行、吃掉近 240px,改成單列橫向滑動,讓總覽地圖盡快出現 */
+    .hero__meta{
+        flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+        scrollbar-width:none;margin:0 -18px 18px;padding:0 18px 4px;
+    }
+    .hero__meta::-webkit-scrollbar{display:none;}
+    .hero__meta .chip{flex:none;white-space:nowrap;}
+    .hero__sub{margin-bottom:18px;}
     .panel,.day,.alert{padding:18px 16px;}
     .day__badge{width:46px;height:46px;}
     .day__badge .d-num{font-size:1.3rem;}
@@ -495,7 +510,7 @@ tbody tr:last-child td{border-bottom:none;}
     <header class="hero">
         <span class="hero__eyebrow"><svg class="ic"><use href="#i-maple"/></svg>2026 晚秋・銀杏與聖誕</span>
         <h1>東京 7 天 6 夜<br><span class="accent">楓葉銀杏與聖誕市集</span></h1>
-        <p class="hero__sub">以上野為固定基地的兩人路線：東大與外苑的銀杏、草津的湯煙、昭和紀念公園夜間點燈、川越小江戶與小石川後樂園的楓紅，再加上神宮外苑、橫濱紅磚倉庫、丸之內三場聖誕市集。交通、票券、住宿、餐飲皆已查證並備好替代方案。</p>
+        <p class="hero__sub">以上野為固定基地的兩人路線：東大與外苑銀杏、草津湯煙、昭和紀念公園夜間點燈、川越與小石川後樂園楓紅，外加三場聖誕市集。<strong>往下第一段就是七日流程全覽。</strong></p>
         <div class="hero__meta">
             <span class="chip"><svg class="ic"><use href="#i-cal"/></svg>11/22 – 11/28</span>
             <span class="chip"><svg class="ic"><use href="#i-bed"/></svg>上野 6 連泊＋草津 1 泊</span>
@@ -553,10 +568,7 @@ tbody tr:last-child td{border-bottom:none;}
 
     <!-- ===================== 導覽 ===================== -->
     <nav class="nav" aria-label="章節導覽">
-        <a href="#prep">出發前必讀</a>
-        <a href="#stay">住宿</a>
-        <a href="#ticket">購票劃位</a>
-        <a href="#map">路線圖</a>
+        <a href="#map">路線總覽</a>
         <a href="#d1">Day1</a>
         <a href="#d2">Day2</a>
         <a href="#d3">Day3</a>
@@ -564,191 +576,16 @@ tbody tr:last-child td{border-bottom:none;}
         <a href="#d5">Day5</a>
         <a href="#d6">Day6</a>
         <a href="#d7">Day7</a>
+        <a href="#todo">必做清單</a>
+        <a href="#stay">住宿</a>
+        <a href="#ticket">購票劃位</a>
+        <a href="#prep">制度・裝備</a>
         <a href="#budget">預算</a>
     </nav>
 
-    <!-- ===================== 出發前必讀 ===================== -->
-    <h2 class="section-h" id="prep"><svg class="ic"><use href="#i-alert"/></svg>出發前必讀・2026 入境與當地新制</h2>
-
-    <div class="alert">
-        <div class="alert__title"><svg class="ic"><use href="#i-alert"/></svg>四件最影響這趟的事（2026/7 已全面查證）</div>
-        <p><strong>① 退稅改制（2026/11/1 起）：</strong>你出發時正逢新制上路。免稅店改為先付「含稅價」，出國時在成田機場海關端末（kiosk）出示護照與商品、確認帶出後才退稅；須在購買日起 90 天內辦理。注意：<strong>退款由店家事後執行</strong>（多半退回信用卡），不一定當場拿到現金。<strong>你們是新制上路第一個月的旅客</strong>，Day 7 在機場請多留 60–90 分。</p>
-        <p><strong>② 本行程不買廣域券，改買單程票：</strong>新版路線（草津＋立川＋川越）三日實際票價概估約 ¥12,000–13,000／人，低於周遊券 ¥16,000／人，因此改為單程票購買。<strong>唯一必須提前處理的車是 11/24 的特急「草津・四萬 1 號」——全車指定席，沒劃位不能上車</strong>，10/24 開賣當天就要處理（見第二章）。</p>
-        <p><strong>③ 11/26 是東京「夜楓空窗日」：</strong>2025 年六義園夜間特別鑑賞為 11/28–12/9、大田黑公園紅葉點燈為 11/28–12/7，兩大夜楓活動都在 11 月最後一個週五才開跑，<strong>11/26 無論換哪座庭園都差一步</strong>。因此 Day 5 傍晚改為「小石川後樂園白天＋黃昏楓紅」接「東京巨蛋城燈飾（免費）」，不必等公告、不必賭。</p>
-        <p><strong>④ 11/23（一）是勤勞感謝之日：</strong>11/21–23 為三連休，Day 2 傍晚的神宮外苑銀杏與聖誕市集會是全程最擠的時段，且市集<strong>假日票價較平日貴（2025 年平日 ¥1,000／假日 ¥1,500）</strong>。務必買日時指定前售券並鎖 16:00–16:30 入場，見第二章。</p>
-    </div>
-
-    <div class="panel t-slate panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-passport"/></svg>入境手續（仍維持免簽＋VJW）</h3>
-        <ul>
-            <li><strong>免簽停留：</strong>持台灣護照短期觀光免簽，可停留 90 天；護照效期建議 6 個月以上、無破損。</li>
-            <li><strong>Visit Japan Web：</strong>出發前 3–5 天於官網填好入境審查與海關申報，生成 QR Code 截圖存手機；成田已設「共同自助通關機」與 walk-through 閘門，可加速通關。</li>
-            <li><strong>JESTA 免擔心：</strong>日本版電子渡航認證 JESTA 已於 2026 年立法，但預定 2028 年度才實施；本次（2026/11）尚不需要申請，仍以 VJW 為準。</li>
-        </ul>
-    </div>
-
-    <div class="panel t-clay panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-yen"/></svg>購物退稅新制（重點）</h3>
-        <ul>
-            <li><strong>付款方式改變：</strong>2026/11/1 起購買免稅品時先付含稅價，<strong>退稅改到出境機場辦理</strong>（Refund 退款制）。</li>
-            <li><strong>機場流程：</strong>於成田海關免稅端末出示護照，系統判定綠燈即完成、紅燈需到檢查台確認商品帶出；務必把欲退稅商品留在隨身可查驗狀態。</li>
-            <li><strong>期限與鬆綁：</strong>須在購買日起 90 天內出境辦理；消耗品（化妝品、食品、藥品）特殊包裝與 50 萬日圓上限取消，與一般物品同等處理。</li>
-            <li><strong>退款方式：</strong>機場端末只負責「海關確認帶出」，實際退款由店家事後執行——多半退回購買時的信用卡，部分透過退稅服務商的機場櫃檯給現金。購買時留意店家說明的退款方式並保留收據。</li>
-        </ul>
-    </div>
-
-    <div class="panel t-slate panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-luggage"/></svg>隨身電器與行動電源</h3>
-        <ul>
-            <li><strong>行動電源（星宇航空 2025/3/1 起新規）：</strong>不可託運、每人最多 2 顆（100Wh 以下）且容量標示須清晰；<strong>機上全程禁止使用與充電</strong>，並須放在座位前口袋等視線可及處，不可收進上方行李櫃。</li>
-            <li><strong>電捲棒／直髮器：</strong>僅插電式或可拆卸電池款可攜帶；USB 充電或內建鋰電的無線款無法託運或手提，建議留在台灣。</li>
-        </ul>
-    </div>
-
-    <div class="panel t-sage panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-maple"/></svg>天氣、穿著與紅葉時節</h3>
-        <ul>
-            <li><strong>氣溫：</strong>東京市區約 10–15°C；草津溫泉（海拔約 1,200m）約 0–8°C，11 月下旬山區偏初冬、<strong>有初雪可能</strong>。洋蔥式穿搭＋保暖毛帽、厚羽絨、防滑鞋。夜間點燈（昭和紀念公園、橫濱海邊）站著看 1–2 小時會很冷，手套與暖暖包必備。</li>
-            <li><strong>銀杏時節：</strong>東京大學本鄉校區、明治神宮外苑、昭和紀念公園「語らいのイチョウ並木」皆為 <strong>11 月下旬至 12 月初</strong>見頃，本行程 11/23、11/25 正落在期間內（11/23 偏見頃前半、色已轉黃但未到巔峰）。</li>
-            <li><strong>楓葉時節：</strong>川越喜多院（11 月中～12 月初）、川越中院與小石川後樂園（11 月下～12 月初）都在見頃內，是本行程看「滿園楓紅」的主場。<strong>草津本身的紅葉在 10 月中～11 月初已結束</strong>，11/24 請當溫泉日看待。</li>
-            <li><strong>日落時間：</strong>11 月下旬東京日落約 16:30，白天景點請以 16:00 為收工線，之後全部安排點燈與市集。</li>
-        </ul>
-    </div>
-
-    <div class="panel t-rose panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-edit"/></svg>需提前預約／訂位（共 5 件）</h3>
-        <ul>
-            <li><strong>① 特急「草津・四萬 1 號」指定席（11/24）：</strong>全車指定席、<strong>沒有自由席可上</strong>。乘車日一個月前的日本時間 10:00 開賣（＝<strong>10/24 台灣時間 09:00</strong>），於【<a href="https://www.eki-net.com/" target="_blank" rel="noopener">えきねっと</a>】處理。這是全程唯一必劃的車。</li>
-            <li><strong>② 東京聖誕市集 in 神宮外苑（11/23）：</strong>日時指定制，<strong>前售大人票附原創馬克杯</strong>，假日有售完風險。約 10 月開賣，開賣後立即買 16:00–16:30 時段兩張。</li>
-            <li><strong>③ 昭和紀念公園「日本庭園點燈觀賞券」（11/25）：</strong>入園料之外另需觀賞券，<strong>WEB 券只在到訪前 1 週起開賣</strong>（約 11/18 起），當日券於園內こもれびの家 16:00–20:00 現金販售。</li>
-            <li><strong>④ 鶯谷園燒肉（11/22）：</strong>開放預約為一個月前，建議於 <strong>2026/10/22（日本時間 15:00）</strong>由信用卡秘書服務代訂，並同時確認 11/22（日）是否營業。</li>
-            <li><strong>⑤ 鶴卷溫泉午餐（11/27）：</strong>與親戚敲定人數後訂位。<strong>建議請親戚選店與訂位</strong>（他們熟悉當地、長輩坐得舒服，人情上也自然）；若由我方訂，預設為弘法之里湯館內的蕎麥處【一の屋 鶴寿庵】。</li>
-        </ul>
-        <p class="note" style="margin-top:10px;">以上時段與制度以官方最新公告為準；出發前一週再確認一次最穩妥。<strong>六義園夜楓已不在本行程</strong>（11/26 尚未開催），無須再盯公告。</p>
-    </div>
-
-    <div class="panel t-mustard panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-cal"/></svg>行前準備時間表（自 2026/7 起倒數）</h3>
-        <div class="table-scroll">
-        <table>
-            <thead><tr><th>時間</th><th>要做的事</th></tr></thead>
-            <tbody>
-                <tr><td><strong>現在起</strong></td><td>確認護照效期（建議至 2027/5 之後）；iPhone 錢包加入 Suica 並先儲值測試；註冊【えきねっと】會員帳號（劃 11/24 特急用，臨時註冊會來不及）。</td></tr>
-                <tr><td><strong>9–10 月</strong></td><td>官網購買 Skyliner e-ticket。盯三個公告：<strong>神宮外苑聖誕市集</strong>、<strong>橫濱紅磚倉庫聖誕市集</strong>、<strong>昭和紀念公園秋之夜散步</strong>；市集票一開賣就買。</td></tr>
-                <tr><td><strong>10 月上旬</strong></td><td>與親戚敲定 11/27 鶴卷溫泉午餐的人數、店家與訂位（或請對方代訂）。</td></tr>
-                <tr><td><strong>10/22（台灣 14:00）</strong></td><td>鶯谷園開放一個月前預約——請信用卡秘書代訂，同時確認 11/22（日）是否營業。</td></tr>
-                <tr><td><strong>10/24（台灣 09:00）</strong></td><td><strong>えきねっと 劃 11/24 特急「草津・四萬 1 號」指定席（全程唯一必劃）</strong>，並比較「チケットレス特急券」折扣。11/25 的上越新幹線有自由席，不需劃位。</td></tr>
-                <tr><td><strong>11 月上旬</strong></td><td>查熱乃湯揉湯當日場次、西之河原露天風呂冬季營業時間；確認望雲朝食開始時間（決定 Day 4 幾點出發）。</td></tr>
-                <tr><td><strong>11/17–11/19</strong></td><td>填 Visit Japan Web、截圖 QR Code；投保旅平險、備妥 eSIM。</td></tr>
-                <tr><td><strong>約 11/18</strong></td><td><strong>昭和紀念公園「日本庭園點燈觀賞券」WEB 開賣（到訪前 1 週）</strong>，立即購買 11/25 兩張。</td></tr>
-                <tr><td><strong>出發前一週</strong></td><td>再核對：<strong>Day 4 草津巴士與吾妻線普通車確切時刻（班距 1–2 小時，決定整天節奏）</strong>、各點燈與市集當日時間、餐廳營業時間、天氣預報。</td></tr>
-            </tbody>
-        </table>
-        </div>
-    </div>
-
-    <!-- ===================== 第一章 ===================== -->
-    <h2 class="section-h" id="stay"><span class="num">第一章</span><svg class="ic"><use href="#i-bed"/></svg>住宿總表與行李</h2>
-
-    <div class="panel t-sage panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-bed"/></svg>住宿總表 <span class="note">（匯率 1 JPY ≈ 0.21 TWD）</span></h3>
-        <div class="table-scroll">
-        <table>
-            <thead>
-                <tr><th>入住日期</th><th>地點與飯店</th><th>晚數</th><th>房型與包含</th><th>預估金額</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>11/22 (日)–11/28 (六)</td>
-                    <td>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E6%9D%B1%E6%A8%AAINN+%E6%9D%B1%E4%BA%AC%E9%B6%AF%E8%B0%B7%E7%AB%99%E5%89%8D" target="_blank" rel="noopener">東橫 INN 東京鶯谷站前</a>】</td>
-                    <td>6 晚<br><span class="note">連續不退房</span></td><td>禁菸經濟雙人房<br><span class="note">含 11/24 草津夜的空房</span></td>
-                    <td class="cost">約 ¥75,510<br><span class="note">≈ NT$15,857</span></td>
-                </tr>
-                <tr>
-                    <td>11/24 (二)–11/25 (三)</td>
-                    <td>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%89%E6%B4%A5%E6%BA%AB%E6%B3%89+%E6%9C%9B%E9%9B%B2" target="_blank" rel="noopener">草津溫泉 望雲</a>】</td>
-                    <td>1 晚</td><td>附露天風呂豪華和室（一泊二食）</td>
-                    <td class="cost">¥71,049<br><span class="note">≈ NT$14,920</span></td>
-                </tr>
-                <tr class="row-sum">
-                    <td colspan="4" class="txt-right">住宿總計（兩人）：</td>
-                    <td class="cost">約 ¥146,559<br><span class="note">≈ NT$30,777</span></td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-        <p class="note" style="margin-top:12px;"><strong>已完成的變更：</strong>原訂 11/25 東橫 INN 宇都宮站前（¥10,260）已取消；鶯谷改為 11/22–11/28 <strong>6 晚連續預訂、全程不退房</strong>。其中 11/24（草津夜）為刻意保留的空房——換到的是「大型行李留在房間、零寄物手續」，成本約 ¥13,000。鶯谷 6 晚金額為以原 2＋2 晚實付價推算之概估，以實際訂房確認信為準。</p>
-    </div>
-
-    <div class="panel t-slate panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-luggage"/></svg>行李策略（大箱留房・登機箱西立川寄物）</h3>
-        <p><strong>大型托運行李箱全程留在鶯谷房間不動</strong>，因為 11/22–11/28 是連續 6 晚同一間房、11/24 去草津那晚也沒退房。<strong>不需要上野站置物櫃、不需要 ecbo cloak、不需要宅配</strong>——原版的 72 小時寄物流程已整段廢除。</p>
-        <p><strong>去草津只帶一個登機箱</strong>（11/24 出發、11/25 傍晚才回東京，兩天一夜份）。動線：上野搭特急 → 草津望雲一泊 → 11/25 直接前往立川，<strong>不回上野</strong>。</p>
-        <div class="move"><svg class="ic"><use href="#i-luggage"/></svg><strong>Day 4 關鍵一步：</strong>昭和紀念公園有 165 公頃，拖著登機箱逛 5 小時會很痛苦。抵達 <strong>JR 青梅線「西立川站」</strong>後，先把箱子鎖進<strong>改札外「公園口通路」的投幣式置物櫃</strong>（園內西立川口建物也有寄物設施），看完點燈出園時原路領回。西立川口正是夜間唯一的出入口，完全不繞路。立川站雖然櫃子多，但大型櫃僅 6 個、常滿，不建議賭。</div>
-    </div>
-
-    <!-- ===================== 第二章 ===================== -->
-    <h2 class="section-h" id="ticket"><span class="num">第二章</span><svg class="ic"><use href="#i-ticket"/></svg>官方購票、劃位與訂位</h2>
-
-    <div class="panel t-mustard panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-train"/></svg>1. 機場快線 Keisei Skyliner</h3>
-        <ul>
-            <li><strong>購票：</strong>前往「京成電鐵 Skyliner e-ticket」官網，選日期人數直接刷卡。官網可避免匯差手續費且系統穩定。</li>
-            <li><strong>取票：</strong>抵成田機場後循「鐵道 Railways」指標至 B1，於京成電鐵藍色售票機掃 QR Code，劃位並領實體車票。</li>
-        </ul>
-    </div>
-
-    <div class="panel t-mustard panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-ticket"/></svg>2. 為什麼不買 JR 東京廣域周遊券</h3>
-        <ul>
-            <li><strong>算過不划算：</strong>廣域券 2026/3/14 起為 <strong>¥16,000／人</strong>（連續 3 天、記名限本人）。新版路線在 11/24–26 三天的實際票價概估僅約 <strong>¥12,000–13,000／人</strong>（草津特急＋回程新幹線＋川越），<strong>買券反而多付</strong>。原版之所以划算，是因為含宇都宮與熱海兩趟特急／新幹線，這兩地已從行程移除。</li>
-            <li><strong>不買還多一個折扣：</strong>可改用【えきねっと】的「チケットレス特急券」搭 11/24 的草津・四萬，<strong>特急券部分約有 35% 折扣</strong>（乘車券另計、席數限定）——這是持周遊券時拿不到的優惠。</li>
-            <li><strong>11/26 川越走東武更省：</strong>東武東上線 池袋 ⇄ 川越 急行約 30 分、單程約 ¥520，比繞 JR 大宮的川越線<strong>又快又便宜</strong>，本行程去回都走東武。</li>
-            <li><strong>11/27 完全在券外：</strong>鶴卷溫泉走小田急、橫濱走相鐵，兩者都不在廣域券範圍，這天無論如何都是單程票。</li>
-            <li><strong>付費方式：</strong>市區與在來線全部用 Suica 感應即可；只有 11/24 的特急指定席需要事先在えきねっと處理。長野原草津口 ⇄ 草津溫泉的 JR 關東巴士（約 25 分、¥710／人）可用現金或交通 IC。</li>
-        </ul>
-        <p class="note" style="margin-top:10px;">票價為 2026/7 概估（2026/3 已調價，仍可能微調），出發前以乘換案內實查一次即可；差額約 ¥3,000–4,000／人，若臨時想加碼日光或輕井澤等新幹線行程，再回頭評估買券。</p>
-    </div>
-
-    <div class="panel t-mustard panel--accent">
-        <h3 class="panel__title"><svg class="ic"><use href="#i-edit"/></svg>3. 需要事先劃位的車（只有一班）</h3>
-        <div class="ticket">
-            <span class="seq">1</span><span class="leg">11/24 (二)・必劃</span>：【特急 草津・四萬 1 號】上野 10:00 ➔ 長野原草津口 12:18<br>
-            <span class="dur">行駛 2 小時 18 分・<strong>全車指定席，沒有自由席可上</strong>・10/24 台灣時間 09:00（日本 10:00）開賣</span><br>
-            <span class="dur">※ 建議開賣當天就處理。同時比較「チケットレス特急券」（特急券約 35% off、席數限定）與一般指定席券。</span><br>
-            <span class="dur">※ 出站後轉 JR 關東巴士約 25 分至草津溫泉 BT（¥710／人，接特急班次）。</span><br><br>
-            <span class="seq">2</span><span class="leg">11/25 (三)・不需劃位</span>：草津 ➔ 立川（昭和紀念公園）<br>
-            （段一）草津溫泉 BT 約 09:20 搭 JR 關東巴士 ➔ 長野原草津口 約 09:45<span class="dur"> ・約 25 分・¥710／人</span><br>
-            （段二）【吾妻線普通車】長野原草津口 10:08 ➔ 高崎 約 11:35<span class="dur"> ・約 1 小時 27 分・免劃位・班距長（約 1–2 小時一班）</span><br>
-            （段三）【上越新幹線】高崎 ➔ 大宮 約 12:00<span class="dur"> ・<strong>有自由席，當天直接上車</strong>・約 25 分</span><br>
-            （段四）大宮 ➔（湘南新宿／埼京線）➔ 新宿 約 12:35 ➔（中央線特快）➔ 立川 約 13:05 ➔ 西立川<span class="dur"> ・全程 Suica</span><br>
-            <span class="dur">※ 為何不搭上行特急：上行「草津・四萬」最早只有 <strong>12:05／13:07 發</strong>的下午班，會吃掉整個下午。改搭上午普通車＋新幹線可 13:05 到立川，把時間留給公園。</span><br>
-            <span class="dur">※ 省錢版：不搭新幹線，高崎 ➔ 新宿 走湘南新宿線（高崎線直通）約省 ¥2,600／人，但慢約 45 分（約 14:00 才到立川）。本行程建議照上方搭新幹線。</span><br>
-            <span class="dur">※ 拉著登機箱怕新宿人潮：大宮 ➔ 立川 若時刻對得上可搭武藏野線「むさしの号」直達，免換月台；班次少，當天看板為準。</span><br>
-            <span class="dur">※ <strong>出發前一週務必實查巴士與吾妻線時刻</strong>，這兩段決定整天節奏。</span><br><br>
-            <span class="seq">3</span><span class="leg">11/26 (四)・不需劃位</span>：上野 ➔ 池袋 ➔【東武東上線 急行】➔ 川越（約 30 分、¥520）；回程同線至池袋轉丸之內線至後樂園<span class="dur"> ・全程 Suica</span><br><br>
-            <span class="seq">4</span><span class="leg">11/27 (五)・不需劃位</span>：上野 ➔ 新宿 ➔【小田急 急行】➔ 鶴卷溫泉；鶴卷溫泉 ➔ 海老名 ➔【相鐵本線】➔ 橫濱 ➔（上野東京線）➔ 上野<span class="dur"> ・全程 Suica</span><br>
-            <span class="dur">※ 小田急「快速急行」不停鶴卷溫泉，要搭<strong>急行</strong>，或於本厚木／秦野換車。</span>
-        </div>
-        <p class="note" style="margin-top:10px;">除第 1 項外全程免劃位、Suica 感應即可，機動性比持券時更高——萬一 11/25 吾妻線誤點，後段新幹線與在來線都不會作廢。</p>
-    </div>
-
-    <div class="reserve">
-        <div class="reserve__title"><svg class="ic"><use href="#i-dining"/></svg>4. 餐廳訂位 ①【鶯谷園】燒肉（11/22）</div>
-        <p style="margin:0 0 6px;color:#43352B;"><strong>步驟 1：</strong>開放預約為一個月前。請於 <strong>2026/10/22 日本時間 15:00（台灣 14:00）</strong> 進行預約。</p>
-        <p style="margin:0 0 6px;color:#43352B;"><strong>步驟 2：</strong>餐廳電話 <code>+81-3-3874-8717</code>。</p>
-        <p style="margin:0;color:#43352B;"><strong>步驟 3（建議）：</strong>店家熱門且以日語為主，可用信用卡（Visa 御璽卡／JCB 極緻卡）的「秘書免費代訂服務」，請客服於開放當天協助致電。</p>
-    </div>
-
-    <div class="reserve" style="margin-top:14px;">
-        <div class="reserve__title"><svg class="ic"><use href="#i-dining"/></svg>5. 餐廳訂位 ②【鶴卷溫泉】與親戚的午餐（11/27）</div>
-        <p style="margin:0 0 6px;color:#43352B;"><strong>建議做法：</strong>請親戚選店並訂位。長輩年約 70–75 歲，由熟悉當地的人挑「坐得舒服、走得近、菜色合口味」的店最保險，人情上也自然；我方只需給條件——<strong>11/27（五）中午、鶴卷溫泉站附近、方便步行</strong>。</p>
-        <p style="margin:0 0 6px;color:#43352B;"><strong>預設答案（對方客氣推辭時用）：</strong>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%BC%98%E6%B3%95%E3%81%AE%E9%87%8C%E6%B9%AF" target="_blank" rel="noopener">弘法之里湯</a>】館內的蕎麥處【<a href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%80%E3%81%AE%E5%B1%8B%E9%B6%B4%E5%AF%BF%E5%BA%B5" target="_blank" rel="noopener">一の屋 鶴寿庵</a>】——<strong>鶴卷溫泉站北口徒步 3 分</strong>，蕎麥／和定食／洋定食／丼飯／甜點皆有，食事處 11:00–19:30；館內大浴場與休息室 10:00–21:00（最終受付 20:00），飯後可泡湯或坐著休息，全程幾乎不用走路。<strong>休館日為週一，11/27 是週五、正常營業。</strong></p>
-        <p style="margin:0;color:#43352B;"><strong>想正式一點：</strong>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%85%83%E6%B9%AF%E9%99%A3%E5%B1%8B" target="_blank" rel="noopener">元湯陣屋</a>】老鋪旅館會席、有個室（竹林之間最多 12 人），午餐 11:30–14:00（最後入店）、用餐含溫泉、日歸入浴加購 ¥2,750。<span class="note">價位偏高，請先於官網訂位系統確認方案金額再決定。</span></p>
-    </div>
-
     <!-- ===================== 路線全覽圖 ===================== -->
-    <h2 class="section-h" id="map"><span class="num">路線</span><svg class="ic"><use href="#i-pin"/></svg>七日移動路線全覽圖</h2>
+    <h2 class="section-h" id="map"><span class="num">總覽</span><svg class="ic"><use href="#i-pin"/></svg>七日路線與流程全覽</h2>
+    <p class="lede"><strong>地圖</strong>看每天走到哪（可只顯示某一天），<strong>流程條</strong>看站點順序、交通與住宿。細節見<a href="#days">每日行程</a>、要訂的東西見<a href="#todo">必做清單</a>。</p>
 
     <div class="panel">
         <div class="map-wrap" data-focus="all">
@@ -962,8 +799,17 @@ tbody tr:last-child td{border-bottom:none;}
         </div>
     </div>
 
-    <!-- ===================== 第三章 ===================== -->
-    <h2 class="section-h"><span class="num">第三章</span><svg class="ic"><use href="#i-maple"/></svg>每日行程與自選方案</h2>
+    <div class="alert">
+        <div class="alert__title"><svg class="ic"><use href="#i-alert"/></svg>為什麼這樣排——4 個關鍵判斷</div>
+        <p><strong>① 上野 6 連泊、只有 11/24 睡草津。</strong>大箱全程留房、去草津只帶登機箱，<strong>不用置物櫃也不用宅配</strong>。</p>
+        <p><strong>② 不買廣域券。</strong>這條路線三天單程票約 ¥12,000–13,000／人，比 ¥16,000 的券便宜。全程<strong>只有 11/24 的特急「草津・四萬」要劃位</strong>（全車指定席）。</p>
+        <p><strong>③ 11/26 是東京「夜楓空窗日」。</strong>六義園與大田黑公園的夜楓近年都在 11 月最後一個週五才開跑，差一天。所以 Day 5 改走「小石川後樂園楓紅＋巨蛋城免費燈飾」，不必賭公告。</p>
+        <p><strong>④ 11/23 是三連休最後一天。</strong>Day 2 傍晚的神宮外苑是全程最擠的時段，假日票也比平日貴，<strong>務必先買日時指定前售券</strong>；橫濱那場（Day 6）是平日，會舒服得多。</p>
+        <p class="note" style="margin-bottom:0;">以上四點的完整查證與數字，分別在<a href="#todo">必做清單</a>、<a href="#stay">住宿與行李</a>、<a href="#ticket">購票與劃位</a>及各日行程卡內。</p>
+    </div>
+
+    <!-- ===================== 第一章：每日行程 ===================== -->
+    <h2 class="section-h" id="days"><span class="num">第一章</span><svg class="ic"><use href="#i-maple"/></svg>每日行程與自選方案</h2>
 
     <!-- ===== Day 1 ===== -->
     <article class="day" id="d1" style="--day-accent:var(--plum);--day-accent-bg:var(--plum-bg);">
@@ -1253,6 +1099,183 @@ tbody tr:last-child td{border-bottom:none;}
             </div></li>
         </ul>
     </article>
+
+    <!-- ===================== 第二章：必做清單 ===================== -->
+    <h2 class="section-h" id="todo"><span class="num">第二章</span><svg class="ic"><use href="#i-cal"/></svg>必做清單與行前時程</h2>
+    <p class="lede">整趟只有 <strong>5 件事必須提前訂</strong>，其中兩件有硬性開賣時間（10/24 劃特急、約 11/18 買點燈觀賞券）。把這兩個日期先設進手機提醒，其餘照下方時間表推進即可。</p>
+
+    <div class="panel t-rose panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-edit"/></svg>需提前預約／訂位（共 5 件）</h3>
+        <ul>
+            <li><strong>① 特急「草津・四萬 1 號」指定席（11/24）：</strong>全車指定席、<strong>沒有自由席可上</strong>。乘車日一個月前的日本時間 10:00 開賣（＝<strong>10/24 台灣時間 09:00</strong>），於【<a href="https://www.eki-net.com/" target="_blank" rel="noopener">えきねっと</a>】處理。這是全程唯一必劃的車。</li>
+            <li><strong>② 東京聖誕市集 in 神宮外苑（11/23）：</strong>日時指定制，<strong>前售大人票附原創馬克杯</strong>，假日有售完風險。約 10 月開賣，開賣後立即買 16:00–16:30 時段兩張。</li>
+            <li><strong>③ 昭和紀念公園「日本庭園點燈觀賞券」（11/25）：</strong>入園料之外另需觀賞券，<strong>WEB 券只在到訪前 1 週起開賣</strong>（約 11/18 起），當日券於園內こもれびの家 16:00–20:00 現金販售。</li>
+            <li><strong>④ 鶯谷園燒肉（11/22）：</strong>開放預約為一個月前，建議於 <strong>2026/10/22（日本時間 15:00）</strong>由信用卡秘書服務代訂，並同時確認 11/22（日）是否營業。</li>
+            <li><strong>⑤ 鶴卷溫泉午餐（11/27）：</strong>與親戚敲定人數後訂位。<strong>建議請親戚選店與訂位</strong>（他們熟悉當地、長輩坐得舒服，人情上也自然）；若由我方訂，預設為弘法之里湯館內的蕎麥處【一の屋 鶴寿庵】。</li>
+        </ul>
+        <p class="note" style="margin-top:10px;">以上時段與制度以官方最新公告為準；出發前一週再確認一次最穩妥。<strong>六義園夜楓已不在本行程</strong>（11/26 尚未開催），無須再盯公告。</p>
+    </div>
+
+    <div class="panel t-mustard panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-cal"/></svg>行前準備時間表（自 2026/7 起倒數）</h3>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>時間</th><th>要做的事</th></tr></thead>
+            <tbody>
+                <tr><td><strong>現在起</strong></td><td>確認護照效期（建議至 2027/5 之後）；iPhone 錢包加入 Suica 並先儲值測試；註冊【えきねっと】會員帳號（劃 11/24 特急用，臨時註冊會來不及）。</td></tr>
+                <tr><td><strong>9–10 月</strong></td><td>官網購買 Skyliner e-ticket。盯三個公告：<strong>神宮外苑聖誕市集</strong>、<strong>橫濱紅磚倉庫聖誕市集</strong>、<strong>昭和紀念公園秋之夜散步</strong>；市集票一開賣就買。</td></tr>
+                <tr><td><strong>10 月上旬</strong></td><td>與親戚敲定 11/27 鶴卷溫泉午餐的人數、店家與訂位（或請對方代訂）。</td></tr>
+                <tr><td><strong>10/22（台灣 14:00）</strong></td><td>鶯谷園開放一個月前預約——請信用卡秘書代訂，同時確認 11/22（日）是否營業。</td></tr>
+                <tr><td><strong>10/24（台灣 09:00）</strong></td><td><strong>えきねっと 劃 11/24 特急「草津・四萬 1 號」指定席（全程唯一必劃）</strong>，並比較「チケットレス特急券」折扣。11/25 的上越新幹線有自由席，不需劃位。</td></tr>
+                <tr><td><strong>11 月上旬</strong></td><td>查熱乃湯揉湯當日場次、西之河原露天風呂冬季營業時間；確認望雲朝食開始時間（決定 Day 4 幾點出發）。</td></tr>
+                <tr><td><strong>11/17–11/19</strong></td><td>填 Visit Japan Web、截圖 QR Code；投保旅平險、備妥 eSIM。</td></tr>
+                <tr><td><strong>約 11/18</strong></td><td><strong>昭和紀念公園「日本庭園點燈觀賞券」WEB 開賣（到訪前 1 週）</strong>，立即購買 11/25 兩張。</td></tr>
+                <tr><td><strong>出發前一週</strong></td><td>再核對：<strong>Day 4 草津巴士與吾妻線普通車確切時刻（班距 1–2 小時，決定整天節奏）</strong>、各點燈與市集當日時間、餐廳營業時間、天氣預報。</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <!-- ===================== 第三章：住宿 ===================== -->
+    <h2 class="section-h" id="stay"><span class="num">第三章</span><svg class="ic"><use href="#i-bed"/></svg>住宿總表與行李</h2>
+
+    <div class="panel t-sage panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-bed"/></svg>住宿總表 <span class="note">（匯率 1 JPY ≈ 0.21 TWD）</span></h3>
+        <div class="table-scroll">
+        <table>
+            <thead>
+                <tr><th>入住日期</th><th>地點與飯店</th><th>晚數</th><th>房型與包含</th><th>預估金額</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>11/22 (日)–11/28 (六)</td>
+                    <td>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E6%9D%B1%E6%A8%AAINN+%E6%9D%B1%E4%BA%AC%E9%B6%AF%E8%B0%B7%E7%AB%99%E5%89%8D" target="_blank" rel="noopener">東橫 INN 東京鶯谷站前</a>】</td>
+                    <td>6 晚<br><span class="note">連續不退房</span></td><td>禁菸經濟雙人房<br><span class="note">含 11/24 草津夜的空房</span></td>
+                    <td class="cost">約 ¥75,510<br><span class="note">≈ NT$15,857</span></td>
+                </tr>
+                <tr>
+                    <td>11/24 (二)–11/25 (三)</td>
+                    <td>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%89%E6%B4%A5%E6%BA%AB%E6%B3%89+%E6%9C%9B%E9%9B%B2" target="_blank" rel="noopener">草津溫泉 望雲</a>】</td>
+                    <td>1 晚</td><td>附露天風呂豪華和室（一泊二食）</td>
+                    <td class="cost">¥71,049<br><span class="note">≈ NT$14,920</span></td>
+                </tr>
+                <tr class="row-sum">
+                    <td colspan="4" class="txt-right">住宿總計（兩人）：</td>
+                    <td class="cost">約 ¥146,559<br><span class="note">≈ NT$30,777</span></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <p class="note" style="margin-top:12px;"><strong>已完成的變更：</strong>原訂 11/25 東橫 INN 宇都宮站前（¥10,260）已取消；鶯谷改為 11/22–11/28 <strong>6 晚連續預訂、全程不退房</strong>。其中 11/24（草津夜）為刻意保留的空房——換到的是「大型行李留在房間、零寄物手續」，成本約 ¥13,000。鶯谷 6 晚金額為以原 2＋2 晚實付價推算之概估，以實際訂房確認信為準。</p>
+    </div>
+
+    <div class="panel t-slate panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-luggage"/></svg>行李策略（大箱留房・登機箱西立川寄物）</h3>
+        <p><strong>大型托運行李箱全程留在鶯谷房間不動</strong>，因為 11/22–11/28 是連續 6 晚同一間房、11/24 去草津那晚也沒退房。<strong>不需要上野站置物櫃、不需要 ecbo cloak、不需要宅配</strong>——原版的 72 小時寄物流程已整段廢除。</p>
+        <p><strong>去草津只帶一個登機箱</strong>（11/24 出發、11/25 傍晚才回東京，兩天一夜份）。動線：上野搭特急 → 草津望雲一泊 → 11/25 直接前往立川，<strong>不回上野</strong>。</p>
+        <div class="move"><svg class="ic"><use href="#i-luggage"/></svg><strong>Day 4 關鍵一步：</strong>昭和紀念公園有 165 公頃，拖著登機箱逛 5 小時會很痛苦。抵達 <strong>JR 青梅線「西立川站」</strong>後，先把箱子鎖進<strong>改札外「公園口通路」的投幣式置物櫃</strong>（園內西立川口建物也有寄物設施），看完點燈出園時原路領回。西立川口正是夜間唯一的出入口，完全不繞路。立川站雖然櫃子多，但大型櫃僅 6 個、常滿，不建議賭。</div>
+    </div>
+
+    <!-- ===================== 第四章：購票 ===================== -->
+    <h2 class="section-h" id="ticket"><span class="num">第四章</span><svg class="ic"><use href="#i-ticket"/></svg>官方購票、劃位與訂位</h2>
+
+    <div class="panel t-mustard panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-train"/></svg>1. 機場快線 Keisei Skyliner</h3>
+        <ul>
+            <li><strong>購票：</strong>前往「京成電鐵 Skyliner e-ticket」官網，選日期人數直接刷卡。官網可避免匯差手續費且系統穩定。</li>
+            <li><strong>取票：</strong>抵成田機場後循「鐵道 Railways」指標至 B1，於京成電鐵藍色售票機掃 QR Code，劃位並領實體車票。</li>
+        </ul>
+    </div>
+
+    <div class="panel t-mustard panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-ticket"/></svg>2. 為什麼不買 JR 東京廣域周遊券</h3>
+        <ul>
+            <li><strong>算過不划算：</strong>廣域券 2026/3/14 起為 <strong>¥16,000／人</strong>（連續 3 天、記名限本人）。新版路線在 11/24–26 三天的實際票價概估僅約 <strong>¥12,000–13,000／人</strong>（草津特急＋回程新幹線＋川越），<strong>買券反而多付</strong>。原版之所以划算，是因為含宇都宮與熱海兩趟特急／新幹線，這兩地已從行程移除。</li>
+            <li><strong>不買還多一個折扣：</strong>可改用【えきねっと】的「チケットレス特急券」搭 11/24 的草津・四萬，<strong>特急券部分約有 35% 折扣</strong>（乘車券另計、席數限定）——這是持周遊券時拿不到的優惠。</li>
+            <li><strong>11/26 川越走東武更省：</strong>東武東上線 池袋 ⇄ 川越 急行約 30 分、單程約 ¥520，比繞 JR 大宮的川越線<strong>又快又便宜</strong>，本行程去回都走東武。</li>
+            <li><strong>11/27 完全在券外：</strong>鶴卷溫泉走小田急、橫濱走相鐵，兩者都不在廣域券範圍，這天無論如何都是單程票。</li>
+            <li><strong>付費方式：</strong>市區與在來線全部用 Suica 感應即可；只有 11/24 的特急指定席需要事先在えきねっと處理。長野原草津口 ⇄ 草津溫泉的 JR 關東巴士（約 25 分、¥710／人）可用現金或交通 IC。</li>
+        </ul>
+        <p class="note" style="margin-top:10px;">票價為 2026/7 概估（2026/3 已調價，仍可能微調），出發前以乘換案內實查一次即可；差額約 ¥3,000–4,000／人，若臨時想加碼日光或輕井澤等新幹線行程，再回頭評估買券。</p>
+    </div>
+
+    <div class="panel t-mustard panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-edit"/></svg>3. 需要事先劃位的車（只有一班）</h3>
+        <div class="ticket">
+            <span class="seq">1</span><span class="leg">11/24 (二)・必劃</span>：【特急 草津・四萬 1 號】上野 10:00 ➔ 長野原草津口 12:18<br>
+            <span class="dur">行駛 2 小時 18 分・<strong>全車指定席，沒有自由席可上</strong>・10/24 台灣時間 09:00（日本 10:00）開賣</span><br>
+            <span class="dur">※ 建議開賣當天就處理。同時比較「チケットレス特急券」（特急券約 35% off、席數限定）與一般指定席券。</span><br>
+            <span class="dur">※ 出站後轉 JR 關東巴士約 25 分至草津溫泉 BT（¥710／人，接特急班次）。</span><br><br>
+            <span class="seq">2</span><span class="leg">11/25 (三)・不需劃位</span>：草津 ➔ 立川（昭和紀念公園）<br>
+            （段一）草津溫泉 BT 約 09:20 搭 JR 關東巴士 ➔ 長野原草津口 約 09:45<span class="dur"> ・約 25 分・¥710／人</span><br>
+            （段二）【吾妻線普通車】長野原草津口 10:08 ➔ 高崎 約 11:35<span class="dur"> ・約 1 小時 27 分・免劃位・班距長（約 1–2 小時一班）</span><br>
+            （段三）【上越新幹線】高崎 ➔ 大宮 約 12:00<span class="dur"> ・<strong>有自由席，當天直接上車</strong>・約 25 分</span><br>
+            （段四）大宮 ➔（湘南新宿／埼京線）➔ 新宿 約 12:35 ➔（中央線特快）➔ 立川 約 13:05 ➔ 西立川<span class="dur"> ・全程 Suica</span><br>
+            <span class="dur">※ 為何不搭上行特急：上行「草津・四萬」最早只有 <strong>12:05／13:07 發</strong>的下午班，會吃掉整個下午。改搭上午普通車＋新幹線可 13:05 到立川，把時間留給公園。</span><br>
+            <span class="dur">※ 省錢版：不搭新幹線，高崎 ➔ 新宿 走湘南新宿線（高崎線直通）約省 ¥2,600／人，但慢約 45 分（約 14:00 才到立川）。本行程建議照上方搭新幹線。</span><br>
+            <span class="dur">※ 拉著登機箱怕新宿人潮：大宮 ➔ 立川 若時刻對得上可搭武藏野線「むさしの号」直達，免換月台；班次少，當天看板為準。</span><br>
+            <span class="dur">※ <strong>出發前一週務必實查巴士與吾妻線時刻</strong>，這兩段決定整天節奏。</span><br><br>
+            <span class="seq">3</span><span class="leg">11/26 (四)・不需劃位</span>：上野 ➔ 池袋 ➔【東武東上線 急行】➔ 川越（約 30 分、¥520）；回程同線至池袋轉丸之內線至後樂園<span class="dur"> ・全程 Suica</span><br><br>
+            <span class="seq">4</span><span class="leg">11/27 (五)・不需劃位</span>：上野 ➔ 新宿 ➔【小田急 急行】➔ 鶴卷溫泉；鶴卷溫泉 ➔ 海老名 ➔【相鐵本線】➔ 橫濱 ➔（上野東京線）➔ 上野<span class="dur"> ・全程 Suica</span><br>
+            <span class="dur">※ 小田急「快速急行」不停鶴卷溫泉，要搭<strong>急行</strong>，或於本厚木／秦野換車。</span>
+        </div>
+        <p class="note" style="margin-top:10px;">除第 1 項外全程免劃位、Suica 感應即可，機動性比持券時更高——萬一 11/25 吾妻線誤點，後段新幹線與在來線都不會作廢。</p>
+    </div>
+
+    <div class="reserve">
+        <div class="reserve__title"><svg class="ic"><use href="#i-dining"/></svg>4. 餐廳訂位 ①【鶯谷園】燒肉（11/22）</div>
+        <p style="margin:0 0 6px;color:#43352B;"><strong>步驟 1：</strong>開放預約為一個月前。請於 <strong>2026/10/22 日本時間 15:00（台灣 14:00）</strong> 進行預約。</p>
+        <p style="margin:0 0 6px;color:#43352B;"><strong>步驟 2：</strong>餐廳電話 <code>+81-3-3874-8717</code>。</p>
+        <p style="margin:0;color:#43352B;"><strong>步驟 3（建議）：</strong>店家熱門且以日語為主，可用信用卡（Visa 御璽卡／JCB 極緻卡）的「秘書免費代訂服務」，請客服於開放當天協助致電。</p>
+    </div>
+
+    <div class="reserve" style="margin-top:14px;">
+        <div class="reserve__title"><svg class="ic"><use href="#i-dining"/></svg>5. 餐廳訂位 ②【鶴卷溫泉】與親戚的午餐（11/27）</div>
+        <p style="margin:0 0 6px;color:#43352B;"><strong>建議做法：</strong>請親戚選店並訂位。長輩年約 70–75 歲，由熟悉當地的人挑「坐得舒服、走得近、菜色合口味」的店最保險，人情上也自然；我方只需給條件——<strong>11/27（五）中午、鶴卷溫泉站附近、方便步行</strong>。</p>
+        <p style="margin:0 0 6px;color:#43352B;"><strong>預設答案（對方客氣推辭時用）：</strong>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%BC%98%E6%B3%95%E3%81%AE%E9%87%8C%E6%B9%AF" target="_blank" rel="noopener">弘法之里湯</a>】館內的蕎麥處【<a href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%80%E3%81%AE%E5%B1%8B%E9%B6%B4%E5%AF%BF%E5%BA%B5" target="_blank" rel="noopener">一の屋 鶴寿庵</a>】——<strong>鶴卷溫泉站北口徒步 3 分</strong>，蕎麥／和定食／洋定食／丼飯／甜點皆有，食事處 11:00–19:30；館內大浴場與休息室 10:00–21:00（最終受付 20:00），飯後可泡湯或坐著休息，全程幾乎不用走路。<strong>休館日為週一，11/27 是週五、正常營業。</strong></p>
+        <p style="margin:0;color:#43352B;"><strong>想正式一點：</strong>【<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%85%83%E6%B9%AF%E9%99%A3%E5%B1%8B" target="_blank" rel="noopener">元湯陣屋</a>】老鋪旅館會席、有個室（竹林之間最多 12 人），午餐 11:30–14:00（最後入店）、用餐含溫泉、日歸入浴加購 ¥2,750。<span class="note">價位偏高，請先於官網訂位系統確認方案金額再決定。</span></p>
+    </div>
+
+    <!-- ===================== 第五章：制度與裝備 ===================== -->
+    <h2 class="section-h" id="prep"><span class="num">第五章</span><svg class="ic"><use href="#i-passport"/></svg>入境、退稅新制、天氣與裝備</h2>
+    <p class="lede">這一章是<strong>出發前一週再讀</strong>就好的背景知識：入境手續、2026/11/1 上路的退稅新制、隨身電器規定、以及該怎麼穿。不影響你現在決定行程。</p>
+
+    <div class="panel t-slate panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-passport"/></svg>入境手續（仍維持免簽＋VJW）</h3>
+        <ul>
+            <li><strong>免簽停留：</strong>持台灣護照短期觀光免簽，可停留 90 天；護照效期建議 6 個月以上、無破損。</li>
+            <li><strong>Visit Japan Web：</strong>出發前 3–5 天於官網填好入境審查與海關申報，生成 QR Code 截圖存手機；成田已設「共同自助通關機」與 walk-through 閘門，可加速通關。</li>
+            <li><strong>JESTA 免擔心：</strong>日本版電子渡航認證 JESTA 已於 2026 年立法，但預定 2028 年度才實施；本次（2026/11）尚不需要申請，仍以 VJW 為準。</li>
+        </ul>
+    </div>
+
+    <div class="panel t-clay panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-yen"/></svg>購物退稅新制（重點）</h3>
+        <ul>
+            <li><strong>付款方式改變：</strong>2026/11/1 起購買免稅品時先付含稅價，<strong>退稅改到出境機場辦理</strong>（Refund 退款制）。</li>
+            <li><strong>機場流程：</strong>於成田海關免稅端末出示護照，系統判定綠燈即完成、紅燈需到檢查台確認商品帶出；務必把欲退稅商品留在隨身可查驗狀態。</li>
+            <li><strong>期限與鬆綁：</strong>須在購買日起 90 天內出境辦理；消耗品（化妝品、食品、藥品）特殊包裝與 50 萬日圓上限取消，與一般物品同等處理。</li>
+            <li><strong>退款方式：</strong>機場端末只負責「海關確認帶出」，實際退款由店家事後執行——多半退回購買時的信用卡，部分透過退稅服務商的機場櫃檯給現金。購買時留意店家說明的退款方式並保留收據。</li>
+        </ul>
+    </div>
+
+    <div class="panel t-slate panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-luggage"/></svg>隨身電器與行動電源</h3>
+        <ul>
+            <li><strong>行動電源（星宇航空 2025/3/1 起新規）：</strong>不可託運、每人最多 2 顆（100Wh 以下）且容量標示須清晰；<strong>機上全程禁止使用與充電</strong>，並須放在座位前口袋等視線可及處，不可收進上方行李櫃。</li>
+            <li><strong>電捲棒／直髮器：</strong>僅插電式或可拆卸電池款可攜帶；USB 充電或內建鋰電的無線款無法託運或手提，建議留在台灣。</li>
+        </ul>
+    </div>
+
+    <div class="panel t-sage panel--accent">
+        <h3 class="panel__title"><svg class="ic"><use href="#i-maple"/></svg>天氣、穿著與紅葉時節</h3>
+        <ul>
+            <li><strong>氣溫：</strong>東京市區約 10–15°C；草津溫泉（海拔約 1,200m）約 0–8°C，11 月下旬山區偏初冬、<strong>有初雪可能</strong>。洋蔥式穿搭＋保暖毛帽、厚羽絨、防滑鞋。夜間點燈（昭和紀念公園、橫濱海邊）站著看 1–2 小時會很冷，手套與暖暖包必備。</li>
+            <li><strong>銀杏時節：</strong>東京大學本鄉校區、明治神宮外苑、昭和紀念公園「語らいのイチョウ並木」皆為 <strong>11 月下旬至 12 月初</strong>見頃，本行程 11/23、11/25 正落在期間內（11/23 偏見頃前半、色已轉黃但未到巔峰）。</li>
+            <li><strong>楓葉時節：</strong>川越喜多院（11 月中～12 月初）、川越中院與小石川後樂園（11 月下～12 月初）都在見頃內，是本行程看「滿園楓紅」的主場。<strong>草津本身的紅葉在 10 月中～11 月初已結束</strong>，11/24 請當溫泉日看待。</li>
+            <li><strong>日落時間：</strong>11 月下旬東京日落約 16:30，白天景點請以 16:00 為收工線，之後全部安排點燈與市集。</li>
+        </ul>
+    </div>
 
     <!-- ===================== 預算表 ===================== -->
     <h2 class="section-h" id="budget"><svg class="ic"><use href="#i-yen"/></svg>兩人總花費預算</h2>
