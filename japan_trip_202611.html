@@ -7,7 +7,7 @@
   <meta name="description" content="2026 東京晚秋七日旅：草津溫泉、銀杏攝影、川越老街與橫濱聖誕夜景。">
   <title>東京晚秋七日｜2026.11.22–11.28</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@600;700;900&display=swap');
 
     :root{
       --ink:#18231f;
@@ -25,6 +25,8 @@
       --radius:30px;
       --sans:"Noto Sans TC",system-ui,sans-serif;
       --serif:"Noto Serif TC",serif;
+      --display:"Cormorant Garamond",serif;
+      --hand:"LXGW WenKai TC","Noto Serif TC",serif;
     }
 
     *{box-sizing:border-box}
@@ -52,7 +54,7 @@
     :focus-visible{outline:3px solid var(--gold);outline-offset:4px}
 
     .shell{width:min(1180px,calc(100% - 40px));margin-inline:auto}
-    .eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--maple)}
+    .eyebrow{font:700 .83rem/1.2 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--maple)}
     .section{padding:110px 0}
     .section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,440px);gap:40px;align-items:end;margin-bottom:48px}
     .section-head h2{font:900 clamp(2.4rem,5vw,5rem)/1.05 var(--serif);letter-spacing:-.045em;margin:.15em 0 0}
@@ -83,7 +85,7 @@
     .hero-copy{max-width:800px}
     .hero-copy .eyebrow{color:#f2d36e}
     .hero h1{font:900 clamp(3.5rem,9vw,8.8rem)/.92 var(--serif);letter-spacing:-.065em;margin:.16em 0 .22em;text-shadow:0 8px 40px rgba(0,0,0,.28)}
-    .hero h1 span{display:block;color:#f2cf65}
+    .hero h1 span{display:block;color:#f2cf65;font-family:var(--hand);font-weight:700;letter-spacing:-.045em}
     .hero-lede{font-size:clamp(1rem,1.4vw,1.22rem);max-width:650px;color:rgba(255,255,255,.82);margin:0 0 28px}
     .hero-chips{display:flex;flex-wrap:wrap;gap:10px}
     .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.09);backdrop-filter:blur(12px);font-size:.84rem;font-weight:700}
@@ -110,7 +112,7 @@
     .core-card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,20,18,.9),rgba(12,20,18,.06) 68%);z-index:1}
     .core-card__copy{position:absolute;z-index:2;inset:auto 28px 28px}
     .core-card__num{font:700 .75rem var(--sans);letter-spacing:.16em;color:#f2cf65}
-    .core-card h3{font:900 2rem/1.15 var(--serif);margin:.35em 0}
+    .core-card h3{font:700 2.15rem/1.15 var(--hand);margin:.35em 0}
     .core-card p{margin:0;color:rgba(255,255,255,.74);font-size:.91rem}
 
     .route-section{background:var(--ink);color:white;position:relative;overflow:hidden}
@@ -139,22 +141,22 @@
 
     .days{position:relative}
     .day-list{display:grid;gap:22px}
-    .day-card{display:grid;grid-template-columns:38% 1fr;min-height:350px;border:1px solid var(--line);border-radius:34px;background:rgba(255,253,248,.86);box-shadow:0 14px 50px rgba(37,43,35,.07);overflow:hidden;transition:transform .35s ease,box-shadow .35s ease}
+    .day-card{display:grid;grid-template-columns:38% 1fr;min-height:360px;border:1px solid var(--line);border-radius:34px;background:rgba(255,253,248,.86);box-shadow:0 14px 50px rgba(37,43,35,.07);overflow:hidden;transition:transform .35s ease,box-shadow .35s ease}
     .day-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
     .day-card:nth-child(even){grid-template-columns:1fr 38%}
     .day-card:nth-child(even) .day-media{order:2}
-    .day-media{position:relative;min-height:350px;overflow:hidden;background:var(--paper-2)}
+    .day-media{position:relative;min-height:360px;overflow:hidden;background:var(--paper-2)}
     .day-media img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
     .day-card:hover .day-media img{transform:scale(1.035)}
     .day-media::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,24,20,.48),transparent 48%)}
-    .media-note{position:absolute;z-index:2;left:20px;bottom:17px;color:white;font-size:.73rem;font-weight:700;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+    .media-note{position:absolute;z-index:2;left:20px;bottom:17px;color:white;font:700 .86rem/1.2 var(--display);letter-spacing:.035em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
     .day-body{padding:38px 42px;display:flex;flex-direction:column;justify-content:center;min-width:0}
     .day-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-    .day-num{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:var(--ink);color:white;font:900 1.15rem var(--serif)}
-    .day-date{font-size:.78rem;font-weight:900;color:var(--maple);letter-spacing:.06em}
+    .day-num{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:var(--ink);color:white;font:700 1.35rem var(--display)}
+    .day-date{font:700 .9rem/1 var(--display);color:var(--maple);letter-spacing:.08em}
     .pace{margin-left:auto;padding:5px 10px;border-radius:999px;background:#e6eee8;color:var(--pine);font-size:.7rem;font-weight:900}
     .pace.full{background:#f5e6bd;color:#745510}.pace.long{background:#eadcd8;color:#803b2d}
-    .day-card h3{font:900 clamp(1.55rem,3vw,2.5rem)/1.2 var(--serif);margin:0 0 12px;letter-spacing:-.025em}
+    .day-card h3{font:700 clamp(1.65rem,3vw,2.55rem)/1.25 var(--hand);margin:0 0 12px;letter-spacing:-.025em}
     .day-summary{color:var(--muted);margin:0 0 18px}
     .micro-route{display:flex;align-items:center;flex-wrap:wrap;gap:7px;font-size:.78rem;font-weight:800;color:var(--pine);margin-bottom:20px}
     .micro-route i{width:18px;height:1px;background:#b7a67e;position:relative}.micro-route i::after{content:"";position:absolute;right:0;top:-2px;border-left:4px solid #b7a67e;border-top:2px solid transparent;border-bottom:2px solid transparent}
@@ -198,6 +200,8 @@
     .info-card li+li{margin-top:8px}.info-card a{font-weight:800;color:var(--maple)}
     .truth-note{margin-top:24px;padding:18px 22px;border-left:4px solid var(--gold);background:#fff9e9;border-radius:0 18px 18px 0;font-size:.82rem;color:#635b45}
 
+    .route-section .section-head h2,.memory-card h3,footer h2{font-family:var(--hand);font-weight:700}
+
     footer{background:#14201c;color:white;padding:70px 0 40px}
     .footer-top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.12)}
     footer h2{font:900 clamp(2.3rem,6vw,5.8rem)/1 var(--serif);letter-spacing:-.05em;margin:0;color:#f1cf68}
@@ -210,7 +214,7 @@
       .navlinks a:not(.nav-cta){display:none}
       .hero-inner{grid-template-columns:1fr}.trip-card{max-width:350px}.scroll-hint{display:none}
       .section-head{grid-template-columns:1fr}.core-grid{grid-template-columns:1fr}.core-card{min-height:430px}
-      .day-card,.day-card:nth-child(even){grid-template-columns:1fr}.day-card:nth-child(even) .day-media{order:0}.day-media{min-height:300px;max-height:55vw}
+      .day-card,.day-card:nth-child(even){grid-template-columns:1fr}.day-card:nth-child(even) .day-media{order:0}.day-media{min-height:0;max-height:none;aspect-ratio:16/9}
       .ess-grid{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr 1fr}
       .route-stop span{font-size:.68rem}.route-wrap{padding-inline:12px}.rail{left:calc(7.142857% + 10.286px);right:calc(7.142857% + 10.286px)}
     }
@@ -220,6 +224,7 @@
       .hero-inner{width:calc(100% - 26px);padding:130px 0 44px}.hero h1{font-size:clamp(3.2rem,18vw,5rem)}.trip-card{padding:18px}.countdown b{font-size:2.7rem}
       .core-card{min-height:350px}.core-card__copy{inset:auto 20px 22px}
       .route-wrap{padding:30px 18px}.rail,.traveller{display:none}.route-stops{grid-template-columns:1fr;gap:0}.route-stop{display:grid;grid-template-columns:32px 48px 1fr;align-items:center;text-align:left;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.09)}.route-stop::before{margin:0;width:13px;height:13px}.route-stop span{margin:0;font-size:.8rem}
+      .day-media{aspect-ratio:4/3}
       .day-body{padding:27px 22px}.day-detail{grid-template-columns:1fr}.note-block{grid-column:auto}.day-top{flex-wrap:wrap}.pace{margin-left:0}
       .memory-card,.status-board{padding:24px 20px}.status-row{grid-template-columns:72px 1fr}.status-row span:last-child{grid-column:2;text-align:left}
       .info-grid{grid-template-columns:1fr}.info-card{padding-inline:19px}.footer-top{grid-template-columns:1fr}.backtop{width:48px;height:48px}
@@ -322,7 +327,7 @@
         </div>
         <div class="day-list">
           <article class="day-card reveal" id="d1">
-            <div class="day-media"><img src="assets/japan/tokyo-university-ginkgo.jpg" alt="東京秋季街景" loading="lazy" style="object-position:center 62%"><span class="media-note">Tokyo · arrival evening</span></div>
+            <div class="day-media"><img src="assets/japan/ueno-station-night.jpg" alt="上野車站與城市夜景" loading="lazy" style="object-position:center 55%"><span class="media-note">Ueno · arrival evening</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">1</span><span class="day-date">11.22 SUN</span><span class="pace">輕鬆</span></div>
               <h3>抵達東京，先把腳步放慢</h3>
@@ -356,7 +361,7 @@
           </article>
 
           <article class="day-card reveal" id="d3">
-            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-night.webp" alt="草津溫泉湯畑夜景" loading="lazy"><span class="media-note">Kusatsu · the night belongs to steam</span></div>
+            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-night.jpg" alt="草津溫泉湯畑夜景" loading="lazy" style="object-position:center 58%"><span class="media-note">Kusatsu · the night belongs to steam</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">3</span><span class="day-date">11.24 TUE</span><span class="pace">慢旅</span></div>
               <h3>草津溫泉，一泊二食</h3>
@@ -373,7 +378,7 @@
           </article>
 
           <article class="day-card reveal" id="d4">
-            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-night.webp" alt="草津湯畑與溫泉街" loading="lazy" style="object-position:center 35%"><span class="media-note">Kusatsu · one more quiet morning</span></div>
+            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-day.jpg" alt="白天的草津湯畑與溫泉街" loading="lazy" style="object-position:center 54%"><span class="media-note">Kusatsu · one clear morning</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">4</span><span class="day-date">11.25 WED</span><span class="pace">恢復日</span></div>
               <h3>朝湯、早餐，慢慢回東京</h3>
@@ -424,7 +429,7 @@
           </article>
 
           <article class="day-card reveal" id="d7">
-            <div class="day-media"><img src="assets/japan/jingu-gaien-ginkgo.jpg" alt="東京銀杏大道" loading="lazy" style="object-position:center 58%"><span class="media-note">Ueno · a gentle last day</span></div>
+            <div class="day-media"><img src="assets/japan/narita-t2-departure.jpg" alt="成田國際機場第二航廈" loading="lazy" style="object-position:center 44%"><span class="media-note">Narita T2 · homeward bound</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">7</span><span class="day-date">11.28 SAT</span><span class="pace">安全收尾</span></div>
               <h3>上野散步，從容去機場</h3>
@@ -535,7 +540,7 @@
     <div class="shell">
       <div class="footer-top"><div><h2>去感受，不去完成。</h2><p>Tokyo late autumn · 2026.11.22–11.28</p></div><a class="backtop" href="#top" aria-label="回到頂端">↑</a></div>
       <div class="credits">
-        實景照片來源：東京大學銀杏 © Tokyo538 / CC0；昭和紀念公園與神宮外苑 © Kakidai / CC BY-SA 4.0；川越藏造老街 © Dandy1022 / CC BY-SA 4.0；橫濱聖誕市集 © Dick Thomas Johnson / CC BY 2.0，皆取自 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>。草津湯畑照片 © <a href="https://gunma-kanko.jp/spots/30" target="_blank" rel="noopener">群馬縣官方觀光指南</a>。照片僅作目的地示意，實際葉色、人潮、燈光與活動配置依 2026 當日狀況為準。
+        實景照片來源：東京大學銀杏 © Tokyo538 / CC0；昭和紀念公園與神宮外苑 © Kakidai / CC BY-SA 4.0；上野夜景 © Christophe95 / CC BY-SA 4.0；草津白天湯畑 © くろふね / CC BY-SA 4.0；川越藏造老街 © Dandy1022 / CC BY-SA 4.0；橫濱聖誕市集 © Dick Thomas Johnson / CC BY 2.0；成田第二航廈 © Banbam1029 / CC BY-SA 4.0，皆取自 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>。草津夜景照片 © <a href="https://gunma-kanko.jp/spots/30" target="_blank" rel="noopener">群馬縣官方觀光指南</a>。照片僅作目的地示意，實際葉色、人潮、燈光與活動配置依 2026 當日狀況為準。
       </div>
     </div>
   </footer>
