@@ -191,6 +191,9 @@
     .day-card h3{font:700 clamp(1.65rem,3vw,2.55rem)/1.25 var(--hand);margin:0 0 12px;letter-spacing:-.025em}
     .day-summary{color:var(--muted);margin:0 0 18px}
     .micro-route{display:flex;align-items:center;flex-wrap:wrap;gap:7px;font-size:.78rem;font-weight:800;color:var(--pine);margin-bottom:20px}
+    .micro-route a{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;background:#eef2ec;text-decoration:none;transition:.22s}
+    .micro-route a::after{content:"↗";font-size:.65rem;color:var(--maple)}
+    .micro-route a:hover{background:#f3e4b9;color:#6e5110;transform:translateY(-1px)}
     .micro-route i{width:18px;height:1px;background:#b7a67e;position:relative}.micro-route i::after{content:"";position:absolute;right:0;top:-2px;border-left:4px solid #b7a67e;border-top:2px solid transparent;border-bottom:2px solid transparent}
     details{border-top:1px solid var(--line);padding-top:16px}
     summary{list-style:none;cursor:pointer;font-size:.83rem;font-weight:900;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -232,6 +235,35 @@
     .info-card li+li{margin-top:8px}.info-card a{font-weight:800;color:var(--maple)}
     .truth-note{margin-top:24px;padding:18px 22px;border-left:4px solid var(--gold);background:#fff9e9;border-radius:0 18px 18px 0;font-size:.82rem;color:#635b45}
 
+    .toolbox{background:#dfe7e1;position:relative;overflow:hidden}
+    .toolbox::before{content:"旅";position:absolute;right:-.08em;top:-.32em;font:900 28rem/1 var(--serif);color:rgba(39,76,62,.045);pointer-events:none}
+    .tool-shell{position:relative;z-index:1;border:1px solid rgba(39,76,62,.14);border-radius:38px;background:rgba(255,253,248,.78);box-shadow:var(--shadow);overflow:hidden}
+    .tool-tabs{display:flex;gap:8px;padding:16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.45)}
+    .tool-tabs::-webkit-scrollbar{display:none}
+    .tool-tab{flex:1;min-width:135px;border:0;border-radius:18px;background:transparent;padding:13px 16px;font-weight:900;font-size:.82rem;cursor:pointer;white-space:nowrap;transition:.25s}
+    .tool-tab:hover{background:#edf0e8}.tool-tab[aria-selected="true"]{background:var(--ink);color:white;box-shadow:0 10px 26px rgba(24,35,31,.18)}
+    .tool-panel{display:none;padding:30px;scroll-margin-top:86px}.tool-panel.active{display:block;animation:open .35s ease}
+    .tool-intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:22px}
+    .tool-intro h3{font:700 clamp(1.7rem,3vw,2.6rem)/1.15 var(--hand);margin:0}.tool-intro p{max-width:520px;color:var(--muted);font-size:.82rem;margin:0}
+    .map-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .day-map{padding:0 18px 16px;border:1px solid var(--line);border-radius:20px;background:white}
+    .day-map summary{padding-top:16px}.day-map summary b{font:700 1rem var(--display);color:var(--maple);margin-right:8px}.day-map summary span{font-size:.82rem}
+    .map-places{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .map-place{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:11px;background:#f2ede3;color:var(--pine);font-size:.73rem;font-weight:900;text-decoration:none}
+    .map-place::before{content:"⌖";color:var(--maple);font-size:1rem}.map-place:hover{background:#f3e4b9}
+    .map-transfer{margin:12px 0 0;color:var(--muted);font-size:.72rem}
+    .food-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:0;border-radius:28px;overflow:hidden;background:var(--ink);color:white;margin-bottom:18px}
+    .food-hero-main{padding:34px}.food-kicker{font:700 .75rem var(--display);letter-spacing:.15em;color:#f1cf68}.food-hero h4{font:700 clamp(2rem,4vw,3.5rem)/1 var(--hand);margin:.18em 0}.food-hero p{color:rgba(255,255,255,.7);font-size:.84rem;margin:0 0 18px}
+    .food-actions{display:flex;flex-wrap:wrap;gap:8px}.action-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border-radius:12px;background:#f1cf68;color:var(--ink);font-size:.73rem;font-weight:900;text-decoration:none}.action-link.secondary{background:rgba(255,255,255,.11);color:white;border:1px solid rgba(255,255,255,.18)}
+    .reserve-note{padding:30px;background:linear-gradient(145deg,#8e3828,#b44d37);display:flex;flex-direction:column;justify-content:center}.reserve-note b{font:700 1.35rem var(--hand);color:#ffe79a}.reserve-note span{font-size:.78rem;color:rgba(255,255,255,.78);margin-top:8px}
+    .food-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .food-card{display:flex;flex-direction:column;min-height:235px;padding:21px;border:1px solid var(--line);border-radius:22px;background:white}
+    .food-meta{display:flex;justify-content:space-between;gap:8px;color:var(--maple);font-size:.67rem;font-weight:900}.food-card h4{font:700 1.35rem/1.2 var(--hand);margin:10px 0 7px}.food-card p{margin:0;color:var(--muted);font-size:.76rem}.food-card .food-actions{margin-top:auto;padding-top:18px}.food-card .action-link{background:#edf1eb}.food-card .action-link:hover{background:#f3e4b9}
+    .task-grid,.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .task-card,.field-card{padding:22px;border:1px solid var(--line);border-radius:22px;background:white}.task-card strong,.field-card strong{display:block;font:700 1.22rem var(--hand);margin-bottom:7px}.task-card p,.field-card p{margin:0;color:var(--muted);font-size:.78rem}.task-date{display:inline-block;margin-bottom:10px;padding:5px 9px;border-radius:999px;background:#f3e4b9;color:#71530b;font-size:.66rem;font-weight:900}
+    .tool-tip{margin-top:18px;padding:14px 17px;border-radius:15px;background:#e8efe9;color:#365245;font-size:.76rem}
+    .mobile-tools{display:none}
+
     .route-section .section-head h2,.memory-card h3,footer h2{font-family:var(--hand);font-weight:700}
 
     footer{background:#14201c;color:white;padding:70px 0 40px}
@@ -250,9 +282,10 @@
       .ess-grid{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr 1fr}
       .route-stop span{font-size:.68rem}.route-wrap{padding-inline:12px}.rail{left:calc(7.142857% + 10.286px);right:calc(7.142857% + 10.286px)}
       .geo-grid{grid-template-columns:1fr}.travel-times{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .food-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
     @media(max-width:620px){
-      .shell{width:min(100% - 24px,1180px)}.section{padding:78px 0}.topbar{height:52px}.brand{font-size:.85rem}.nav-cta{font-size:.72rem!important;padding:8px 11px!important}
+      body{padding-bottom:68px}.shell{width:min(100% - 24px,1180px)}.section{padding:78px 0}.topbar{height:52px}.brand{font-size:.85rem}.nav-cta{font-size:.72rem!important;padding:8px 11px!important}
       .facts .section-head h2{font-size:2.05rem;letter-spacing:-.055em}
       .hero-inner{width:calc(100% - 26px);padding:130px 0 44px}.hero h1{font-size:clamp(3.2rem,18vw,5rem)}.trip-card{padding:18px}.countdown b{font-size:2.7rem}
       .core-card{min-height:350px}.core-card__copy{inset:auto 20px 22px}
@@ -262,6 +295,7 @@
       .day-body{padding:27px 22px}.day-detail{grid-template-columns:1fr}.note-block{grid-column:auto}.day-top{flex-wrap:wrap}.pace{margin-left:0}
       .memory-card,.status-board{padding:24px 20px}.status-row{grid-template-columns:72px 1fr}.status-row span:last-child{grid-column:2;text-align:left}
       .info-grid{grid-template-columns:1fr}.info-card{padding-inline:19px}.footer-top{grid-template-columns:1fr}.backtop{width:48px;height:48px}
+      .tool-shell{border-radius:28px}.tool-panel{padding:20px 15px}.tool-tabs{padding:10px}.tool-tab{min-width:112px;padding:11px 12px}.tool-intro{display:block}.tool-intro p{margin-top:8px}.map-days,.food-grid,.task-grid,.field-grid,.food-hero{grid-template-columns:1fr}.food-hero-main,.reserve-note{padding:24px}.food-card{min-height:0}.mobile-tools{position:fixed;z-index:75;left:50%;bottom:10px;transform:translateX(-50%);display:flex;padding:6px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(20,32,28,.9);backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.25)}.mobile-tools a{padding:8px 12px;color:white;text-decoration:none;font-size:.68rem;font-weight:900;white-space:nowrap}.mobile-tools a:first-child{color:#f1cf68}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
@@ -273,10 +307,14 @@
       <a href="#story">旅行主軸</a>
       <a href="#route">七日動線</a>
       <a href="#days">每日行程</a>
+      <a href="#tools">旅行工具</a>
       <a href="#info">重要資訊</a>
       <a class="nav-cta" href="#ready">行前準備</a>
     </div>
   </nav>
+  <div class="mobile-tools" aria-label="旅行快捷工具">
+    <a href="#tool-map">⌖ 地圖</a><a href="#tool-food">♨ 吃飯</a><a href="#tool-book">✓ 待辦</a>
+  </div>
 
   <header class="hero" id="top">
     <img class="hero-bg" src="assets/japan/showa-kinen-ginkgo.jpg" alt="昭和紀念公園秋季銀杏與運河">
@@ -439,7 +477,7 @@
               <div class="day-top"><span class="day-num">1</span><span class="day-date">11.22 SUN</span><span class="pace">輕鬆</span></div>
               <h3>抵達東京，先把腳步放慢</h3>
               <p class="day-summary">成田進城、入住鶯谷。晚餐與散步都留在上野、阿美橫一帶，舒服適應東京的第一晚。</p>
-              <div class="micro-route"><span>成田 T2</span><i></i><span>日暮里</span><i></i><span>鶯谷・上野</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=日暮里駅" target="_blank" rel="noopener">日暮里</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=鶯谷駅" target="_blank" rel="noopener">鶯谷・上野</a></div>
               <details><summary>查看時間與備案</summary><div class="day-detail">
                 <div class="time-block"><b>14:20</b><span>JX802 抵達成田 T2；入境、領行李抓 60–90 分。</span></div>
                 <div class="time-block"><b>16:10–17:00</b><span>依實際入境進度搭 Skyliner 至日暮里，再搭山手線一站至鶯谷。</span></div>
@@ -456,7 +494,7 @@
               <div class="day-top"><span class="day-num">2</span><span class="day-date">11.23 MON · 日本國定假日</span><span class="pace full">攝影主場</span></div>
               <h3>東京大學晨光，昭和公園一路拍到夜</h3>
               <p class="day-summary">上午拍東京大學銀杏，午後專心留在昭和紀念公園，從日光一路拍到藍調與夜間點燈。</p>
-              <div class="micro-route"><span>東京大學</span><i></i><span>西立川</span><i></i><span>昭和紀念公園</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=東京大学本郷キャンパス" target="_blank" rel="noopener">東京大學</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=西立川駅" target="_blank" rel="noopener">西立川</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=国営昭和記念公園西立川口" target="_blank" rel="noopener">昭和紀念公園</a></div>
               <details><summary>查看拍攝節奏</summary><div class="day-detail">
                 <div class="time-block"><b>08:00–09:30</b><span>東京大學本鄉校區：銀杏並木、安田講堂周邊。</span></div>
                 <div class="time-block"><b>09:40–11:15</b><span>轉往西立川；途中買便當與熱飲。</span></div>
@@ -473,7 +511,7 @@
               <div class="day-top"><span class="day-num">3</span><span class="day-date">11.24 TUE</span><span class="pace">慢旅</span></div>
               <h3>草津溫泉，一泊二食</h3>
               <p class="day-summary">只帶小行李上山。下午在露天風呂與揉湯表演之間二選一，晚上把時間留給旅館與湯畑。</p>
-              <div class="micro-route"><span>上野</span><i></i><span>長野原草津口</span><i></i><span>草津溫泉</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=上野駅" target="_blank" rel="noopener">上野</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉湯畑" target="_blank" rel="noopener">草津溫泉</a></div>
               <details><summary>查看交通與取捨</summary><div class="day-detail">
                 <div class="time-block"><b>上午</b><span>預設搭上野 10:00 左右的「草津・四萬」直達長野原草津口；秋季正式時刻公布後鎖定。</span></div>
                 <div class="time-block"><b>13:00 前後</b><span>巴士抵草津、午餐、寄放行李與湯畑散步。</span></div>
@@ -490,7 +528,7 @@
               <div class="day-top"><span class="day-num">4</span><span class="day-date">11.25 WED</span><span class="pace">恢復日</span></div>
               <h3>朝湯、早餐，慢慢回東京</h3>
               <p class="day-summary">享受旅館早晨後，搭中午前後的直達特急回上野。下午休息、整理照片，再到附近輕鬆散步。</p>
-              <div class="micro-route"><span>草津晨景</span><i></i><span>直達特急</span><i></i><span>上野・鶯谷</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉湯畑" target="_blank" rel="noopener">草津晨景</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=鶯谷駅" target="_blank" rel="noopener">上野・鶯谷</a></div>
               <details><summary>查看回程原則</summary><div class="day-detail">
                 <div class="time-block"><b>07:00–10:00</b><span>朝湯、早餐、最後一次湯畑散步與退房。</span></div>
                 <div class="time-block"><b>中午前後</b><span>巴士至長野原草津口，搭確認有運行的直達特急回上野。</span></div>
@@ -507,7 +545,7 @@
               <div class="day-top"><span class="day-num">5</span><span class="day-date">11.26 THU</span><span class="pace full">完整但順</span></div>
               <h3>川越老街，黃昏再到神宮外苑</h3>
               <p class="day-summary">上午完整感受喜多院、藏造老街與午餐。午後回東京拍神宮外苑黃昏；同區市集若如期舉辦再順遊。</p>
-              <div class="micro-route"><span>川越老街</span><i></i><span>池袋</span><i></i><span>神宮外苑</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=川越一番街商店街" target="_blank" rel="noopener">川越老街</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=池袋駅" target="_blank" rel="noopener">池袋</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=明治神宮外苑いちょう並木" target="_blank" rel="noopener">神宮外苑</a></div>
               <details><summary>查看下午銜接</summary><div class="day-detail">
                 <div class="time-block"><b>09:40–12:00</b><span>喜多院／中院，再進藏造老街、時之鐘與菓子屋橫丁。</span></div>
                 <div class="time-block"><b>12:00–14:00</b><span>川越午餐與自由散步；冰川神社視當下體力決定。</span></div>
@@ -524,7 +562,7 @@
               <div class="day-top"><span class="day-num">6</span><span class="day-date">11.27 FRI</span><span class="pace long">長日但值得</span></div>
               <h3>親戚午餐，接橫濱聖誕夜</h3>
               <p class="day-summary">白天與親戚相聚，傍晚沿汽車道走向紅磚倉庫，把市集、港景與晚餐留在同一個區域。</p>
-              <div class="micro-route"><span>鶴卷溫泉</span><i></i><span>海老名</span><i></i><span>橫濱港區</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=海老名駅" target="_blank" rel="noopener">海老名</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=横浜赤レンガ倉庫" target="_blank" rel="noopener">橫濱港區</a></div>
               <details><summary>查看晚間取捨</summary><div class="day-detail">
                 <div class="time-block"><b>09:15–11:30</b><span>經新宿搭小田急前往鶴卷溫泉；注意快速急行不停本站。</span></div>
                 <div class="time-block"><b>12:00–14:00</b><span>親戚午餐。由親戚選站旁、長輩方便的店最合適。</span></div>
@@ -541,7 +579,7 @@
               <div class="day-top"><span class="day-num">7</span><span class="day-date">11.28 SAT</span><span class="pace">安全收尾</span></div>
               <h3>上野散步，從容去機場</h3>
               <p class="day-summary">最後一天不跑遠。上野公園、午餐與採買擇一兩項，提早抵成田處理 2026 年 11 月上路的新退稅流程。</p>
-              <div class="micro-route"><span>上野</span><i></i><span>Skyliner</span><i></i><span>成田 T2</span></div>
+              <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=上野公園" target="_blank" rel="noopener">上野</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=京成上野駅" target="_blank" rel="noopener">京成上野</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a></div>
               <details><summary>查看返程安全線</summary><div class="day-detail">
                 <div class="time-block"><b>08:30</b><span>退房並寄放行李；上野公園或舊岩崎邸擇一。</span></div>
                 <div class="time-block"><b>12:00–15:00</b><span>午餐、阿美橫／多慶屋最後採買。</span></div>
@@ -555,11 +593,94 @@
       </div>
     </section>
 
+    <section class="section toolbox" id="tools">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><span class="eyebrow">Travel toolbox</span><h2>要用時，全部在這裡</h2></div>
+          <p>主行程保持清楚；導航、吃飯、預約與現場提醒集中收納。人在日本時，直接從手機下方快捷列進入。</p>
+        </div>
+        <div class="tool-shell reveal">
+          <div class="tool-tabs" role="tablist" aria-label="旅行工具分類">
+            <button class="tool-tab" id="tab-map" role="tab" aria-selected="true" aria-controls="tool-map" data-tool="map">⌖ 今日導航</button>
+            <button class="tool-tab" id="tab-food" role="tab" aria-selected="false" aria-controls="tool-food" data-tool="food">♨ 吃什麼</button>
+            <button class="tool-tab" id="tab-book" role="tab" aria-selected="false" aria-controls="tool-book" data-tool="book">✓ 預約待辦</button>
+            <button class="tool-tab" id="tab-field" role="tab" aria-selected="false" aria-controls="tool-field" data-tool="field">☂ 現場注意</button>
+          </div>
+
+          <div class="tool-panel active" id="tool-map" role="tabpanel" aria-labelledby="tab-map">
+            <div class="tool-intro"><h3>D1–D7 一鍵開導航</h3><p>點景點會以該處為目的地開啟 Google Maps，再按「路線」即可從目前位置出發。交通時間是正常狀況的概略值。</p></div>
+            <div class="map-days">
+              <details class="day-map" open><summary><span><b>D1</b>成田 → 鶯谷・上野</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=日暮里駅" target="_blank" rel="noopener">日暮里站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=鶯谷駅" target="_blank" rel="noopener">鶯谷站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=アメ横商店街" target="_blank" rel="noopener">阿美橫</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=不忍池" target="_blank" rel="noopener">不忍池</a>
+              </div><p class="map-transfer">Skyliner 至日暮里約 36–40 分；山手線至鶯谷約 3 分。</p></details>
+              <details class="day-map"><summary><span><b>D2</b>東大 → 昭和紀念公園</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=東京大学本郷キャンパス正門" target="_blank" rel="noopener">東大正門</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=東京大学安田講堂" target="_blank" rel="noopener">安田講堂</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=西立川駅" target="_blank" rel="noopener">西立川站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=国営昭和記念公園西立川口" target="_blank" rel="noopener">西立川口</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=昭和記念公園日本庭園" target="_blank" rel="noopener">日本庭園</a>
+              </div><p class="map-transfer">本鄉至西立川約 75–95 分；園內步行範圍大，預留休息。</p></details>
+              <details class="day-map"><summary><span><b>D3</b>上野 → 草津溫泉</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=上野駅" target="_blank" rel="noopener">上野站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉バスターミナル" target="_blank" rel="noopener">草津巴士總站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉湯畑" target="_blank" rel="noopener">湯畑</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=西の河原露天風呂" target="_blank" rel="noopener">西之河原露天風呂</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=熱乃湯" target="_blank" rel="noopener">熱乃湯</a>
+              </div><p class="map-transfer">上野至長野原草津口約 2 小時 20 分；接駁巴士約 25 分。</p></details>
+              <details class="day-map"><summary><span><b>D4</b>草津 → 上野・鶯谷</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉湯畑" target="_blank" rel="noopener">湯畑晨景</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉バスターミナル" target="_blank" rel="noopener">草津巴士總站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=谷中銀座商店街" target="_blank" rel="noopener">谷中銀座候補</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=上野公園" target="_blank" rel="noopener">上野公園候補</a>
+              </div><p class="map-transfer">草津回上野約 3 小時；當天以正式班表與巴士銜接為準。</p></details>
+              <details class="day-map"><summary><span><b>D5</b>川越 → 神宮外苑</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=喜多院" target="_blank" rel="noopener">喜多院</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=川越一番街商店街" target="_blank" rel="noopener">藏造老街</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=時の鐘" target="_blank" rel="noopener">時之鐘</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=菓子屋横丁" target="_blank" rel="noopener">菓子屋橫丁</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=川越氷川神社" target="_blank" rel="noopener">冰川神社候補</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=明治神宮外苑いちょう並木" target="_blank" rel="noopener">神宮外苑銀杏</a>
+              </div><p class="map-transfer">池袋至川越約 30 分；川越老街回神宮外苑約 75–95 分。</p></details>
+              <details class="day-map"><summary><span><b>D6</b>鶴卷溫泉 → 橫濱</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=弘法の里湯" target="_blank" rel="noopener">弘法之里湯</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=海老名駅" target="_blank" rel="noopener">海老名站</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=汽車道" target="_blank" rel="noopener">汽車道</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=横浜赤レンガ倉庫" target="_blank" rel="noopener">紅磚倉庫</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=MARINE+%26+WALK+YOKOHAMA" target="_blank" rel="noopener">MARINE &amp; WALK</a>
+              </div><p class="map-transfer">上野至鶴卷溫泉約 2 小時；鶴卷溫泉至橫濱約 75–90 分。</p></details>
+              <details class="day-map"><summary><span><b>D7</b>上野 → 成田返程</span></summary><div class="map-places">
+                <a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=旧岩崎邸庭園" target="_blank" rel="noopener">舊岩崎邸</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=上野恩賜公園" target="_blank" rel="noopener">上野公園</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=アメ横商店街" target="_blank" rel="noopener">阿美橫</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=多慶屋" target="_blank" rel="noopener">多慶屋</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=京成上野駅" target="_blank" rel="noopener">京成上野</a><a class="map-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a>
+              </div><p class="map-transfer">Skyliner 約 44 分；建議 17:10 前抵達機場處理退稅與報到。</p></details>
+            </div>
+            <div class="tool-tip"><strong>出發前：</strong>在 Google Maps 把重要地點加入同一個清單，並下載東京、群馬離線地圖；訊號不穩時仍能找到位置。</div>
+          </div>
+
+          <div class="tool-panel" id="tool-food" role="tabpanel" aria-labelledby="tab-food" hidden>
+            <div class="tool-intro"><h3>爸爸選餐廳，動線替你把關</h3><p>保留真正順路的店。價位以 ¥ 符號作相對比較，營業時間與菜單仍需在出發前再次確認。</p></div>
+            <article class="food-hero">
+              <div class="food-hero-main"><span class="food-kicker">FIRST CHOICE · D1 20:00</span><h4>鶯谷園</h4><p>這趟最想吃的燒肉。離住宿基地近，抵達夜不必再跨區；舊版推薦特上部位與厚切牛舌。熱門且主要接受電話聯絡，優先交由 Visa 禮賓協助。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=鶯谷園+焼肉" target="_blank" rel="noopener">Google Maps</a><a class="action-link secondary" href="tel:+81338748717">+81 3-3874-8717</a></div></div>
+              <div class="reserve-note"><b>10/22 送出代訂委託</b><span>請 Visa 禮賓先確認店家最新開放規則，再協助致電；目標預訂 11/22 20:00、2 位，並確認當日營業、取消規則與可否指定禁菸座位。</span></div>
+            </article>
+            <div class="food-grid">
+              <article class="food-card"><div class="food-meta"><span>D3 · 草津午餐</span><span>¥</span></div><h4>三國家</h4><p>湯畑附近蕎麥名店；三國蕎麥配舞茸天婦羅是舊版首選。午間排隊時，不犧牲旅館報到時間。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉+三國家" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.kusatsu-onsen.ne.jp/kankou/1059.php" target="_blank" rel="noopener">店家資訊</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D5 · 川越正式午餐</span><span>¥¥¥</span></div><h4>小川菊</h4><p>江戶時代延續至今的老鋪鰻魚飯，最符合老街主題。熱門時可能提早停止候位，抵達老街先登記。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=小川菊+川越" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.ogakiku.com/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D5 · 川越替代</span><span>¥¥¥</span></div><h4>川越 いちのや</h4><p>同樣是鰻魚老鋪，空間與座位選擇相對多。小川菊候位太久時，作為不破壞行程的正式候補。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=川越いちのや" target="_blank" rel="noopener">Google Maps</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D6 · 長輩方便</span><span>¥</span></div><h4>一の屋 鶴寿庵</h4><p>鶴卷溫泉站步行約 3 分、弘法之里湯館內。蕎麥、定食、丼飯都有，少走路且可坐著聊天。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=一の屋鶴寿庵" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.kakujuan.com/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D6 · 正式會席</span><span>¥¥¥¥</span></div><h4>元湯 陣屋</h4><p>如果爸爸希望聚餐正式一點，選日歸會席方案；環境與服務完整，但需事先預約並確認當日方案。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=鶴巻温泉+元湯陣屋" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://jinya-inn.com/tsurumaki/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D7 · 上野收尾</span><span>¥¥¥</span></div><h4>鰻割烹 伊豆榮</h4><p>上野池之端的傳統鰻魚與日本料理，座位舒適、可電話預約，適合把最後一餐吃得完整。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=伊豆榮本店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://izuei.co.jp/shop/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D7 · 洋食候補</span><span>¥¥</span></div><h4>上野精養軒</h4><p>上野公園內的老牌洋食。想吃燉牛肉、蛋包飯，又不想離開最後一天的安全範圍，就選這裡。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=上野精養軒本店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.seiyoken.co.jp/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D6 · 橫濱彈性晚餐</span><span>¥–¥¥¥</span></div><h4>紅磚倉庫館內</h4><p>市集攤食不夠或天氣太冷，就直接進館選餐廳；不另外移動，港區夜景時間完整保留。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=横浜赤レンガ倉庫" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.yokohama-akarenga.jp/cafe/" target="_blank" rel="noopener">餐廳列表</a></div></article>
+            </div>
+          </div>
+
+          <div class="tool-panel" id="tool-book" role="tabpanel" aria-labelledby="tab-book" hidden>
+            <div class="tool-intro"><h3>只有會影響行程的待辦</h3><p>先處理會售罄或需要人工聯絡的項目；一般市區交通維持 Suica 彈性移動。</p></div>
+            <div class="task-grid">
+              <article class="task-card"><span class="task-date">2026.10.22 起優先處理</span><strong>鶯谷園｜Visa 禮賓代訂</strong><p>目標 11/22 20:00、2 位。提供電話 +81 3-3874-8717，請禮賓先確認最新訂位開放規則，再確認營業、取消規則與座位條件。</p></article>
+              <article class="task-card"><span class="task-date">2026.10.24–10.25 前後</span><strong>草津特急｜去回程指定席</strong><p>JR 指定席通常乘車日前一個月開售；實際開賣日、車次與草津巴士銜接以系統為準。</p></article>
+              <article class="task-card"><span class="task-date">2026.09–10</span><strong>秋季點燈與聖誕市集</strong><p>確認昭和紀念公園、東京聖誕市集、橫濱紅磚倉庫 2026 日期與票券。未公告前不先買替代票。</p></article>
+              <article class="task-card"><span class="task-date">聚餐人數確定後</span><strong>鶴卷溫泉午餐</strong><p>爸爸決定一の屋或元湯陣屋；若選陣屋，立即查日歸方案並預約。選一の屋也先電話確認團體座位。</p></article>
+            </div>
+          </div>
+
+          <div class="tool-panel" id="tool-field" role="tabpanel" aria-labelledby="tab-field" hidden>
+            <div class="tool-intro"><h3>現場最容易踩到的四件事</h3><p>不是背景知識，而是到了日本真的可能救回時間的提醒。</p></div>
+            <div class="field-grid">
+              <article class="field-card"><strong>🚆 看車種，不只看方向</strong><p>D6 小田急快速急行不停鶴卷溫泉；搭急行，或在本厚木／秦野換車。草津巴士與特急班距長，前一晚再查一次。</p></article>
+              <article class="field-card"><strong>🧳 草津只帶過夜小包</strong><p>東京房間全程保留，大行李留在鶯谷。不要拖大箱上草津，也不需要另外找寄物或宅配。</p></article>
+              <article class="field-card"><strong>🧤 草津是初冬</strong><p>11 月下旬入夜可能接近 0°C，也可能結冰。手套、保暖層與防滑鞋是必要裝備；泡湯後外出尤其注意溫差。</p></article>
+              <article class="field-card"><strong>🛂 退稅商品保持可查驗</strong><p>2026/11/1 起採 Refund 制度。商品與收據集中放置，D7 提早抵成田；實際退款方式依店家與國稅廳最新公告。</p></article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section essentials" id="ready">
       <div class="shell">
         <div class="section-head reveal">
-          <div><span class="eyebrow">Before you go</span><h2>只需要記得四件事</h2></div>
-          <p>先完成影響最大的四項；其餘交通、票券、裝備與備案都整理在下方資訊中心，需要時再展開。</p>
+          <div><span class="eyebrow">Before you go</span><h2>只需要先記得五件事</h2></div>
+          <p>先完成影響最大的五項；其餘交通、票券、裝備與備案都整理在工具箱與資訊中心，需要時再展開。</p>
         </div>
         <div class="ess-grid">
           <div class="memory-card reveal">
@@ -567,6 +688,7 @@
             <h3>完成就打勾</h3>
             <p>勾選狀態只存在這台裝置，不會上傳。</p>
             <div class="checklist" id="checklist">
+              <label class="check"><input type="checkbox" data-key="uguisudani"><span>10/22 起請 Visa 禮賓確認規則並代訂 11/22 鶯谷園晚餐</span></label>
               <label class="check"><input type="checkbox" data-key="train"><span>10/24 預訂去程、10/25 預訂回程的草津特急指定席</span></label>
               <label class="check"><input type="checkbox" data-key="events"><span>9–10 月確認昭和夜間活動、東京與橫濱市集公告</span></label>
               <label class="check"><input type="checkbox" data-key="family"><span>與親戚敲定 11/27 午餐時間、地點與人數</span></label>
@@ -632,10 +754,9 @@
             <li>草津交通延誤時優先保住旅館晚餐與住宿；回程若延誤，直接回鶯谷休息。</li>
             <li>市集未舉辦或售罄，神宮外苑銀杏與橫濱港景照常保留，行程仍能完整成立。</li>
           </ul></details>
-          <details class="info-card wide"><summary><span class="info-title"><span class="icon">💴</span>預算與快速地圖</span></summary><ul>
+          <details class="info-card wide"><summary><span class="info-title"><span class="icon">💴</span>預算與付款</span></summary><ul>
             <li>兩人不含機票與購物，先以約 NT$60,000–65,000 作為住宿、交通、餐食與活動的規劃範圍；實際金額依匯率與已付款訂單更新。</li>
             <li>準備信用卡與少量日圓現金，Suica 用於市區交通與小額付款。</li>
-            <li>需要導航時再開：<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%9B%BD%E5%96%B6%E6%98%AD%E5%92%8C%E8%A8%98%E5%BF%B5%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">昭和紀念公園</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%89%E6%B4%A5%E6%B8%A9%E6%B3%89+%E6%B9%AF%E7%95%91" target="_blank" rel="noopener">草津湯畑</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%94%B5%E9%80%A0%E3%82%8A%E3%81%AE%E7%94%BA%E4%B8%A6%E3%81%BF" target="_blank" rel="noopener">川越老街</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener">橫濱紅磚倉庫</a>。</li>
           </ul></details>
         </div>
         <div class="truth-note reveal"><strong>資訊使用方式：</strong>航班與已訂住宿依訂單執行；天氣、葉色、臨時列車與 2026 活動仍會變動。頁面把未公告資訊明確標成「待公告」或「再核對」，出發前請以官方最新資訊為準。</div>
@@ -680,6 +801,37 @@
         if (!detail.open) return;
         document.querySelectorAll('.day-card details[open]').forEach(other => { if (other !== detail) other.open = false; });
       }));
+
+      const toolTabs = [...document.querySelectorAll('.tool-tab')];
+      const toolPanels = [...document.querySelectorAll('.tool-panel')];
+      const activateTool = name => {
+        const nextTab = toolTabs.find(tab => tab.dataset.tool === name);
+        const nextPanel = document.getElementById(`tool-${name}`);
+        if (!nextTab || !nextPanel) return;
+        toolTabs.forEach(tab => tab.setAttribute('aria-selected', String(tab === nextTab)));
+        toolPanels.forEach(panel => {
+          const active = panel === nextPanel;
+          panel.classList.toggle('active', active);
+          panel.hidden = !active;
+        });
+      };
+      toolTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activateTool(tab.dataset.tool));
+        tab.addEventListener('keydown', event => {
+          if (!['ArrowLeft','ArrowRight'].includes(event.key)) return;
+          event.preventDefault();
+          const step = event.key === 'ArrowRight' ? 1 : -1;
+          const next = toolTabs[(index + step + toolTabs.length) % toolTabs.length];
+          activateTool(next.dataset.tool);
+          next.focus();
+        });
+      });
+      const toolFromHash = () => {
+        const match = location.hash.match(/^#tool-(map|food|book|field)$/);
+        if (match) activateTool(match[1]);
+      };
+      addEventListener('hashchange', toolFromHash);
+      toolFromHash();
 
       const boxes = document.querySelectorAll('#checklist input');
       boxes.forEach(box => {
