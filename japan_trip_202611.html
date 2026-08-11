@@ -290,12 +290,12 @@
       .hero-inner{width:calc(100% - 26px);padding:130px 0 44px}.hero h1{font-size:clamp(3.2rem,18vw,5rem)}.trip-card{padding:18px}.countdown b{font-size:2.7rem}
       .core-card{min-height:350px}.core-card__copy{inset:auto 20px 22px}
       .route-wrap{padding:30px 18px}.rail,.traveller{display:none}.route-stops{grid-template-columns:1fr;gap:0}.route-stop{display:grid;grid-template-columns:32px 48px 1fr;align-items:center;text-align:left;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.09)}.route-stop::before{margin:0;width:13px;height:13px}.route-stop span{margin:0;font-size:.8rem}
-      .geo-panel{padding:21px 16px;border-radius:28px}.geo-panel-head{display:block}.geo-panel-head p{margin-top:9px}.map-filter{flex-wrap:nowrap;overflow-x:auto;margin-inline:-3px;padding:0 3px 5px;scrollbar-width:none}.map-filter::-webkit-scrollbar{display:none}.map-filter label{flex:none}.map-scroll{overflow-x:auto}.trip-map{width:620px;max-width:none}.travel-times{grid-template-columns:1fr}.time-route{grid-template-columns:40px 1fr auto}.geo-note::after{content:" 手機可左右滑動地圖。"}
+      .geo-panel{padding:21px 8px;border-radius:28px}.geo-panel-head{display:block;padding-inline:8px}.geo-panel-head p{margin-top:9px}.map-filter{flex-wrap:nowrap;overflow-x:auto;margin-inline:0;padding:0 8px 5px;scrollbar-width:none}.map-filter::-webkit-scrollbar{display:none}.map-filter label{flex:none}.map-scroll{overflow:hidden;padding:4px}.trip-map{width:100%;max-width:100%;height:auto}.trip-map .geo-name{font-size:28px}.trip-map .geo-sub{display:none}.trip-map .map-badge text{font-size:19px}.trip-map .hub-label{x:398px;y:342px}.trip-map .narita-label{y:274px}.travel-times{grid-template-columns:1fr;padding-inline:8px}.time-route{grid-template-columns:40px 1fr auto}.geo-note{padding-inline:8px}.geo-note::after{content:" 點 D1–D7 可把其他路線淡化。"}
       .day-media{aspect-ratio:4/3}
       .day-body{padding:27px 22px}.day-detail{grid-template-columns:1fr}.note-block{grid-column:auto}.day-top{flex-wrap:wrap}.pace{margin-left:0}
       .memory-card,.status-board{padding:24px 20px}.status-row{grid-template-columns:72px 1fr}.status-row span:last-child{grid-column:2;text-align:left}
       .info-grid{grid-template-columns:1fr}.info-card{padding-inline:19px}.footer-top{grid-template-columns:1fr}.backtop{width:48px;height:48px}
-      .tool-shell{border-radius:28px}.tool-panel{padding:20px 15px}.tool-tabs{padding:10px}.tool-tab{min-width:112px;padding:11px 12px}.tool-intro{display:block}.tool-intro p{margin-top:8px}.map-days,.food-grid,.task-grid,.field-grid,.food-hero{grid-template-columns:1fr}.food-hero-main,.reserve-note{padding:24px}.food-card{min-height:0}.mobile-tools{position:fixed;z-index:75;left:50%;bottom:10px;transform:translateX(-50%);display:flex;padding:6px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(20,32,28,.9);backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.25)}.mobile-tools a{padding:8px 12px;color:white;text-decoration:none;font-size:.68rem;font-weight:900;white-space:nowrap}.mobile-tools a:first-child{color:#f1cf68}
+      .tool-shell{border-radius:28px}.tool-panel{padding:20px 15px}.tool-tabs{padding:10px}.tool-tab{min-width:112px;padding:11px 12px}.tool-intro{display:block}.tool-intro p{margin-top:8px}.map-days,.food-grid,.task-grid,.field-grid,.food-hero{grid-template-columns:1fr}.food-hero-main,.reserve-note{padding:24px}.food-card{min-height:0}.mobile-tools{position:fixed;z-index:75;left:50%;bottom:10px;transform:translateX(-50%);display:flex;padding:6px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(20,32,28,.9);backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.25);transition:opacity .25s ease,transform .25s ease}.map-in-view .mobile-tools{opacity:0;transform:translate(-50%,80px);pointer-events:none}.mobile-tools a{padding:8px 12px;color:white;text-decoration:none;font-size:.68rem;font-weight:900;white-space:nowrap}.mobile-tools a:first-child{color:#f1cf68}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
@@ -433,11 +433,11 @@
                 <circle class="geo-node" cx="278" cy="250" r="7"/><text class="geo-name" x="265" y="235" text-anchor="end">川越</text><text class="geo-sub" x="265" y="251" text-anchor="end">藏造老街</text>
                 <circle class="geo-node" cx="218" cy="340" r="7"/><text class="geo-name" x="204" y="358" text-anchor="end">立川</text><text class="geo-sub" x="204" y="374" text-anchor="end">昭和紀念公園</text>
                 <circle class="geo-node" cx="371" cy="280" r="5"/><text class="geo-sub" x="385" y="275">東京大學</text>
-                <circle class="geo-hub" cx="382" cy="316" r="10"/><text class="geo-name" x="398" y="306">上野・鶯谷</text><text class="geo-sub" x="398" y="323">固定住宿基地</text>
+                <circle class="geo-hub" cx="382" cy="316" r="10"/><text class="geo-name hub-label" x="398" y="306">上野・鶯谷</text><text class="geo-sub" x="398" y="323">固定住宿基地</text>
                 <circle class="geo-node" cx="353" cy="353" r="5"/><text class="geo-sub" x="365" y="365">神宮外苑</text>
                 <circle class="geo-node" cx="245" cy="423" r="7"/><text class="geo-name" x="230" y="414" text-anchor="end">鶴卷溫泉</text><text class="geo-sub" x="230" y="431" text-anchor="end">親戚午餐</text>
                 <circle class="geo-node" cx="357" cy="437" r="7"/><text class="geo-name" x="371" y="440">橫濱</text><text class="geo-sub" x="371" y="457">港區・紅磚倉庫</text>
-                <circle class="geo-node" cx="555" cy="310" r="7"/><text class="geo-name" x="555" y="289" text-anchor="middle">成田 T2</text>
+                <circle class="geo-node" cx="555" cy="310" r="7"/><text class="geo-name narita-label" x="555" y="289" text-anchor="middle">成田 T2</text>
 
                 <g class="map-badge geo-day" data-day="d1" transform="translate(463 279)"><rect width="32" height="20" fill="#ab6c80"/><text x="16" y="14">D1</text></g>
                 <g class="map-badge geo-day" data-day="d2" transform="translate(272 311)"><rect width="32" height="20" fill="#718e71"/><text x="16" y="14">D2</text></g>
@@ -565,7 +565,7 @@
               <div class="micro-route"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=海老名駅" target="_blank" rel="noopener">海老名</a><i></i><a href="https://www.google.com/maps/dir/?api=1&amp;destination=横浜赤レンガ倉庫" target="_blank" rel="noopener">橫濱港區</a></div>
               <details><summary>查看晚間取捨</summary><div class="day-detail">
                 <div class="time-block"><b>09:15–11:30</b><span>經新宿搭小田急前往鶴卷溫泉；注意快速急行不停本站。</span></div>
-                <div class="time-block"><b>12:00–14:00</b><span>親戚午餐。由親戚選站旁、長輩方便的店最合適。</span></div>
+                <div class="time-block"><b>12:00–13:30</b><span>親戚午餐。先請住在當地多年的親戚選熟悉、好坐且少走路的地方；若外出不便，就改成到家裡會面並預訂仕出し餐盒。</span></div>
                 <div class="time-block"><b>14:30–16:15</b><span>經海老名轉相鐵至橫濱，再走汽車道前往港區。</span></div>
                 <div class="time-block"><b>17:00–20:30</b><span>紅磚倉庫市集、港景；晚餐優先在市集或附近完成。</span></div>
                 <div class="note-block">2026 橫濱聖誕市集尚未公布。若開幕較晚，保留紅磚倉庫、汽車道與港區夜景，旅行主題仍成立。</div>
@@ -645,8 +645,8 @@
               <article class="food-card"><div class="food-meta"><span>D3 · 草津午餐</span><span>¥</span></div><h4>三國家</h4><p>湯畑附近蕎麥名店；三國蕎麥配舞茸天婦羅是舊版首選。午間排隊時，不犧牲旅館報到時間。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=草津温泉+三國家" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.kusatsu-onsen.ne.jp/kankou/1059.php" target="_blank" rel="noopener">店家資訊</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D5 · 川越正式午餐</span><span>¥¥¥</span></div><h4>小川菊</h4><p>江戶時代延續至今的老鋪鰻魚飯，最符合老街主題。熱門時可能提早停止候位，抵達老街先登記。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=小川菊+川越" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.ogakiku.com/" target="_blank" rel="noopener">官方</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D5 · 川越替代</span><span>¥¥¥</span></div><h4>川越 いちのや</h4><p>同樣是鰻魚老鋪，空間與座位選擇相對多。小川菊候位太久時，作為不破壞行程的正式候補。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=川越いちのや" target="_blank" rel="noopener">Google Maps</a></div></article>
-              <article class="food-card"><div class="food-meta"><span>D6 · 長輩方便</span><span>¥</span></div><h4>一の屋 鶴寿庵</h4><p>鶴卷溫泉站步行約 3 分、弘法之里湯館內。蕎麥、定食、丼飯都有，少走路且可坐著聊天。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=一の屋鶴寿庵" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.kakujuan.com/" target="_blank" rel="noopener">官方</a></div></article>
-              <article class="food-card"><div class="food-meta"><span>D6 · 正式會席</span><span>¥¥¥¥</span></div><h4>元湯 陣屋</h4><p>如果爸爸希望聚餐正式一點，選日歸會席方案；環境與服務完整，但需事先預約並確認當日方案。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=鶴巻温泉+元湯陣屋" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://jinya-inn.com/tsurumaki/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D6 · 最自然的第一選</span><span>LOCAL</span></div><h4>請親戚選熟悉的店</h4><p>他們在鶴卷住了幾十年，比我們更知道哪裡好坐、安靜、停車方便。邀約時只設定中午與由你們作東，不替在地人指定家旁觀光餐廳。</p><div class="food-actions"><a class="action-link" href="#d6">查看 D6 時間</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D6 · 少移動備案</span><span>預訂制</span></div><h4>到家裡會面＋仕出し</h4><p>若長輩外出不方便，可先徵得同意後到家裡會面，訂陣屋會席餐盒或一の屋仕出し。比強迫移動更體貼，也保留正式感。</p><div class="food-actions"><a class="action-link" href="https://jinya-inn.com/recommend/tsurumaki-catering-bento/" target="_blank" rel="noopener">陣屋仕出し</a><a class="action-link" href="https://www.demae-ichinoya.com/" target="_blank" rel="noopener">一の屋仕出し</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D7 · 上野收尾</span><span>¥¥¥</span></div><h4>鰻割烹 伊豆榮</h4><p>上野池之端的傳統鰻魚與日本料理，座位舒適、可電話預約，適合把最後一餐吃得完整。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=伊豆榮本店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://izuei.co.jp/shop/" target="_blank" rel="noopener">官方</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D7 · 洋食候補</span><span>¥¥</span></div><h4>上野精養軒</h4><p>上野公園內的老牌洋食。想吃燉牛肉、蛋包飯，又不想離開最後一天的安全範圍，就選這裡。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=上野精養軒本店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.seiyoken.co.jp/" target="_blank" rel="noopener">官方</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D6 · 橫濱彈性晚餐</span><span>¥–¥¥¥</span></div><h4>紅磚倉庫館內</h4><p>市集攤食不夠或天氣太冷，就直接進館選餐廳；不另外移動，港區夜景時間完整保留。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=横浜赤レンガ倉庫" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.yokohama-akarenga.jp/cafe/" target="_blank" rel="noopener">餐廳列表</a></div></article>
@@ -659,7 +659,7 @@
               <article class="task-card"><span class="task-date">2026.10.22 起優先處理</span><strong>鶯谷園｜Visa 禮賓代訂</strong><p>目標 11/22 20:00、2 位。提供電話 +81 3-3874-8717，請禮賓先確認最新訂位開放規則，再確認營業、取消規則與座位條件。</p></article>
               <article class="task-card"><span class="task-date">2026.10.24–10.25 前後</span><strong>草津特急｜去回程指定席</strong><p>JR 指定席通常乘車日前一個月開售；實際開賣日、車次與草津巴士銜接以系統為準。</p></article>
               <article class="task-card"><span class="task-date">2026.09–10</span><strong>秋季點燈與聖誕市集</strong><p>確認昭和紀念公園、東京聖誕市集、橫濱紅磚倉庫 2026 日期與票券。未公告前不先買替代票。</p></article>
-              <article class="task-card"><span class="task-date">聚餐人數確定後</span><strong>鶴卷溫泉午餐</strong><p>爸爸決定一の屋或元湯陣屋；若選陣屋，立即查日歸方案並預約。選一の屋也先電話確認團體座位。</p></article>
+              <article class="task-card"><span class="task-date">先問親戚，再決定店</span><strong>鶴卷溫泉午餐｜12:00</strong><p>先確認人數、步行能力、是否有車、飲食禁忌，以及願不願意在家裡會面。外食由親戚選熟悉的店；不便外出再改訂仕出し。</p></article>
             </div>
           </div>
 
@@ -792,6 +792,11 @@
         if (entry.isIntersecting) { entry.target.classList.add('seen'); io.unobserve(entry.target); }
       }), {threshold:.12});
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      const geoMap = document.getElementById('geoMap');
+      if (geoMap) new IntersectionObserver(([entry]) => {
+        document.body.classList.toggle('map-in-view', entry.isIntersecting);
+      }, {threshold:.18}).observe(geoMap);
 
       document.querySelectorAll('.route-stop').forEach(btn => btn.addEventListener('click', () => {
         document.getElementById(btn.dataset.target)?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'});
