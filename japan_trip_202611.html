@@ -117,9 +117,9 @@
     .route-section::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 30%,rgba(217,169,52,.15),transparent 35%),radial-gradient(circle at 85% 70%,rgba(62,117,93,.18),transparent 40%)}
     .route-section .section-head{position:relative}.route-section .section-head p{color:rgba(255,255,255,.62)}.route-section .eyebrow{color:#f2cf65}
     .route-wrap{position:relative;padding:70px 34px 30px;border:1px solid rgba(255,255,255,.12);border-radius:36px;background:rgba(255,255,255,.045);box-shadow:0 30px 90px rgba(0,0,0,.2);overflow:hidden}
-    .rail{height:5px;position:absolute;left:8%;right:8%;top:92px;border-radius:99px;background:rgba(255,255,255,.15)}
+    .rail{height:5px;position:absolute;left:calc(7.142857% + 29.143px);right:calc(7.142857% + 29.143px);top:92px;border-radius:99px;background:rgba(255,255,255,.15)}
     .rail::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,#e9bf4d,#e9bf4d 35%,#b35d42 56%,#6bb28f 100%);transform-origin:left;animation:routegrow 2.6s ease both}
-    .traveller{position:absolute;z-index:3;top:-8px;left:-7px;width:20px;height:20px;border:5px solid #18231f;border-radius:50%;background:#f8d66e;box-shadow:0 0 0 5px rgba(248,214,110,.18),0 0 26px #f8d66e;animation:journey 12s ease-in-out infinite}
+    .traveller{position:absolute;z-index:3;top:-7.5px;left:-10px;width:20px;height:20px;border:5px solid #18231f;border-radius:50%;background:#f8d66e;box-shadow:0 0 0 5px rgba(248,214,110,.18),0 0 26px #f8d66e;animation:journey 14s ease-in-out infinite}
     .route-stops{display:grid;grid-template-columns:repeat(7,1fr);position:relative;z-index:2}
     .route-stop{border:0;background:none;text-align:center;cursor:pointer;padding:0 5px;color:white}
     .route-stop::before{content:"";display:block;width:15px;height:15px;margin:15px auto 24px;border:4px solid #18231f;border-radius:50%;background:#f3cf67;box-shadow:0 0 0 1px rgba(255,255,255,.28);transition:.25s}
@@ -127,7 +127,15 @@
     .route-stop b{display:block;font-size:.74rem;color:#f2cf65;letter-spacing:.08em}
     .route-stop span{display:block;font-size:.84rem;margin-top:5px;color:rgba(255,255,255,.7)}
     @keyframes routegrow{from{transform:scaleX(0)}}
-    @keyframes journey{0%,7%{left:-7px}14%{left:16.6%}28%{left:33.3%}42%{left:50%}56%{left:66.6%}70%{left:83.3%}84%,100%{left:calc(100% - 13px)}}
+    @keyframes journey{
+      0%,5%{left:-10px}
+      14.285%,19.285%{left:calc(16.666667% - 10px)}
+      28.57%,33.57%{left:calc(33.333333% - 10px)}
+      42.855%,47.855%{left:calc(50% - 10px)}
+      57.14%,62.14%{left:calc(66.666667% - 10px)}
+      71.425%,76.425%{left:calc(83.333333% - 10px)}
+      85.71%,100%{left:calc(100% - 10px)}
+    }
 
     .days{position:relative}
     .day-list{display:grid;gap:22px}
@@ -181,9 +189,13 @@
     .official-links a{padding:7px 10px;border-radius:10px;background:white;border:1px solid var(--line);font-size:.7rem;font-weight:800;text-decoration:none}
 
     .facts{padding:90px 0}
-    .facts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-    .fact{padding:25px;border:1px solid var(--line);border-radius:24px;background:var(--card)}
-    .fact .icon{font-size:1.5rem}.fact h3{font:900 1.2rem var(--serif);margin:.55em 0 .4em}.fact p{font-size:.82rem;color:var(--muted);margin:0}.fact a{font-weight:800;color:var(--maple)}
+    .info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+    .info-card{padding:0 24px 20px;border:1px solid var(--line);border-radius:24px;background:var(--card);box-shadow:0 10px 30px rgba(37,43,35,.045)}
+    .info-card.wide{grid-column:1/-1}
+    .info-card summary{padding-top:20px;font:900 1.08rem var(--serif)}
+    .info-title{display:flex;align-items:center;gap:12px}.info-title .icon{font-size:1.35rem}
+    .info-card ul{margin:16px 0 0;padding-left:1.2em;color:var(--muted);font-size:.82rem}
+    .info-card li+li{margin-top:8px}.info-card a{font-weight:800;color:var(--maple)}
     .truth-note{margin-top:24px;padding:18px 22px;border-left:4px solid var(--gold);background:#fff9e9;border-radius:0 18px 18px 0;font-size:.82rem;color:#635b45}
 
     footer{background:#14201c;color:white;padding:70px 0 40px}
@@ -199,17 +211,18 @@
       .hero-inner{grid-template-columns:1fr}.trip-card{max-width:350px}.scroll-hint{display:none}
       .section-head{grid-template-columns:1fr}.core-grid{grid-template-columns:1fr}.core-card{min-height:430px}
       .day-card,.day-card:nth-child(even){grid-template-columns:1fr}.day-card:nth-child(even) .day-media{order:0}.day-media{min-height:300px;max-height:55vw}
-      .ess-grid{grid-template-columns:1fr}.facts-grid{grid-template-columns:1fr 1fr}
-      .route-stop span{font-size:.68rem}.route-wrap{padding-inline:12px}
+      .ess-grid{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr 1fr}
+      .route-stop span{font-size:.68rem}.route-wrap{padding-inline:12px}.rail{left:calc(7.142857% + 10.286px);right:calc(7.142857% + 10.286px)}
     }
     @media(max-width:620px){
       .shell{width:min(100% - 24px,1180px)}.section{padding:78px 0}.topbar{height:52px}.brand{font-size:.85rem}.nav-cta{font-size:.72rem!important;padding:8px 11px!important}
+      .facts .section-head h2{font-size:2.05rem;letter-spacing:-.055em}
       .hero-inner{width:calc(100% - 26px);padding:130px 0 44px}.hero h1{font-size:clamp(3.2rem,18vw,5rem)}.trip-card{padding:18px}.countdown b{font-size:2.7rem}
-      .core-card{min-height:390px}.core-card__copy{inset:auto 20px 22px}
+      .core-card{min-height:350px}.core-card__copy{inset:auto 20px 22px}
       .route-wrap{padding:30px 18px}.rail,.traveller{display:none}.route-stops{grid-template-columns:1fr;gap:0}.route-stop{display:grid;grid-template-columns:32px 48px 1fr;align-items:center;text-align:left;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.09)}.route-stop::before{margin:0;width:13px;height:13px}.route-stop span{margin:0;font-size:.8rem}
       .day-body{padding:27px 22px}.day-detail{grid-template-columns:1fr}.note-block{grid-column:auto}.day-top{flex-wrap:wrap}.pace{margin-left:0}
       .memory-card,.status-board{padding:24px 20px}.status-row{grid-template-columns:72px 1fr}.status-row span:last-child{grid-column:2;text-align:left}
-      .facts-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.backtop{width:48px;height:48px}
+      .info-grid{grid-template-columns:1fr}.info-card{padding-inline:19px}.footer-top{grid-template-columns:1fr}.backtop{width:48px;height:48px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
@@ -221,6 +234,7 @@
       <a href="#story">旅行主軸</a>
       <a href="#route">七日動線</a>
       <a href="#days">每日行程</a>
+      <a href="#info">重要資訊</a>
       <a class="nav-cta" href="#ready">行前準備</a>
     </div>
   </nav>
@@ -237,7 +251,7 @@
       <div class="hero-copy">
         <div class="eyebrow">Tokyo · Kusatsu · Kawagoe · Yokohama</div>
         <h1>東京<span>晚秋七日</span></h1>
-        <p class="hero-lede">不追景點數量。這趟旅行只做好三件事：在草津慢下來、為秋葉等一道好光、在橫濱把聖誕夜景看完整。</p>
+        <p class="hero-lede">七天走過東京、草津、川越與橫濱：在溫泉慢下來、為秋葉等一道好光，最後在港邊迎接聖誕夜。</p>
         <div class="hero-chips">
           <span class="chip">2026.11.22 — 11.28</span>
           <span class="chip">7 天 6 夜</span>
@@ -259,8 +273,8 @@
     <section class="section manifesto" id="story">
       <div class="shell">
         <div class="section-head reveal">
-          <div><span class="eyebrow">The three reasons</span><h2>我們為什麼出發</h2></div>
-          <p>刪掉重複的市集、購物與趕場後，真正重要的只剩三個畫面。其他行程都服務這三件事。</p>
+          <div><span class="eyebrow">The three reasons</span><h2>這趟旅行的三個主角</h2></div>
+          <p>草津溫泉、東京秋葉與橫濱聖誕夜，串起七天的節奏。每一段移動，都為下一個值得停留的畫面留出餘裕。</p>
         </div>
         <div class="core-grid">
           <article class="core-card reveal">
@@ -273,7 +287,7 @@
           </article>
           <article class="core-card reveal" style="transition-delay:.2s">
             <img src="assets/japan/yokohama-christmas-market.jpg" alt="橫濱紅磚倉庫聖誕市集夜景" loading="lazy">
-            <div class="core-card__copy"><span class="core-card__num">03 · CHRISTMAS BY THE SEA</span><h3>橫濱聖誕夜</h3><p>親戚午餐之後只留港區、市集與夜景，不再追第三個晚餐地點。</p></div>
+            <div class="core-card__copy"><span class="core-card__num">03 · CHRISTMAS BY THE SEA</span><h3>橫濱聖誕夜</h3><p>與親戚相聚後走進港區，讓紅磚、市集與海邊夜景自然接續。</p></div>
           </article>
         </div>
       </div>
@@ -312,7 +326,7 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">1</span><span class="day-date">11.22 SUN</span><span class="pace">輕鬆</span></div>
               <h3>抵達東京，先把腳步放慢</h3>
-              <p class="day-summary">成田進城、入住鶯谷。晚上只在上野與阿美橫附近活動，不用第一天就證明旅行很充實。</p>
+              <p class="day-summary">成田進城、入住鶯谷。晚餐與散步都留在上野、阿美橫一帶，舒服適應東京的第一晚。</p>
               <div class="micro-route"><span>成田 T2</span><i></i><span>日暮里</span><i></i><span>鶯谷・上野</span></div>
               <details><summary>查看時間與備案</summary><div class="day-detail">
                 <div class="time-block"><b>14:20</b><span>JX802 抵達成田 T2；入境、領行李抓 60–90 分。</span></div>
@@ -329,7 +343,7 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">2</span><span class="day-date">11.23 MON · 日本國定假日</span><span class="pace full">攝影主場</span></div>
               <h3>東京大學晨光，昭和公園一路拍到夜</h3>
-              <p class="day-summary">早晨先拍校園銀杏，再把整個下午交給昭和紀念公園。表參道與市集全部移開，讓攝影真的有時間。</p>
+              <p class="day-summary">上午拍東京大學銀杏，午後專心留在昭和紀念公園，從日光一路拍到藍調與夜間點燈。</p>
               <div class="micro-route"><span>東京大學</span><i></i><span>西立川</span><i></i><span>昭和紀念公園</span></div>
               <details><summary>查看拍攝節奏</summary><div class="day-detail">
                 <div class="time-block"><b>08:00–09:30</b><span>東京大學本鄉校區：銀杏並木、安田講堂周邊。</span></div>
@@ -363,7 +377,7 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">4</span><span class="day-date">11.25 WED</span><span class="pace">恢復日</span></div>
               <h3>朝湯、早餐，慢慢回東京</h3>
-              <p class="day-summary">這天不再下山直奔立川。享受旅館早晨，搭中午前後的直達特急回上野，下午留白。</p>
+              <p class="day-summary">享受旅館早晨後，搭中午前後的直達特急回上野。下午休息、整理照片，再到附近輕鬆散步。</p>
               <div class="micro-route"><span>草津晨景</span><i></i><span>直達特急</span><i></i><span>上野・鶯谷</span></div>
               <details><summary>查看回程原則</summary><div class="day-detail">
                 <div class="time-block"><b>07:00–10:00</b><span>朝湯、早餐、最後一次湯畑散步與退房。</span></div>
@@ -380,7 +394,7 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">5</span><span class="day-date">11.26 THU</span><span class="pace full">完整但順</span></div>
               <h3>川越老街，黃昏再到神宮外苑</h3>
-              <p class="day-summary">川越不再只是上午打卡；保留喜多院、藏造老街與午餐。午後回東京，拍外苑銀杏，市集只當同區候補。</p>
+              <p class="day-summary">上午完整感受喜多院、藏造老街與午餐。午後回東京拍神宮外苑黃昏；同區市集若如期舉辦再順遊。</p>
               <div class="micro-route"><span>川越老街</span><i></i><span>池袋</span><i></i><span>神宮外苑</span></div>
               <details><summary>查看下午銜接</summary><div class="day-detail">
                 <div class="time-block"><b>09:40–12:00</b><span>喜多院／中院，再進藏造老街、時之鐘與菓子屋橫丁。</span></div>
@@ -397,7 +411,7 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">6</span><span class="day-date">11.27 FRI</span><span class="pace long">長日但值得</span></div>
               <h3>親戚午餐，接橫濱聖誕夜</h3>
-              <p class="day-summary">白天把時間留給家人，傍晚走港區與紅磚倉庫。中華街不再列為必去，避免晚上繼續趕。</p>
+              <p class="day-summary">白天與親戚相聚，傍晚沿汽車道走向紅磚倉庫，把市集、港景與晚餐留在同一個區域。</p>
               <div class="micro-route"><span>鶴卷溫泉</span><i></i><span>海老名</span><i></i><span>橫濱港區</span></div>
               <details><summary>查看晚間取捨</summary><div class="day-detail">
                 <div class="time-block"><b>09:15–11:30</b><span>經新宿搭小田急前往鶴卷溫泉；注意快速急行不停本站。</span></div>
@@ -433,7 +447,7 @@
       <div class="shell">
         <div class="section-head reveal">
           <div><span class="eyebrow">Before you go</span><h2>只需要記得四件事</h2></div>
-          <p>不再提供令人焦慮的長清單。完成這四項，整趟旅行的硬風險就已經處理大半。</p>
+          <p>先完成影響最大的四項；其餘交通、票券、裝備與備案都整理在下方資訊中心，需要時再展開。</p>
         </div>
         <div class="ess-grid">
           <div class="memory-card reveal">
@@ -469,17 +483,50 @@
       </div>
     </section>
 
-    <section class="facts">
+    <section class="facts" id="info">
       <div class="shell">
-        <div class="facts-grid reveal">
-          <article class="fact"><span class="icon">🏨</span><h3>住宿策略</h3><p>鶯谷 11/22–11/28 連住；11/24 即使睡草津也保留東京房間，大箱不移動。</p></article>
-          <article class="fact"><span class="icon">🚆</span><h3>交通策略</h3><p>市區用 Suica；草津去、回程特急視為指定席行程。正式秋季班表公布後再鎖定。</p></article>
-          <article class="fact"><span class="icon">💴</span><h3>預算視角</h3><p>兩人不含機票與購物，先抓約 NT$60,000–65,000。這是規劃帶，不是假裝精準的結算數。</p></article>
-          <article class="fact"><span class="icon">🧳</span><h3>行李</h3><p>草津只帶一件小行李；回程不再拖箱進昭和公園，也不需要西立川置物櫃。</p></article>
-          <article class="fact"><span class="icon">📷</span><h3>攝影</h3><p>11 月東京約 16:30 日落。白天景點在 16:00 前完成，之後只安排藍調、點燈與夜景。</p></article>
-          <article class="fact"><span class="icon">↗</span><h3>地圖</h3><p>需要導航時再開：<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%9B%BD%E5%96%B6%E6%98%AD%E5%92%8C%E8%A8%98%E5%BF%B5%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">昭和</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%89%E6%B4%A5%E6%B8%A9%E6%B3%89+%E6%B9%AF%E7%95%91" target="_blank" rel="noopener">草津</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%94%B5%E9%80%A0%E3%82%8A%E3%81%AE%E7%94%BA%E4%B8%A6%E3%81%BF" target="_blank" rel="noopener">川越</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener">橫濱</a>。</p></article>
+        <div class="section-head reveal">
+          <div><span class="eyebrow">Travel notes</span><h2>重要資訊，需要時再看</h2></div>
+          <p>預訂時程、行李、保暖與突發狀況都保留在這裡；平常收合，查資料時才展開，不干擾閱讀行程。</p>
         </div>
-        <div class="truth-note reveal"><strong>關於「100% 正確」：</strong>航班與已訂住宿能以訂單確認；但未來天氣、紅葉狀態、臨時列車與尚未公布的 2026 活動，不可能提前保證。這份頁面以「不把推測寫成事實」維持可靠性，並把必須再次確認的項目明確標出。</div>
+        <div class="info-grid reveal">
+          <details class="info-card"><summary><span class="info-title"><span class="icon">🚆</span>交通與劃位</span></summary><ul>
+            <li>市區以 Suica 為主；成田往返預留 Skyliner 劃位與進出站時間。</li>
+            <li>草津去程與回程皆以指定席規劃。JR 指定席通常於乘車日前一個月日本時間 10:00 開售：去程約 10/24、回程約 10/25，仍以 JR 系統實際開賣日為準。</li>
+            <li>2026 秋季特急與巴士接駁尚可能調整，出發前一週再核對完整班表與月台。</li>
+          </ul></details>
+          <details class="info-card"><summary><span class="info-title"><span class="icon">🏨</span>住宿與行李</span></summary><ul>
+            <li>鶯谷住宿自 11/22 至 11/28 保留；11/24 住草津時，東京房間仍作為固定基地。</li>
+            <li>大行李留在鶯谷房內，草津只帶過夜小包；攝影日也能輕裝移動。</li>
+            <li>出發前確認連住訂單、草津晚餐最晚報到時間，以及東京旅館保留房間的安排。</li>
+          </ul></details>
+          <details class="info-card"><summary><span class="info-title"><span class="icon">🎟️</span>活動與票券</span></summary><ul>
+            <li>昭和紀念公園 2026 夜間活動、神宮外苑附近市集與橫濱紅磚倉庫市集皆以官方公告為準。</li>
+            <li>神宮外苑的主角是銀杏；市集只有在同區、時間銜接順利時加入。</li>
+            <li>橫濱若採分時票，公告後優先選傍晚入場；親戚午餐時間確定後再鎖定。</li>
+          </ul></details>
+          <details class="info-card"><summary><span class="info-title"><span class="icon">🧤</span>天氣與攝影</span></summary><ul>
+            <li>東京 11 月下旬日落約在 16:30 前後；16:00 前完成白天拍攝，之後留給藍調、點燈與夜景。</li>
+            <li>草津海拔高、入夜可能接近 0°C，亦有降雪或結冰機會；攜帶保暖層、手套與防滑鞋，氣溫以出發前預報為準。</li>
+            <li>每日補滿電池與行動電源，準備鏡頭布及簡易防雨套；行動電源僅放隨身行李。</li>
+          </ul></details>
+          <details class="info-card"><summary><span class="info-title"><span class="icon">🛂</span>入境、退稅與連線</span></summary><ul>
+            <li>出發前完成 Visit Japan Web、旅平險與 eSIM；護照及訂單另存離線副本。</li>
+            <li>日本預定自 2026/11/1 起採退稅 Refund 制度：購物時先支付含稅價，離境確認後依店家方式退款；實際流程以國稅廳與店家公告為準。</li>
+            <li>退稅商品在離境檢查前保持可供查驗；行動電源容量與數量另依航空公司最新規則核對。</li>
+          </ul></details>
+          <details class="info-card"><summary><span class="info-title"><span class="icon">☂️</span>雨天與延誤備案</span></summary><ul>
+            <li>東京攝影日遇大雨，保留東京大學周邊，昭和紀念公園改為室內美術館、咖啡館或上野散步。</li>
+            <li>草津交通延誤時優先保住旅館晚餐與住宿；回程若延誤，直接回鶯谷休息。</li>
+            <li>市集未舉辦或售罄，神宮外苑銀杏與橫濱港景照常保留，行程仍能完整成立。</li>
+          </ul></details>
+          <details class="info-card wide"><summary><span class="info-title"><span class="icon">💴</span>預算與快速地圖</span></summary><ul>
+            <li>兩人不含機票與購物，先以約 NT$60,000–65,000 作為住宿、交通、餐食與活動的規劃範圍；實際金額依匯率與已付款訂單更新。</li>
+            <li>準備信用卡與少量日圓現金，Suica 用於市區交通與小額付款。</li>
+            <li>需要導航時再開：<a href="https://www.google.com/maps/dir/?api=1&destination=%E5%9B%BD%E5%96%B6%E6%98%AD%E5%92%8C%E8%A8%98%E5%BF%B5%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">昭和紀念公園</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%89%E6%B4%A5%E6%B8%A9%E6%B3%89+%E6%B9%AF%E7%95%91" target="_blank" rel="noopener">草津湯畑</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E8%94%B5%E9%80%A0%E3%82%8A%E3%81%AE%E7%94%BA%E4%B8%A6%E3%81%BF" target="_blank" rel="noopener">川越老街</a>・<a href="https://www.google.com/maps/dir/?api=1&destination=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener">橫濱紅磚倉庫</a>。</li>
+          </ul></details>
+        </div>
+        <div class="truth-note reveal"><strong>資訊使用方式：</strong>航班與已訂住宿依訂單執行；天氣、葉色、臨時列車與 2026 活動仍會變動。頁面把未公告資訊明確標成「待公告」或「再核對」，出發前請以官方最新資訊為準。</div>
       </div>
     </section>
   </main>
