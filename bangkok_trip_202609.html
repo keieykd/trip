@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#17483b">
+  <meta name="description" content="2026 曼谷四天三夜：豐富實景照片、每日地圖、雨季備案、四次精油按摩與雙人預算。">
+  <title>曼谷雨季慢遊｜2026.09.12–09.15</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynh2WvLkRmkP+nS96rLQOHuSJlM=" crossorigin="">
+  <style>
+    :root{
+      --cream:#f7f0e3;--cream-2:#eadfcd;--card:#fffaf1;--ink:#18342d;--muted:#687771;
+      --tea:#d8793d;--tea-dark:#a94723;--emerald:#17483b;--mint:#b7d5c7;--sun:#efb64b;
+      --rain:#557f99;--line:rgba(24,52,45,.13);--shadow:0 24px 70px rgba(47,54,43,.12);
+      --radius:30px;--sans:"Noto Sans TC",system-ui,sans-serif;--display:"DM Serif Display","Noto Sans TC",serif;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.7;overflow-x:hidden}
+    img{display:block;width:100%;max-width:100%}a{color:inherit;text-underline-offset:.2em}button{font:inherit;color:inherit}button,a{-webkit-tap-highlight-color:transparent}:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+    .shell{width:min(1180px,calc(100% - 40px));margin-inline:auto}.section{padding:100px 0}.eyebrow{font-weight:900;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tea-dark)}
+    .section-head{display:grid;grid-template-columns:1fr minmax(280px,430px);gap:40px;align-items:end;margin-bottom:42px}.section-head h2{font:400 clamp(2.5rem,5.5vw,5.2rem)/.98 var(--display);letter-spacing:-.045em;margin:.12em 0}.section-head p{margin:0;color:var(--muted)}
+    .reveal{opacity:0;transform:translateY(28px);transition:.75s ease}.reveal.seen{opacity:1;transform:none}
+    .topbar{position:fixed;z-index:90;top:14px;left:50%;transform:translateX(-50%);width:min(1130px,calc(100% - 28px));height:58px;padding:0 10px 0 19px;display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(19,62,51,.74);color:white;backdrop-filter:blur(18px);box-shadow:0 13px 38px rgba(0,0,0,.16)}
+    .brand{font:400 1.05rem var(--display);letter-spacing:.04em;text-decoration:none;white-space:nowrap}.nav{display:flex;gap:4px}.nav a{padding:8px 11px;border-radius:999px;text-decoration:none;font-size:.75rem;font-weight:800;color:rgba(255,255,255,.78)}.nav a:hover{background:rgba(255,255,255,.14);color:white}.nav .primary{background:var(--sun);color:var(--ink)}
+    .hero{min-height:100svh;position:relative;display:flex;align-items:flex-end;background:#143a31;color:white;overflow:hidden}.hero-bg{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;animation:drift 18s ease-in-out infinite alternate}.hero::before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(10,38,31,.91),rgba(10,38,31,.5) 52%,rgba(10,38,31,.12)),linear-gradient(0deg,rgba(10,38,31,.9),transparent 65%)}
+    .hero-inner{position:relative;z-index:3;width:min(1180px,calc(100% - 40px));margin:auto;padding:150px 0 72px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.55fr);gap:50px;align-items:end}.hero .eyebrow{color:#ffd27c}.hero h1{font:400 clamp(4rem,10vw,9.5rem)/.84 var(--display);letter-spacing:-.06em;margin:.16em 0 .22em}.hero h1 span{display:block;color:#f2a35f;font-family:var(--sans);font-size:.42em;font-weight:900;letter-spacing:-.045em;margin-top:.22em}.hero-lede{max-width:690px;color:rgba(255,255,255,.8);font-size:1.05rem}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}.chip{padding:8px 13px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.09);font-size:.78rem;font-weight:800;backdrop-filter:blur(10px)}
+    .flight-card{padding:25px;border:1px solid rgba(255,255,255,.24);border-radius:28px;background:rgba(255,255,255,.11);backdrop-filter:blur(20px);box-shadow:0 25px 70px rgba(0,0,0,.18)}.flight-card h2{font:400 1.55rem var(--display);margin:0 0 16px}.flight-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,.16)}.flight-row:first-of-type{border-top:0}.flight-row b{display:block;font-size:1.45rem}.flight-row small{display:block;color:rgba(255,255,255,.62)}.flight-row .to{text-align:right}.plane{color:#f5b966;font-size:1.3rem}.flight-foot{margin:13px 0 0;color:rgba(255,255,255,.65);font-size:.75rem}
+    .rain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.36;background-image:repeating-linear-gradient(104deg,transparent 0 28px,rgba(255,255,255,.22) 29px 30px,transparent 31px 58px);background-size:80px 180px;animation:rain 1.7s linear infinite}.cloud{position:absolute;z-index:2;border-radius:999px;background:rgba(255,255,255,.08);filter:blur(1px);animation:cloud 22s linear infinite}.cloud.c1{width:240px;height:55px;top:18%;left:-260px}.cloud.c2{width:170px;height:38px;top:32%;left:-190px;animation-delay:-11s}
+    @keyframes drift{to{transform:scale(1.045) translate(-1%,1%)}}@keyframes rain{to{background-position:35px 180px}}@keyframes cloud{to{left:110%}}
+    .intro{position:relative;overflow:hidden}.intro::after{content:"ช้าๆ";position:absolute;right:-40px;bottom:-75px;font:400 14rem var(--display);color:rgba(216,121,61,.06);transform:rotate(-8deg)}.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1}.pillar{padding:28px;border:1px solid var(--line);border-radius:26px;background:rgba(255,250,241,.8);box-shadow:0 12px 40px rgba(41,51,43,.06)}.pillar i{display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:var(--emerald);color:white;font-style:normal;font-size:1.25rem}.pillar h3{font:400 1.55rem var(--display);margin:.75em 0 .25em}.pillar p{margin:0;color:var(--muted);font-size:.82rem}
+    .map-section{background:var(--emerald);color:white;position:relative;overflow:hidden}.map-section::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 15%,rgba(239,182,75,.16),transparent 35%),radial-gradient(circle at 88% 72%,rgba(85,127,153,.23),transparent 36%)}.map-section .section-head,.map-wrap{position:relative}.map-section .eyebrow{color:#ffc873}.map-section .section-head p{color:rgba(255,255,255,.65)}.map-tabs{display:flex;gap:8px;overflow:auto;padding-bottom:13px;scrollbar-width:none}.map-tabs::-webkit-scrollbar{display:none}.map-tab{flex:none;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.07);color:white;padding:9px 14px;font-size:.77rem;font-weight:900;cursor:pointer}.map-tab.active{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+    .map-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(310px,.65fr);gap:18px}.map-canvas{height:560px;border-radius:28px;overflow:hidden;background:#d8e4df;box-shadow:0 25px 65px rgba(0,0,0,.18)}.leaflet-container{font-family:var(--sans)}.leaflet-popup-content-wrapper{border-radius:17px}.leaflet-popup-content{line-height:1.5}.map-info{padding:25px;border:1px solid rgba(255,255,255,.14);border-radius:28px;background:rgba(255,255,255,.07)}.map-info h3{font:400 2rem var(--display);margin:0 0 5px}.map-info>p{margin:0 0 18px;color:rgba(255,255,255,.63);font-size:.78rem}.leg-list{display:grid;gap:9px}.leg{display:grid;grid-template-columns:50px 1fr;gap:11px;padding:12px;border-radius:17px;background:rgba(255,255,255,.07)}.leg time{font-weight:900;color:#ffd07d}.leg b{display:block;font-size:.8rem}.leg small{display:block;color:rgba(255,255,255,.55);font-size:.68rem}.route-link{display:flex;justify-content:center;margin-top:15px;padding:11px;border-radius:14px;background:var(--tea);color:white;text-decoration:none;font-size:.78rem;font-weight:900}
+    .days{background:linear-gradient(180deg,var(--cream),#efe4d2)}.day-list{display:grid;gap:28px}.day{border:1px solid var(--line);border-radius:34px;background:rgba(255,250,241,.9);box-shadow:var(--shadow);overflow:hidden}.day-head{display:grid;grid-template-columns:.85fr 1.15fr}.day-cover{position:relative;min-height:430px;overflow:hidden;background:#d6d0c3}.day-cover img{height:100%;object-fit:cover;transition:transform 1s ease}.day:hover .day-cover img{transform:scale(1.035)}.day-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,49,40,.72),transparent 65%)}.day-cover figcaption{position:absolute;z-index:2;left:23px;right:23px;bottom:20px;color:white;font-size:.75rem}.day-cover figcaption strong{display:block;font:400 1.65rem var(--display)}.day-copy{padding:40px}.day-meta{display:flex;align-items:center;gap:11px;margin-bottom:18px}.day-num{display:grid;place-items:center;width:52px;height:52px;border-radius:17px;background:var(--emerald);color:white;font:400 1.35rem var(--display)}.day-date{font-size:.76rem;font-weight:900;color:var(--tea-dark);letter-spacing:.08em}.pace{margin-left:auto;padding:5px 10px;border-radius:999px;background:#e7eee9;color:var(--emerald);font-size:.68rem;font-weight:900}.day h3{font:400 clamp(2rem,4vw,3.4rem)/1.08 var(--display);margin:0 0 10px;letter-spacing:-.035em}.day-summary{color:var(--muted);margin:0 0 22px}.timeline{display:grid;gap:9px}.stop{display:grid;grid-template-columns:55px 1fr;gap:12px;padding:11px 0;border-top:1px solid var(--line)}.stop time{font-weight:900;color:var(--tea-dark);font-size:.78rem}.stop b{font-size:.82rem}.stop span{display:block;color:var(--muted);font-size:.73rem}.stop a{text-decoration:none}.stop a:hover{color:var(--tea-dark)}.stop a::after{content:" ↗";font-size:.65rem}.rain-switch{margin-top:18px;padding:14px 16px;border-radius:16px;background:#dfeaf0;color:#31576c;font-size:.75rem}.rain-switch b{display:block;color:#24495d}.photo-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,1fr);gap:10px;overflow-x:auto;padding:10px;scroll-snap-type:x mandatory;scrollbar-width:thin;background:#eadfcd}.photo{position:relative;min-height:210px;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:zoom-in;scroll-snap-align:start;background:#bbb}.photo img{height:100%;object-fit:cover;transition:.5s}.photo:hover img{transform:scale(1.055)}.photo::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(10,34,28,.78))}.photo span{position:absolute;z-index:2;left:15px;right:15px;bottom:12px;color:white;text-align:left;font-size:.72rem;font-weight:900;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+    .discover{background:#e8ddca}.mosaic{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:145px;gap:11px}.tile{position:relative;border:0;padding:0;border-radius:22px;overflow:hidden;cursor:zoom-in;background:#ccc}.tile:nth-child(8n+1){grid-column:span 6;grid-row:span 3}.tile:nth-child(8n+2){grid-column:span 3;grid-row:span 2}.tile:nth-child(8n+3){grid-column:span 3;grid-row:span 2}.tile:nth-child(8n+4){grid-column:span 3;grid-row:span 2}.tile:nth-child(8n+5){grid-column:span 3;grid-row:span 2}.tile:nth-child(8n+6){grid-column:span 4;grid-row:span 2}.tile:nth-child(8n+7){grid-column:span 4;grid-row:span 2}.tile:nth-child(8n+8){grid-column:span 4;grid-row:span 2}.tile img{height:100%;object-fit:cover;transition:.65s}.tile:hover img{transform:scale(1.05)}.tile::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(12,39,33,.86))}.tile span{position:absolute;z-index:2;left:16px;right:16px;bottom:13px;color:white;font-size:.72rem;font-weight:900;text-align:left}
+    .planner{background:var(--cream)}.planner-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.panel{padding:30px;border:1px solid var(--line);border-radius:28px;background:var(--card)}.panel h3{font:400 1.8rem var(--display);margin:0 0 5px}.panel>p{margin:0 0 20px;color:var(--muted);font-size:.78rem}.booking-list,.budget-list,.check-list{display:grid;gap:9px}.booking{display:grid;grid-template-columns:45px 1fr auto;gap:12px;align-items:center;padding:12px;border-radius:16px;background:#f0e8da;text-decoration:none}.booking i{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--emerald);color:white;font-style:normal}.booking b{display:block;font-size:.8rem}.booking small{display:block;color:var(--muted);font-size:.67rem}.booking em{font-style:normal;color:var(--tea-dark);font-size:.68rem;font-weight:900}.budget-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.8rem}.budget-row b{color:var(--tea-dark)}.budget-row.total{font-size:1rem;border:0;padding-top:15px}.meter{height:10px;border-radius:999px;background:#e1d6c4;overflow:hidden;margin-top:12px}.meter i{display:block;width:96%;height:100%;background:linear-gradient(90deg,var(--emerald),var(--tea));border-radius:inherit}.budget-note{font-size:.68rem!important;margin-top:9px!important}.check{display:flex;gap:11px;align-items:flex-start;padding:12px;border-radius:15px;background:#f0e8da;cursor:pointer;font-size:.77rem}.check input{margin-top:5px;accent-color:var(--emerald)}.check.done span{text-decoration:line-through;opacity:.55}
+    .source-note{margin-top:20px;padding:16px;border-radius:18px;background:#e7eee9;color:#436059;font-size:.7rem}.source-note a{font-weight:800}.footer{padding:75px 0 105px;background:var(--emerald);color:white}.footer-grid{display:grid;grid-template-columns:1fr auto;gap:35px;align-items:end}.footer h2{font:400 clamp(3rem,7vw,6rem)/.9 var(--display);margin:0}.footer p{max-width:650px;color:rgba(255,255,255,.63)}.back-top{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--sun);color:var(--ink);text-decoration:none;font-weight:900}
+    .lightbox{position:fixed;z-index:120;inset:0;display:none;place-items:center;padding:30px;background:rgba(7,24,20,.92);backdrop-filter:blur(12px)}.lightbox.open{display:grid}.lightbox figure{margin:0;max-width:min(1050px,94vw)}.lightbox img{max-height:78vh;object-fit:contain;border-radius:18px}.lightbox figcaption{display:flex;justify-content:space-between;gap:20px;margin-top:12px;color:white;font-size:.78rem}.lightbox a{color:#ffc873}.lightbox-close{position:absolute;right:22px;top:18px;width:46px;height:46px;border:0;border-radius:50%;background:white;color:var(--ink);font-size:1.4rem;cursor:pointer}.mobile-nav{display:none}
+    @media(max-width:900px){.section{padding:76px 0}.section-head{grid-template-columns:1fr}.hero-inner{grid-template-columns:1fr}.hero h1{font-size:clamp(4rem,16vw,7rem)}.flight-card{max-width:520px}.pillars{grid-template-columns:repeat(2,1fr)}.map-grid{grid-template-columns:1fr}.map-canvas{height:480px}.day-head{grid-template-columns:1fr}.day-cover{min-height:360px}.planner-grid{grid-template-columns:1fr}.nav{display:none}.mosaic{grid-auto-rows:120px}.tile:nth-child(n){grid-column:span 4;grid-row:span 2}.tile:nth-child(7n+1){grid-column:span 8;grid-row:span 3}}
+    @media(max-width:600px){.shell,.hero-inner{width:min(100% - 24px,1180px)}.section{padding:62px 0}.topbar{height:53px}.topbar .brand{font-size:.93rem}.topbar>a.primary{font-size:.7rem}.hero-inner{padding:125px 0 45px}.hero-lede{font-size:.91rem}.rain{opacity:.22}.pillars{grid-template-columns:1fr 1fr;gap:9px}.pillar{padding:19px}.pillar h3{font-size:1.25rem}.pillar p{font-size:.72rem}.map-canvas{height:410px;border-radius:22px}.map-info{padding:20px}.day{border-radius:26px}.day-cover{min-height:290px}.day-copy{padding:27px 21px}.stop{grid-template-columns:48px 1fr}.photo-strip{grid-auto-columns:82%;}.photo{min-height:220px}.mosaic{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.tile:nth-child(n){flex:0 0 82%;height:290px;scroll-snap-align:center}.planner-grid{gap:12px}.panel{padding:22px 17px}.booking{grid-template-columns:42px 1fr}.booking em{display:none}.footer-grid{grid-template-columns:1fr}.lightbox{padding:16px}.lightbox figcaption{display:block}.mobile-nav{position:fixed;z-index:80;display:flex;left:50%;bottom:10px;transform:translateX(-50%);padding:6px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(19,62,51,.92);backdrop-filter:blur(15px);box-shadow:0 12px 35px rgba(0,0,0,.22)}.mobile-nav a{padding:7px 10px;color:white;text-decoration:none;font-size:.65rem;font-weight:900;white-space:nowrap}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="主要導覽">
+    <a class="brand" href="#top">Bangkok · 4 Days</a>
+    <div class="nav"><a href="#route">每日地圖</a><a href="#days">行程</a><a href="#gallery">圖鑑</a><a href="#plan">預約與預算</a></div>
+    <a class="primary" href="#days" style="padding:8px 13px;border-radius:999px;text-decoration:none;background:var(--sun);color:var(--ink);font-weight:900">打開行程</a>
+  </nav>
+  <nav class="mobile-nav" aria-label="手機快速導覽"><a href="#route">地圖</a><a href="#days">每日</a><a href="#gallery">照片</a><a href="#plan">待辦</a></nav>
+
+  <header class="hero" id="top">
+    <img class="hero-bg" src="assets/bangkok/skyline-sunset.jpg" alt="曼谷天際線夕陽" fetchpriority="high">
+    <div class="rain"></div><div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Eason &amp; 發發 · First Bangkok</div>
+        <h1>Bangkok<span>雨季的慢速曼谷</span></h1>
+        <p class="hero-lede">第一次去泰國，不用追經典清單。用 BTS、MRT 與河船串起好吃、好拍、每天一次 90 分鐘按摩，下雨就轉進咖啡廳與商場。</p>
+        <div class="chips"><span class="chip">2026.09.12–09.15</span><span class="chip">4 天 3 夜</span><span class="chip">2 人</span><span class="chip">地鐵優先</span><span class="chip">4 次精油按摩</span><span class="chip">晴／雨雙版本</span></div>
+      </div>
+      <aside class="flight-card" aria-label="航班資訊">
+        <h2>China Airlines</h2>
+        <div class="flight-row"><div><small>9/12 · CI831</small><b>09:25</b><small>TPE</small></div><span class="plane">✈</span><div class="to"><small>抵達 12:10</small><b>BKK</b><small>曼谷</small></div></div>
+        <div class="flight-row"><div><small>9/15 · CI836</small><b>17:30</b><small>BKK</small></div><span class="plane">✈</span><div class="to"><small>抵達 22:05</small><b>TPE</b><small>桃園</small></div></div>
+        <p class="flight-foot">經濟艙基本 N · 每人 NT$9,508 · 不公開訂位代號</p>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section intro">
+      <div class="shell">
+        <div class="section-head reveal"><div><div class="eyebrow">Four promises</div><h2>這趟旅行的四個核心</h2></div><p>所有動線都經過「雨季、不愛久逛、不想塞在車上」的過濾，不用為了打卡破壞放鬆感。</p></div>
+        <div class="pillars">
+          <article class="pillar reveal"><i>⏱</i><h3>不趕景點</h3><p>每天只有一條主軸，沒興趣可立刻縮短。</p></article>
+          <article class="pillar reveal"><i>◉</i><h3>軌道優先</h3><p>BTS、MRT、ARL 與河船，避開曼谷路面塞車。</p></article>
+          <article class="pillar reveal"><i>✦</i><h3>每日按摩</h3><p>90 分鐘精油按摩不是備案，是行程主角。</p></article>
+          <article class="pillar reveal"><i>☂</i><h3>雨天不慢</h3><p>戶外景點都有同區域的冷氣替代方案。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section map-section" id="route">
+      <div class="shell map-wrap">
+        <div class="section-head reveal"><div><div class="eyebrow">Live route map</div><h2>每一天，方向先看懂</h2></div><p>點 D1–D4 切換當天路線。地圖會顯示停留點與方向，右側列出時間與交通方式；「開啟當日導航」是單一 Google Maps 結果。</p></div>
+        <div class="map-tabs reveal" role="tablist"><button class="map-tab active" data-day="1">D1 抵達·Phrom Phong</button><button class="map-tab" data-day="2">D2 市集·高空夜</button><button class="map-tab" data-day="3">D3 河岸·唐人街</button><button class="map-tab" data-day="4">D4 按摩·返程</button><button class="map-tab" data-day="all">全部</button></div>
+        <div class="map-grid reveal">
+          <div id="tripMap" class="map-canvas" aria-label="曼谷每日互動地圖"></div>
+          <aside class="map-info"><h3 id="mapTitle">D1 · 抵達後慢進城</h3><p id="mapSubtitle">機場快線→BTS，入住後只在飯店周邊活動。</p><div class="leg-list" id="mapLegs"></div><a class="route-link" id="mapRouteLink" target="_blank" rel="noopener" href="#">開啟當日 Google Maps 導航 ↗</a></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section days" id="days">
+      <div class="shell">
+        <div class="section-head reveal"><div><div class="eyebrow">Day by day</div><h2>四天詳細行程</h2></div><p>時間預留了迷路、降雨與休息，不需要將每一格當成考試。點景點名稱直接通往對應的 Google Maps 結果。</p></div>
+        <div class="day-list">
+          <article class="day reveal" id="d1">
+            <div class="day-head">
+              <figure class="day-cover"><img src="assets/bangkok/emquartier-view.jpg" alt="Phrom Phong 與 EmQuartier 城市景觀" loading="lazy"><figcaption><strong>Phrom Phong</strong>住在 BTS 旁，第一天不去遠方。</figcaption></figure>
+              <div class="day-copy"><div class="day-meta"><span class="day-num">01</span><span class="day-date">SAT · 09/12</span><span class="pace">舒展抵達日</span></div><h3>機場快線進城，泰奶色的第一夜</h3><p class="day-summary">早上從南勢角搭軌道前往桃園機場；到曼谷後不叫 Grab，ARL 接 BTS 直達飯店。傍晚只逛 EmDistrict、吃第一頓泰菜，最後用飯店旁 90 分鐘精油按摩收尾。</p>
+                <div class="timeline">
+                  <div class="stop"><time>05:35</time><div><b>南勢角家中出門</b><span>搭第一班「往蘆洲」中和新蘆線，三重轉 A2 機場捷運。行前 3 天必須重查 9 月班表。</span></div></div>
+                  <div class="stop"><time>07:30</time><div><b>桃園機場 T2</b><span>華航金卡快速報到；仍不建議晚於 07:45 抵達。TPASS 1200 適用機捷。</span></div></div>
+                  <div class="stop"><time>09:25</time><div><b>CI831 台北→曼谷</b><span>12:10 抵達 BKK，预留 75–90 分鐘入境與取行李。</span></div></div>
+                  <div class="stop"><time>13:45</time><div><b>ARL 機場快線→Phaya Thai→BTS</b><span>機場搭 ARL 到 Phaya Thai，換 BTS Sukhumvit Line 往 Kheha，Phrom Phong 下車。</span></div></div>
+                  <div class="stop"><time>15:15</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Mercure%20Bangkok%20Sukhumvit%2024">Mercure Bangkok Sukhumvit 24</a></b><span>一間雙人房，每晚 NT$3,100，3 晚共 NT$9,300，可取消；住宿正式鎖定。</span></div></div>
+                  <div class="stop"><time>16:10</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=EmQuartier%20Bangkok">EmQuartier、Emporium、Emsphere</a></b><span>喝咖啡、輕逛泰國設計與美食樓層；不進行長時間精品購物。</span></div></div>
+                  <div class="stop"><time>20:30</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=ThaiThai%20Massage%20Sukhumvit%2024">ThaiThai Massage Sukhumvit 24</a></b><span>90 分鐘精油按摩。抵達曼谷後再用 LINE／WhatsApp 確認兩人同時空位。</span></div></div>
+                </div><div class="rain-switch"><b>☔ 大雨版本</b>全程留在 EmDistrict 連通商場，不為了任何市区景點叫車。</div>
+              </div>
+            </div>
+            <div class="photo-strip">
+              <button class="photo" data-src="assets/bangkok/emquartier-building.jpg" data-caption="EmQuartier｜第一天冷氣慢逛" data-source="https://commons.wikimedia.org/wiki/File:Emquartier_1-4-2015.JPG"><img src="assets/bangkok/emquartier-building.jpg" alt="EmQuartier 建築" loading="lazy"><span>EmQuartier · 飯店對面</span></button>
+              <button class="photo" data-src="assets/bangkok/emquartier-cafe.jpg" data-caption="% Arabica EmQuartier｜咖啡與商場景觀" data-source="https://commons.wikimedia.org/wiki/File:%25Arabica_EmQuartier_20211106.jpg"><img src="assets/bangkok/emquartier-cafe.jpg" alt="EmQuartier 咖啡廳" loading="lazy"><span>% Arabica · 喝咖啡比久逛更適合</span></button>
+              <button class="photo" data-src="assets/bangkok/thai-massage.jpg" data-caption="泰式按摩意象｜實際店家為 ThaiThai Sukhumvit 24" data-source="https://commons.wikimedia.org/wiki/File:Thai_Massage_(43129102).jpeg"><img src="assets/bangkok/thai-massage.jpg" alt="泰式按摩" loading="lazy"><span>ThaiThai · 第 1 次 90 分鐘按摩</span></button>
+              <button class="photo" data-src="assets/bangkok/airport-terminal.jpg" data-caption="Suvarnabhumi Airport｜BKK 機場室內" data-source="https://commons.wikimedia.org/wiki/File:Suvarnabhumi_Airport_Terminal_C_interior_(I).jpg"><img src="assets/bangkok/airport-terminal.jpg" alt="素萬那普機場" loading="lazy"><span>BKK · 抵達曼谷</span></button>
+            </div>
+          </article>
+
+          <article class="day reveal" id="d2">
+            <div class="day-head">
+              <figure class="day-cover"><img src="assets/bangkok/chatuchak-lane.jpg" alt="恰圖恰週末市集" loading="lazy"><figcaption><strong>Chatuchak Sunday</strong>短逛 90 分鐘，只挑泰國設計、香氛與小物。</figcaption></figure>
+              <div class="day-copy"><div class="day-meta"><span class="day-num">02</span><span class="day-date">SUN · 09/13</span><span class="pace">滿但有冷氣節點</span></div><h3>市集的白天，天際線的黃昏</h3><p class="day-summary">用一碗豬肉湯麵開始，恰圖恰只拿最精華的 75–90 分鐘，中午到 Or Tor Kor 吃水果與熟食。下午回飯店區域熱精油按摩，剛好趕上 AIRE 的落日 Happy Hour。</p>
+                <div class="timeline">
+                  <div class="stop"><time>08:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rung%20Rueang%20Pork%20Noodle%20Sukhumvit%2026">Rung Rueang Pork Noodles</a></b><span>Sukhumvit 26 豬肉湯麵。早上開門就吃，避開排隊與午間熱氣。</span></div></div>
+                  <div class="stop"><time>09:00</time><div><b>BTS Phrom Phong→Mo Chit</b><span>約 25–35 分；下車後指示步行進市集。</span></div></div>
+                  <div class="stop"><time>09:40</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Chatuchak%20Weekend%20Market">Chatuchak Weekend Market</a></b><span>上限 90 分鐘：泰國服飾、飾品、香氛、設計與家飾；不造訪整座市集。</span></div></div>
+                  <div class="stop"><time>11:30</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Or%20Tor%20Kor%20Market%20Bangkok">Or Tor Kor Market</a></b><span>步行或 MRT Kamphaeng Phet 短距離轉移，當午餐吃水果、熟食與甜點。</span></div></div>
+                  <div class="stop"><time>13:15</time><div><b>MRT Kamphaeng Phet→Sukhumvit</b><span>回飯店區域休息、換衣；這段是第一個冷氣節點。</span></div></div>
+                  <div class="stop"><time>15:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Herbal%20Ground%20Spa%20Sukhumvit%2039">Herbal Ground Spa</a></b><span>90 分鐘熱精油；現行直訂促銷每人 THB1,200，兩人 THB2,400，以店家 2026/9 書面確認為準。</span></div></div>
+                  <div class="stop"><time>17:15</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=AIRE%20Bar%20Hyatt%20Place%20Bangkok%20Sukhumvit%2024">AIRE Bar · 28F</a></b><span>日落、買一送一。兩人餐飲若 ≤ THB1,500 就在這裡吃；超過就只喝一輪。Smart casual，不穿拖鞋、背心、運動短褲。</span></div></div>
+                  <div class="stop"><time>19:30</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Siam%20Square%20Bangkok">Siam→CentralWorld</a></b><span>晚上只逛泰國品牌、美妝、零食與咖啡；少排精品樓層。</span></div></div>
+                </div><div class="rain-switch"><b>☔ 大雨版本</b>取消 Chatuchak，改為 Siam Center、Siam Discovery、CentralWorld 與咖啡廳；按摩與 AIRE 照常。</div>
+              </div>
+            </div>
+            <div class="photo-strip">
+              <button class="photo" data-src="assets/bangkok/chatuchak-shop.jpg" data-caption="Chatuchak｜市集店鋪與通道" data-source="https://commons.wikimedia.org/wiki/File:Chatuchak_Weekend_Market,_Bangkok,_Thailand_(4570450571).jpg"><img src="assets/bangkok/chatuchak-shop.jpg" alt="恰圖恰店鋪" loading="lazy"><span>Chatuchak · 只拿 90 分鐘精華</span></button>
+              <button class="photo" data-src="assets/bangkok/fruit-market.jpg" data-caption="曼谷水果攤｜Or Tor Kor 預期逛食主題" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_fruit_stall.jpg"><img src="assets/bangkok/fruit-market.jpg" alt="曼谷水果市場" loading="lazy"><span>Or Tor Kor · 水果與熟食</span></button>
+              <button class="photo" data-src="assets/bangkok/skyline-sunset.jpg" data-caption="曼谷落日天際線｜AIRE 是本行程高空酒吧" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_skyline_at_sunset,_Bangkok,_Thailand.jpg"><img src="assets/bangkok/skyline-sunset.jpg" alt="曼谷落日天際線" loading="lazy"><span>AIRE · 17:15 看落日</span></button>
+              <button class="photo" data-src="assets/bangkok/siam-night.jpg" data-caption="Siam Square｜晚上氣溫較低時再逛" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_Siam_square_at_night.jpg"><img src="assets/bangkok/siam-night.jpg" alt="Siam Square 夜景" loading="lazy"><span>Siam Square · 泰國品牌與宵夜</span></button>
+            </div>
+          </article>
+
+          <article class="day reveal" id="d3">
+            <div class="day-head">
+              <figure class="day-cover"><img src="assets/bangkok/wat-arun-river.jpg" alt="曼谷曉廟河岸景觀" loading="lazy"><figcaption><strong>Wat Arun &amp; Chao Phraya</strong>晴天才現場詢問雙人泰服，沒名額就正常參觀。</figcaption></figure>
+              <div class="day-copy"><div class="day-meta"><span class="day-num">03</span><span class="day-date">MON · 09/14</span><span class="pace">河岸日·兩段冷氣</span></div><h3>從曉廟陶瓷花，走到老城霓虹</h3><p class="day-summary">上午用軌道去 Wat Arun，好天氣才把雙人泰服當彩蛋。中午搭河船到 ICONSIAM 避熱，傍晚過河散步 Talat Noi 與 Yaowarat，最後在 Hua Lamphong 旁按摩。</p>
+                <div class="timeline">
+                  <div class="stop"><time>08:00</time><div><b>飯店附近早午餐與咖啡</b><span>不追遠方網美咖啡廳，把體力留給河岸。</span></div></div>
+                  <div class="stop"><time>09:00</time><div><b>BTS Phrom Phong→Asok／MRT Sukhumvit→Sanam Chai</b><span>過站步行到 Tha Tien 小渡輪，渡河到曉廟。</span></div></div>
+                  <div class="stop"><time>10:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Wat%20Arun%20Bangkok">Wat Arun 曉廟</a></b><span>正常參觀 60–75 分；當天天氣好且現場有名額，兩人一起穿泰服，最長延伸到 2.5 小時。沒名額就取消，安全與舒適優先。</span></div></div>
+                  <div class="stop"><time>12:20</time><div><b>Chao Phraya Tourist Boat</b><span>從 Wat Arun 碼頭往 ICONSIAM；班次與碼頭以當日現場為準。</span></div></div>
+                  <div class="stop"><time>13:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=ICONSIAM%20Bangkok">ICONSIAM</a></b><span>午餐、泰國零食與第一段冷氣休息；不需要逛完所有樓層。</span></div></div>
+                  <div class="stop"><time>16:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Talat%20Noi%20Bangkok">Talat Noi</a></b><span>從 ICONSIAM 搭船到 Si Phraya 後步行；老街、街頭藝術、汽車零件與老咖啡廳，當天太熱可直接縮短。</span></div></div>
+                  <div class="stop"><time>17:30</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Yaowarat%20Road%20Bangkok">Yaowarat Road</a></b><span>晚餐小吃，選看起來最想吃的 2–3 樣，不排名店全收集。</span></div></div>
+                  <div class="stop"><time>19:30</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=Samatha%20Thai%20Massage%20Bangkok">Samatha Thai Massage</a></b><span>90 分鐘精油按摩，出發前預約兩人同時時段；結束後 MRT Hua Lamphong→Sukhumvit，再換 BTS 回飯店。</span></div></div>
+                </div><div class="rain-switch"><b>☔ 大雨版本</b>曉廟縮短為一般參觀，不穿泰服；取消 Talat Noi，延長 ICONSIAM 咖啡、吃飯與休息，傍晚依雨勢直接 MRT 去按摩。</div>
+              </div>
+            </div>
+            <div class="photo-strip">
+              <button class="photo" data-src="assets/bangkok/wat-arun-detail.jpg" data-caption="Wat Arun｜佛塔陶瓷細節" data-source="https://commons.wikimedia.org/wiki/File:Templo_Wat_Arun,_Bangkok,_Tailandia,_2013-08-22,_DD_37.jpg"><img src="assets/bangkok/wat-arun-detail.jpg" alt="曉廟陶瓷細節" loading="lazy"><span>Wat Arun · 花磚與佛塔</span></button>
+              <button class="photo" data-src="assets/bangkok/iconsiam-skyline.jpg" data-caption="ICONSIAM｜河畔天際線" data-source="https://commons.wikimedia.org/wiki/File:Iconsiam_Skyscrapers.jpg"><img src="assets/bangkok/iconsiam-skyline.jpg" alt="ICONSIAM 天際線" loading="lazy"><span>ICONSIAM · 中午冷氣節點</span></button>
+              <button class="photo" data-src="assets/bangkok/talat-noi-art.jpg" data-caption="Talat Noi｜街頭藝術與老社區" data-source="https://commons.wikimedia.org/wiki/File:Talat_Noi_Street_Art.jpg"><img src="assets/bangkok/talat-noi-art.jpg" alt="Talat Noi 街頭藝術" loading="lazy"><span>Talat Noi · 晴天才散步</span></button>
+              <button class="photo" data-src="assets/bangkok/yaowarat-night.jpg" data-caption="Yaowarat｜曼谷唐人街夜間霓虹" data-source="https://commons.wikimedia.org/wiki/File:Chinatown_in_Bangkok_(Yaowarat)_at_night.jpg"><img src="assets/bangkok/yaowarat-night.jpg" alt="Yaowarat 唐人街夜景" loading="lazy"><span>Yaowarat · 霓虹與街頭小吃</span></button>
+            </div>
+          </article>
+
+          <article class="day reveal" id="d4">
+            <div class="day-head">
+              <figure class="day-cover"><img src="assets/bangkok/skytrain-sunset.jpg" alt="曼谷 BTS 空鐵" loading="lazy"><figcaption><strong>Last slow morning</strong>先打包、再按摩，中午後全程軌道去 BKK。</figcaption></figure>
+              <div class="day-copy"><div class="day-meta"><span class="day-num">04</span><span class="day-date">TUE · 09/15</span><span class="pace">穩定返程</span></div><h3>最後一次按摩，把曼谷收進行李</h3><p class="day-summary">早上只排飯店附近的早午餐，09:30 前完整打包。ThaiThai 開門就按 90 分鐘，回飯店準時退房，吃完輕午餐就 BTS 接 ARL 去機場。</p>
+                <div class="timeline">
+                  <div class="stop"><time>07:45</time><div><b>Phrom Phong 早午餐咖啡</b><span>選飯店 10 分鐘步行圈內，不追遠方口袋店。</span></div></div>
+                  <div class="stop"><time>09:20</time><div><b>打包完成</b><span>1 個託運箱＋2 個小背包，先做完房間總檢，才去按摩。</span></div></div>
+                  <div class="stop"><time>10:00</time><div><b><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=ThaiThai%20Massage%20Sukhumvit%2024">ThaiThai Massage Sukhumvit 24</a></b><span>90 分鐘精油按摩。11:30 結束後直接走回飯店。</span></div></div>
+                  <div class="stop"><time>11:50</time><div><b>Mercure 退房</b><span>目標 11:50 完成，不把 12:00 當開始收行李的時間。行李短暫寄存。</span></div></div>
+                  <div class="stop"><time>12:05</time><div><b>EmDistrict 輕午餐</b><span>選出餐快、不過辣的一餐，12:55 回飯店取行李。</span></div></div>
+                  <div class="stop"><time>13:15</time><div><b>BTS Phrom Phong→Phaya Thai→ARL</b><span>全程軌道，预估 14:30–14:50 抵達 BKK，距離 17:30 起飛約 2.5–3 小時。</span></div></div>
+                  <div class="stop"><time>17:30</time><div><b>CI836 曼谷→台北</b><span>22:05 抵達 TPE，已安排免費機場接送回家。</span></div></div>
+                </div><div class="rain-switch"><b>☔ 大雨版本</b>不影響主線；早餐與午餐都留在飯店／EmDistrict 連通區域，最晚 13:15 照常出發。</div>
+              </div>
+            </div>
+            <div class="photo-strip">
+              <button class="photo" data-src="assets/bangkok/emquartier-view.jpg" data-caption="Phrom Phong｜飯店與 EmDistrict 周邊" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_Skyline_from_Emquartier,_Phrom_Phong.jpg"><img src="assets/bangkok/emquartier-view.jpg" alt="Phrom Phong 城市景" loading="lazy"><span>Phrom Phong · 最後一個慢早晨</span></button>
+              <button class="photo" data-src="assets/bangkok/thai-massage.jpg" data-caption="泰式按摩意象｜第四天實際店家為 ThaiThai Sukhumvit 24" data-source="https://commons.wikimedia.org/wiki/File:Thai_Massage_(43129102).jpeg"><img src="assets/bangkok/thai-massage.jpg" alt="精油按摩" loading="lazy"><span>ThaiThai · 第 4 次 90 分鐘按摩</span></button>
+              <button class="photo" data-src="assets/bangkok/airport-yaksha.jpg" data-caption="Suvarnabhumi Airport｜機場守護神像" data-source="https://commons.wikimedia.org/wiki/File:Green-faced_Yaksha_statue_at_Suvarnabhumi_Airport_in_Bangkok.jpg"><img src="assets/bangkok/airport-yaksha.jpg" alt="素萬那普機場守護神" loading="lazy"><span>BKK · 提前抵達不追車</span></button>
+              <button class="photo" data-src="assets/bangkok/skytrain-sunset.jpg" data-caption="Bangkok Skytrain｜本行程的主要交通方式" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_skytrain_sunset.jpg"><img src="assets/bangkok/skytrain-sunset.jpg" alt="曼谷 BTS 黃昏" loading="lazy"><span>BTS · 不跟路面塞車拼運氣</span></button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section discover" id="gallery">
+      <div class="shell">
+        <div class="section-head reveal"><div><div class="eyebrow">Visual guide</div><h2>先看照片，再決定要不要停留</h2></div><p>照片不只是裝飾：每張都標出這是哪裡。點擊後可放大並開啟原始圖片來源；店家室內無合適授權圖片時，不用假照片冒充。</p></div>
+        <div class="mosaic reveal">
+          <button class="tile" data-src="assets/bangkok/wat-arun-river.jpg" data-caption="Wat Arun｜昭披耶河岸的曉廟" data-source="https://commons.wikimedia.org/wiki/File:Templo_Wat_Arun,_Bangkok,_Tailandia,_2013-08-22,_DD_30.jpg"><img src="assets/bangkok/wat-arun-river.jpg" alt="昭披耶河與曉廟" loading="lazy"><span>Wat Arun · 河岸佛塔</span></button>
+          <button class="tile" data-src="assets/bangkok/iconsiam-apple.jpg" data-caption="ICONSIAM｜河岸商場內外空間" data-source="https://commons.wikimedia.org/wiki/File:Apple_Store_at_Iconsiam,_Bangkok_2.jpg"><img src="assets/bangkok/iconsiam-apple.jpg" alt="ICONSIAM 建築" loading="lazy"><span>ICONSIAM · 雨天很有用</span></button>
+          <button class="tile" data-src="assets/bangkok/talat-noi-shrine.jpg" data-caption="Talat Noi｜Rong Kuak Shrine 老社區" data-source="https://commons.wikimedia.org/wiki/File:Rong_Kuak_Shrine,_talat_Noi,_Samphanthawong,_bangkok_Thailand_-_panoramio.jpg"><img src="assets/bangkok/talat-noi-shrine.jpg" alt="Talat Noi 老社區廟宇" loading="lazy"><span>Talat Noi · 老社區細節</span></button>
+          <button class="tile" data-src="assets/bangkok/yaowarat-day.jpg" data-caption="Yaowarat｜唐人街街景" data-source="https://commons.wikimedia.org/wiki/File:2016_Bangkok,_Dystrykt_Samphanthawong,_Ulica_Yaowarat_(02).jpg"><img src="assets/bangkok/yaowarat-day.jpg" alt="Yaowarat 白天街景" loading="lazy"><span>Yaowarat · 白天與黑夜不同面孔</span></button>
+          <button class="tile" data-src="assets/bangkok/street-food.jpg" data-caption="Bangkok street food｜街頭小吃意象" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_Street_Food.jpg"><img src="assets/bangkok/street-food.jpg" alt="曼谷街頭小吃" loading="lazy"><span>街頭小吃 · 每次少量多樣</span></button>
+          <button class="tile" data-src="assets/bangkok/street-vendor.jpg" data-caption="Bangkok street vendor｜街頭餐飲景象" data-source="https://commons.wikimedia.org/wiki/File:Bangkok_street_food_vendor.jpg"><img src="assets/bangkok/street-vendor.jpg" alt="曼谷街頭攤販" loading="lazy"><span>街頭飲食 · 選人多、現做、流動快</span></button>
+          <button class="tile" data-src="assets/bangkok/siam-city.jpg" data-caption="Siam 與 Pathum Wan｜商場密集的冷氣區" data-source="https://commons.wikimedia.org/wiki/File:Pathumwan_rd_and_Siam_area.jpg"><img src="assets/bangkok/siam-city.jpg" alt="Siam 城市景觀" loading="lazy"><span>Siam · 週日夜間才逛</span></button>
+          <button class="tile" data-src="assets/bangkok/airport-terminal.jpg" data-caption="BKK Suvarnabhumi Airport｜返程預留 2.5–3 小時" data-source="https://commons.wikimedia.org/wiki/File:Suvarnabhumi_Airport_Terminal_C_interior_(I).jpg"><img src="assets/bangkok/airport-terminal.jpg" alt="BKK 機場室內" loading="lazy"><span>BKK · 返程不冒塞車風險</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section planner" id="plan">
+      <div class="shell">
+        <div class="section-head reveal"><div><div class="eyebrow">Book · Budget · Pack</div><h2>現在要做的，只有這些</h2></div><p>預約與預算將「必要」和「可有可無」分開。所有價格都要在 2026/9 出發前以店家實際回覆重新確認。</p></div>
+        <div class="planner-grid">
+          <section class="panel reveal"><h3>預約連結</h3><p>該預約的先預約；在飯店旁的 ThaiThai 抵達後再約，保留彈性。</p><div class="booking-list">
+            <a class="booking" target="_blank" rel="noopener" href="https://www.siladonspas.com/bangkok-prices"><i>✦</i><span><b>Herbal Ground · D2 15:00</b><small>直訂促銷才有 90 分熱精油 THB1,200／人</small></span><em>出發前預約</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://www.instagram.com/samatha.bkk/"><i>◌</i><span><b>Samatha · D3 19:30</b><small>IG 直接詢問兩人同時 90 分精油</small></span><em>出發前預約</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://thaithaimassage.com/contact/"><i>♨</i><span><b>ThaiThai · D1／D4</b><small>WhatsApp +66 63 845 8459 · LINE @thaithaimassage.th</small></span><em>抵達後預約</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://www.hyatt.com/hyatt-place/en-US/bkkzs-hyatt-place-bangkok-sukhumvit-24/dining/aire-bar"><i>☼</i><span><b>AIRE Bar · D2 17:15</b><small>週日 17–18 現行有指定酒款買一送一</small></span><em>出發前再查</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://all.accor.com/hotel/B0M2/index.en.shtml"><i>⌂</i><span><b>Mercure Bangkok Sukhumvit 24</b><small>已訂·可取消·每晚 NT$3,100</small></span><em>正式鎖定</em></a>
+          </div></section>
+          <section class="panel reveal"><h3>雙人預算</h3><p>以 1 THB 約當 NT$1 保守觀念編列，不含購物與臨時泰服攝影。</p><div class="budget-list">
+            <div class="budget-row"><span>機票（已購）</span><b>NT$19,016</b></div><div class="budget-row"><span>住宿 3 晚（可取消）</span><b>NT$9,300</b></div><div class="budget-row"><span>4 次雙人 90 分按摩</span><b>約 NT$8,300</b></div><div class="budget-row"><span>餐飲與咖啡</span><b>約 NT$5,200</b></div><div class="budget-row"><span>BTS／MRT／ARL／船</span><b>約 NT$2,000</b></div><div class="budget-row"><span>AIRE、門票與預備金</span><b>約 NT$3,700</b></div><div class="budget-row total"><span>落地支出目標</span><b>NT$19,200</b></div>
+          </div><div class="meter" aria-label="落地支出佔二萬上限 96%"><i></i></div><p class="budget-note">落地目標 NT$15,000–20,000；目前已接近上限。泰服、大額購物、高空酒吧追加第二輪不在此金額內。</p></section>
+          <section class="panel reveal"><h3>出發前清單</h3><p>勾選結果只儲存在這台裝置，重新開網頁仍會保留。</p><div class="check-list">
+            <label class="check"><input type="checkbox" data-check="arl"><span>9/9 重查南勢角往蘆洲首班與 A2 三重→A13 機捷班表</span></label><label class="check"><input type="checkbox" data-check="spa"><span>預約 Herbal Ground D2 15:00 兩人熱精油 90 分</span></label><label class="check"><input type="checkbox" data-check="samatha"><span>預約 Samatha D3 19:30 兩人精油 90 分</span></label><label class="check"><input type="checkbox" data-check="weather"><span>出發前 7 天查 TMD 天氣，只將泰服當晴天彩蛋</span></label><label class="check"><input type="checkbox" data-check="hotel"><span>確認 Mercure 可取消期限、房價與不含早餐</span></label><label class="check"><input type="checkbox" data-check="bags"><span>1 個託運箱＋2 個小背包：雨傘、薄長褲、止滑鞋、酒吧 smart casual</span></label>
+          </div></section>
+          <section class="panel reveal"><h3>關鍵交通資料</h3><p>只連到單一官方結果，不丟給你一長串搜尋選項。</p><div class="booking-list">
+            <a class="booking" target="_blank" rel="noopener" href="https://www.tymetro.com.tw/tymetro-new/tw/_pages/travel-guide/dep-A2"><i>A2</i><span><b>三重機場捷運時刻</b><small>目前官方班表僅更新至 2026/8/31</small></span><em>9/9 重查</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://www.bts.co.th/eng/"><i>BTS</i><span><b>Bangkok BTS 官方</b><small>路線、票價、營運公告</small></span><em>官方</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://www.srtet.co.th/index.php/en"><i>ARL</i><span><b>Airport Rail Link</b><small>BKK→Phaya Thai，進城與返程都用它</small></span><em>官方</em></a>
+            <a class="booking" target="_blank" rel="noopener" href="https://www.tmd.go.th/en/weather/province/bangkok"><i>☂</i><span><b>Thai Meteorological Department</b><small>曼谷官方天氣，出發前 7 天才有實用性</small></span><em>官方</em></a>
+          </div><div class="source-note"><strong>照片說明：</strong>頁面景點照片來自 Wikimedia Commons，每張放大後都可直達原始檔案頁與授權資訊。Mercure、ThaiThai、Herbal Ground、Samatha 與 AIRE 沒有用不明照片冒充現場，改用各店官方連結確認。</div></section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="shell footer-grid"><div><div class="eyebrow" style="color:#ffc873">Ready when Bangkok rains</div><h2>吃好、按好，不跟雨賽跑。</h2><p>行程版本：2026.08.19。店家價格、促銷、班表與營業時間都會變動，已在相關卡片標出需要再確認的項目。</p></div><a class="back-top" href="#top" aria-label="回到頂端">↑</a></div></footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="照片放大檢視"><button class="lightbox-close" aria-label="關閉">×</button><figure><img id="lightboxImage" src="" alt="放大照片預覽"><figcaption><span id="lightboxCaption"></span><a id="lightboxSource" target="_blank" rel="noopener" href="#">原始照片與授權 ↗</a></figcaption></figure></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const dayData={
+      1:{title:'D1 · 抵達後慢進城',subtitle:'機場快線→BTS，入住後只在飯店周邊活動。',color:'#d8793d',route:'https://www.google.com/maps/dir/?api=1&origin=Suvarnabhumi%20Airport&destination=Mercure%20Bangkok%20Sukhumvit%2024&waypoints=Phaya%20Thai%20BTS',legs:[['12:10','BKK 抵達','入境、行李 75–90 分'],['13:45','ARL→Phaya Thai','約 30 分'],['14:25','BTS→Phrom Phong','約 20 分'],['16:10','EmDistrict','步行·咖啡·晚餐'],['20:30','ThaiThai','90 分精油']],points:[['BKK',13.6900,100.7501],['Phaya Thai',13.7567,100.5330],['Mercure',13.7291,100.5694],['EmDistrict',13.7307,100.5696],['ThaiThai',13.7250,100.5688]]},
+      2:{title:'D2 · 市集、按摩與高空夜',subtitle:'北上市集後回 Phrom Phong，不在城市來回折返。',color:'#efb64b',route:'https://www.google.com/maps/dir/?api=1&origin=Mercure%20Bangkok%20Sukhumvit%2024&destination=Siam%20Square&waypoints=Rung%20Rueang%20Pork%20Noodles%7CChatuchak%20Weekend%20Market%7COr%20Tor%20Kor%20Market%7CHerbal%20Ground%20Spa%7CAIRE%20Bar',legs:[['08:00','Rung Rueang','步行'],['09:00','BTS→Mo Chit','25–35 分'],['09:40','Chatuchak','75–90 分'],['11:30','Or Tor Kor','步行／MRT'],['15:00','Herbal Ground','90 分熱精油'],['17:15','AIRE→Siam','BTS']],points:[['Mercure',13.7291,100.5694],['Rung Rueang',13.7259,100.5704],['Chatuchak',13.7997,100.5500],['Or Tor Kor',13.7983,100.5488],['Herbal Ground',13.7344,100.5760],['AIRE',13.7240,100.5673],['Siam',13.7456,100.5342]]},
+      3:{title:'D3 · 河岸老城到霓虹唐人街',subtitle:'MRT 去曉廟，河船接 ICONSIAM，晚上 MRT 回飯店。',color:'#65a98b',route:'https://www.google.com/maps/dir/?api=1&origin=Mercure%20Bangkok%20Sukhumvit%2024&destination=Samatha%20Thai%20Massage%20Bangkok&waypoints=Wat%20Arun%7CICONSIAM%7CTalat%20Noi%7CYaowarat%20Road',legs:[['09:00','BTS→MRT Sanam Chai','約 35–45 分'],['10:00','Wat Arun','75 分／泰服版 2.5 小時'],['12:20','河船→ICONSIAM','依當日班次'],['16:00','Talat Noi','晴天才走'],['17:30','Yaowarat','步行·吃晚餐'],['19:30','Samatha','90 分精油']],points:[['Mercure',13.7291,100.5694],['Wat Arun',13.7437,100.4889],['ICONSIAM',13.7262,100.5101],['Talat Noi',13.7353,100.5133],['Yaowarat',13.7401,100.5101],['Samatha',13.7368,100.5168]]},
+      4:{title:'D4 · 最後按摩與軌道返程',subtitle:'先完成打包再按摩，13:15 最晚開始移動。',color:'#557f99',route:'https://www.google.com/maps/dir/?api=1&origin=Mercure%20Bangkok%20Sukhumvit%2024&destination=Suvarnabhumi%20Airport&waypoints=Phaya%20Thai%20BTS',legs:[['07:45','附近早午餐','步行'],['10:00','ThaiThai','90 分精油'],['11:50','Mercure 退房','先打包完成'],['13:15','BTS→Phaya Thai','約 25 分'],['14:00','ARL→BKK','約 30–40 分'],['17:30','CI836 起飛','22:05 TPE']],points:[['Mercure',13.7291,100.5694],['ThaiThai',13.7250,100.5688],['Phaya Thai',13.7567,100.5330],['BKK',13.6900,100.7501]]}
+    };
+    let map,layers=[];
+    function initMap(){if(!window.L)return;map=L.map('tripMap',{scrollWheelZoom:false}).setView([13.745,100.545],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);showDay(1)}
+    function clearMap(){layers.forEach(x=>map.removeLayer(x));layers=[]}
+    function showDay(key){if(!map)return;clearMap();const keys=key==='all'?[1,2,3,4]:[Number(key)];let all=[];keys.forEach(k=>{const d=dayData[k],latlng=d.points.map(p=>[p[1],p[2]]);all.push(...latlng);const line=L.polyline(latlng,{color:d.color,weight:5,opacity:.82,dashArray:'10 9'}).addTo(map);layers.push(line);d.points.forEach((p,i)=>{const marker=L.circleMarker([p[1],p[2]],{radius:i===0?8:7,color:'#173f35',weight:3,fillColor:d.color,fillOpacity:1}).bindPopup('<b>D'+k+' · '+p[0]+'</b>').addTo(map);layers.push(marker)})});if(all.length)map.fitBounds(all,{padding:[35,35],maxZoom:key==='all'?12:14});const d=key==='all'?null:dayData[key];document.getElementById('mapTitle').textContent=d?d.title:'D1–D4 · 全部動線';document.getElementById('mapSubtitle').textContent=d?d.subtitle:'橙、黃、綠、藍分別代表四天；點每日按鈕查看時間。';document.getElementById('mapLegs').innerHTML=d?d.legs.map(x=>'<div class="leg"><time>'+x[0]+'</time><div><b>'+x[1]+'</b><small>'+x[2]+'</small></div></div>').join(''):'<div class="leg"><time>D1</time><div><b>機場→Phrom Phong</b><small>ARL＋BTS</small></div></div><div class="leg"><time>D2</time><div><b>北上 Chatuchak，傍晚回飯店區</b><small>BTS＋MRT</small></div></div><div class="leg"><time>D3</time><div><b>西往昭披耶河岸</b><small>MRT＋船</small></div></div><div class="leg"><time>D4</time><div><b>Phrom Phong→BKK</b><small>BTS＋ARL</small></div></div>';const link=document.getElementById('mapRouteLink');link.href=d?d.route:'https://www.google.com/maps/dir/?api=1&origin=Mercure%20Bangkok%20Sukhumvit%2024&destination=Suvarnabhumi%20Airport';link.style.display=d?'flex':'none'}
+    document.querySelectorAll('.map-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.map-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');showDay(btn.dataset.day)}));
+    const lightbox=document.getElementById('lightbox'),lbImage=document.getElementById('lightboxImage'),lbCaption=document.getElementById('lightboxCaption'),lbSource=document.getElementById('lightboxSource');document.querySelectorAll('[data-src]').forEach(btn=>btn.addEventListener('click',()=>{lbImage.src=btn.dataset.src;lbImage.alt=btn.dataset.caption;lbCaption.textContent=btn.dataset.caption;lbSource.href=btn.dataset.source;lightbox.classList.add('open');document.body.style.overflow='hidden'}));function closeLightbox(){lightbox.classList.remove('open');document.body.style.overflow='';lbImage.src=''}document.querySelector('.lightbox-close').addEventListener('click',closeLightbox);lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+    const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('seen')}),{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    document.querySelectorAll('[data-check]').forEach(box=>{const key='bkk-'+box.dataset.check;box.checked=localStorage.getItem(key)==='1';box.closest('.check').classList.toggle('done',box.checked);box.addEventListener('change',()=>{localStorage.setItem(key,box.checked?'1':'0');box.closest('.check').classList.toggle('done',box.checked)})});
+    window.addEventListener('load',initMap);
+  </script>
+</body>
+</html>
