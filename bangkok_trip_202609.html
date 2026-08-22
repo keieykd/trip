@@ -865,6 +865,110 @@
         display: block;
         color: #24495d;
       }
+      .meal-guide {
+        margin-top: 18px;
+        border: 1px solid #d6c8b3;
+        border-radius: 20px;
+        background: #fff8ed;
+        overflow: hidden;
+      }
+      .meal-guide summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 15px 17px;
+        color: var(--emerald);
+        font-size: 0.82rem;
+        font-weight: 900;
+        cursor: pointer;
+        list-style: none;
+      }
+      .meal-guide summary::-webkit-details-marker {
+        display: none;
+      }
+      .meal-guide summary::after {
+        content: "展開 ＋";
+        flex: none;
+        color: var(--tea-dark);
+        font-size: 0.68rem;
+      }
+      .meal-guide[open] summary::after {
+        content: "收合 −";
+      }
+      .meal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 0 12px 12px;
+      }
+      .meal-card {
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid rgba(24, 52, 45, 0.1);
+        border-radius: 16px;
+        background: white;
+      }
+      .meal-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 9px;
+      }
+      .meal-label {
+        display: inline-block;
+        margin-bottom: 5px;
+        color: var(--tea-dark);
+        font-size: 0.67rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+      .meal-card h4 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.84rem;
+        line-height: 1.35;
+      }
+      .meal-price {
+        flex: none;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #edf2ee;
+        color: var(--emerald);
+        font-size: 0.67rem;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+      .meal-card p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.73rem;
+        line-height: 1.65;
+      }
+      .meal-card a {
+        color: var(--emerald);
+        text-decoration: none;
+      }
+      .meal-card a::after {
+        content: " ↗";
+        color: var(--tea-dark);
+      }
+      .meal-card .why {
+        color: #31576c;
+      }
+      .meal-note {
+        margin: 0 15px 13px;
+        color: #756957;
+        font-size: 0.66rem;
+        line-height: 1.6;
+      }
+      .mall-plan {
+        grid-column: 1 / -1;
+      }
+      .mall-plan .meal-grid {
+        padding: 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
       .photo-strip {
         display: grid;
         grid-auto-flow: column;
@@ -1431,6 +1535,16 @@
         .stop span {
           overflow-wrap: anywhere;
         }
+        .meal-grid {
+          grid-template-columns: 1fr;
+        }
+        .meal-guide summary {
+          align-items: flex-start;
+          padding: 14px;
+        }
+        .meal-card p {
+          font-size: 0.75rem;
+        }
         .photo-strip {
           grid-auto-columns: 82%;
         }
@@ -1454,6 +1568,9 @@
           padding: 22px 17px;
         }
         .spa-grid {
+          grid-template-columns: 1fr;
+        }
+        .mall-plan .meal-grid {
           grid-template-columns: 1fr;
         }
         .booking {
@@ -2188,6 +2305,28 @@
                       </div>
                     </div>
                   </div>
+                  <details class="meal-guide">
+                    <summary>🍽 D1 吃什麼｜機場早餐、咖啡與第一頓泰菜（4 選）</summary>
+                    <div class="meal-grid">
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">07:40 早餐 · 最省時間</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/%E4%B8%AD%E8%8F%AF%E8%88%AA%E7%A9%BA%E7%AC%AC%E4%BA%8C%E8%88%AA%E5%BB%88V2%E8%B2%B4%E8%B3%93%E5%BB%B3%28%E6%A2%85%E8%8B%91%29/data=!4m7!3m6!1s0x34429fc4189ba547:0x93bb021491d81fd4!8m2!3d25.0777101!4d121.2320055!16s%2Fg%2F11hb6gpdym">華航梅苑／貴賓室</a></h4></div><span class="meal-price">依金卡權益</span></div>
+                        <p>過安檢後吃熱食、粥與咖啡，不另跑航廈餐廳；若當天資格或時段不符，就在登機區買三明治，不犧牲登機時間。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">16:20 咖啡 · 主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=%25%20Arabica%20EmQuartier%20Bangkok">% Arabica EmQuartier</a></h4></div><span class="meal-price">兩人 THB 300–450</span></div>
+                        <p>點 Spanish Latte／Americano，加一份甜點共享即可。優點是就在 EmQuartier、空間好拍；社群評價重點是景觀與品牌穩定，不是追求曼谷最低價。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">18:30 晚餐 · 本日主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kub%20Kao%20Kub%20Pla%20EmQuartier%206th%20Floor%20Bangkok">Kub Kao Kub Pla · EmQuartier 6F</a></h4></div><span class="meal-price">兩人 THB 1,200–1,600</span></div>
+                        <p>第一次到泰國最穩：冬蔭功、綠咖哩／蟹肉炒飯、魚餅選 2–3 道共享。近期食記與評論普遍肯定菜色完整、環境乾淨；比街邊貴，但抵達日的舒適與動線值得。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">18:30 晚餐 · CP 值備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Thong%20Smith%20Emsphere%20Bangkok">Thong Smith · Emsphere GM</a></h4></div><span class="meal-price">兩人 THB 500–850</span></div>
+                        <p>不想吃太撐就各點一碗豬／牛船麵（約 THB 149 起）再共享甜點。網路共識是味道穩、環境舒服但比街頭船麵貴；仍比正式泰菜省，也能準時接按摩。</p>
+                      </div>
+                    </div>
+                    <p class="meal-note">價格為 2026 年查得菜單與近期消費區間，商場餐廳可能另加服務費／稅。D1 不預約也可，但主選若候位超過 15 分鐘就直接改 Thong Smith。</p>
+                  </details>
                   <div class="rain-switch">
                     <b>☔ 大雨版本</b>全程留在 EmDistrict
                     連通商場，不為了任何市區景點叫車。
@@ -2461,6 +2600,36 @@
                       </div>
                     </div>
                   </div>
+                  <details class="meal-guide">
+                    <summary>🍽 D2 吃什麼｜豬肉麵、Ari 咖啡、北泰菜與夜市（6 選）</summary>
+                    <div class="meal-grid">
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">08:00 早餐 · 已鎖定</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Rung%20Rueang%20Pork%20Noodles%2010%2F3%20Sukhumvit%2026%20Bangkok">Rung Rueang 豬肉湯麵</a></h4></div><span class="meal-price">兩人 THB 180–280</span></div>
+                        <p>各點一小碗：一碗乾拌冬蔭、一碗清湯共享，再加脆魚皮。2025–26 菜單小／中／大約 THB 60／70／80；近期旅客一致提醒「辣是真的辣」，先點不辣再自己加。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">09:30 咖啡 · 已鎖定</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=NANA%20Coffee%20Roasters%20Ari%2024%2F2%20Ari%204%20Bangkok">NANA Coffee Roasters Ari</a></h4></div><span class="meal-price">兩人 THB 400–650</span></div>
+                        <p>咖啡派點 Dirty 約 THB 165／Iced Americano 約 THB 145；不喝咖啡可點 Yuzu Sparkling 約 THB 165，甜點只共享一份。社群喜歡花園與咖啡品質，但也常提到週末人多，早到正確。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">10:35 早午餐 · 主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Ong%20Tong%20Khao%20Soi%20Ari%2021%20Phahonyothin%20Soi%207%20Bangkok">Ong Tong Khao Soi Ari</a></h4></div><span class="meal-price">兩人 THB 400–650</span></div>
+                        <p>點雞腿／牛肉 Khao Soi 各一碗，想多試再共享北泰香腸。網路評價不是「全曼谷無敵」，但在 Ari 動線內、價格合理、北泰辨識度高，是這趟最適合的組合。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">17:15 酒吧 · 控制花費</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=AIRE%20Bar%20Hyatt%20Place%20Bangkok%20Sukhumvit%2024">AIRE Bar 28F</a></h4></div><span class="meal-price">兩人 THB 700–1,050 net</span></div>
+                        <p>17:00–18:00 指定調酒／啤酒買一送一；調酒約 THB 350–380，另加 10% 服務費與 7% 稅。只點一組飲品＋一份 THB 180–240 小食，留胃給夜市；不需要買 THB 799／人的 90 分鐘暢飲。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">19:30 晚餐 · 晴天主線</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/Train+Night+Market+Ratchada/@13.7668766,100.5686649,17z/data=!4m6!3m5!1s0x30e29faff350c2ff:0x501a040c5d40615d!8m2!3d13.7668766!4d100.5686649">Train Night Market Ratchada</a></h4></div><span class="meal-price">兩人 THB 700–1,100</span></div>
+                        <p>採「一鹹一烤一甜」：船麵／打拋飯、烤海鮮或泰式香腸、芒果糯米飯，再各一杯飲料。新市場 2026/3 才重開，攤位與價錢仍會變；先看明碼標價，不追巨大排骨山或無標價海鮮。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">19:30 晚餐 · 大雨備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/Siam+Center/@13.746277,100.532694,17z">Siam Center／Discovery 室內吃</a></h4></div><span class="meal-price">兩人 THB 600–1,000</span></div>
+                        <p>先在 Siam Center 餐飲樓層找泰菜或簡餐，再逛 Siam Discovery 設計選物。這個備案優點是全程 BTS＋連通道；不是為精品而來，而是用舒服環境換掉雨中的夜市。</p>
+                      </div>
+                    </div>
+                    <p class="meal-note">D2 食量刻意拆小：早餐小碗、NANA 只共享甜點、Ong Tong 早午餐、AIRE 只點一輪，晚間才有胃逛夜市。AIRE 價格以官方 2026 菜單為準。</p>
+                  </details>
                   <div class="rain-switch">
                     <b>↔ 發發備案</b>如果想要環境更舒服的早午餐，改成
                     <a
@@ -2588,8 +2757,8 @@
                     <div class="stop">
                       <time>08:00</time>
                       <div>
-                        <b>飯店附近早午餐與咖啡</b
-                        ><span>不追遠方網美咖啡廳，把體力留給河岸。</span>
+                        <b><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Breakfast%20Story%20Phrom%20Phong%20593%2F27%20Sukhumvit%20Road%20Bangkok">Breakfast Story Phrom Phong</a></b
+                        ><span>07:55 抵達、08:35 前離開；兩人共享一份大早餐再各點飲品，不追遠方網美店，把體力留給河岸。</span>
                       </div>
                     </div>
                     <div class="stop">
@@ -2638,7 +2807,7 @@
                             >ICONSIAM</a
                           ></b
                         ><span
-                          >午餐、泰國零食與第一段冷氣休息；不需要逛完所有樓層。</span
+                          >先在 6F 吃午餐，再看 7F 河景咖啡與 GF SookSiam；只逛值得的樓層，不需要逛完。</span
                         >
                       </div>
                     </div>
@@ -2653,8 +2822,7 @@
                             >ICONSIAM 碼頭 → Si Phraya</a
                           ></b
                         ><span
-                          >ICONSIAM 自營接駁船免費，過河到 Si Phraya／Ratchawong
-                          約 5–10 分；下船後步行進 Talat Noi。</span
+                          >搭付費接駁船過河到 Si Phraya，現行約 THB 10／人、約 5–10 分；ICONSIAM 官方明列需付船資，不再誤寫免費。下船後步行進 Talat Noi。</span
                         >
                       </div>
                     </div>
@@ -2685,8 +2853,7 @@
                             >Yaowarat Street Food Area</a
                           ></b
                         ><span
-                          >固定在耀華力路夜間小吃區；選最想吃的 2–3
-                          樣，不排名店全收集。</span
+                          >星期一街攤較少，改走「Lim Lao Ngow 魚丸麵→Nai Ek 胡椒粿汁→Ba Hao Tian Mi 甜品」固定店面主線，不靠臨時攤位。</span
                         >
                       </div>
                     </div>
@@ -2708,6 +2875,44 @@
                       </div>
                     </div>
                   </div>
+                  <details class="meal-guide">
+                    <summary>🍽 D3 吃什麼｜河岸商場、老城咖啡與星期一唐人街（8 選）</summary>
+                    <div class="meal-grid">
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">08:00 早餐 · 主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Breakfast%20Story%20Phrom%20Phong%20593%2F27%20Sukhumvit%20Road%20Bangkok">Breakfast Story Phrom Phong</a></h4></div><span class="meal-price">兩人 THB 650–900</span></div>
+                        <p>一份 Breakfast Story（官網約 THB 300；近期平台約 THB 330）＋一份輕食共享最剛好，份量不要點兩套。社群常稱讚份量與穩定度，也有人嫌偏貴；所以放在需要坐好、吃飽再走河岸的這天。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">13:00 午餐 · ICONSIAM 主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Thipsamai%20ICONSIAM%206th%20Floor%20Bangkok">Thipsamai · ICONSIAM 6F</a></h4></div><span class="meal-price">兩人 THB 450–750</span></div>
+                        <p>點經典 Pad Thai 約 THB 119 起＋蛋包版本共享，再點一瓶鮮橙汁。優點是有冷氣、免跑舊城排長隊；味型偏甜，若兩人不愛甜炒麵就直接改下一張。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">13:00 午餐 · 多樣 CP 備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=SookSiam%20ICONSIAM%20Ground%20Floor%20Bangkok">SookSiam · GF</a></h4></div><span class="meal-price">兩人 THB 500–850</span></div>
+                        <p>各挑一道泰國區域小吃再共享甜點，選擇最多、場景漂亮；但近期社群也常說座位擠、價格比外面高 2–3 倍。把它當「一次看很多泰國小吃」的體驗，不當全曼谷最高 CP 美食街。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">14:15 河景咖啡 · 有位才坐</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Starbucks%20Reserve%20ICONSIAM%207th%20Floor%20Bangkok">Starbucks Reserve · 7F</a></h4></div><span class="meal-price">兩人 THB 250–500</span></div>
+                        <p>價值是兩層樓與昭披耶河景，不是咖啡 CP。近期評價常提窗邊位很熱門；若排隊或沒景觀位，只上樓拍河景，不硬買，再去 Talat Noi 喝真正的特色咖啡。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">16:05 咖啡 · 老城主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Mother%20Roaster%20Talat%20Noi%201172%20Soi%20Charoen%20Krung%2022%20Bangkok">Mother Roaster Talat Noi</a></h4></div><span class="meal-price">兩人 THB 220–380</span></div>
+                        <p>隱身老屋二樓、主打手沖與泰國豆；咖啡社群對它的共識比「純網美店」更好。約 17:00 前結束，抵達若被告知提早收單，就直接散步去魚丸麵，不影響晚餐。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">17:15 晚餐第 1 站 · 星期一可行</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/%E6%9E%97%E8%80%81%E4%BA%94%E9%AD%9A%E4%B8%B8%E9%BA%B5/data=!4m7!3m6!1s0x30e29920f427bbcf:0x5d50c09024e892fe!8m2!3d13.7373678!4d100.5101727!16s%2Fg%2F11gztqpyx">Lim Lao Ngow 原店</a></h4></div><span class="meal-price">兩人 THB 170–300</span></div>
+                        <p>各點小碗原味／冬蔭魚丸蛋麵（約 THB 55／65）再共享魚皮餃。2026 Michelin／Time Out 都仍推原店，魚丸無澱粉、口感彈；份量小剛好接下一站，週一 16:30 起營業。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">18:00 晚餐第 2 站 · 本日必吃</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Nai%20Ek%20Roll%20Noodles%20442%20Yaowarat%20Soi%209%20Bangkok">Nai Ek Roll Noodles</a></h4></div><span class="meal-price">兩人 THB 250–450</span></div>
+                        <p>共享一碗白胡椒粿汁＋一份脆皮豬，不要一次點滿。Michelin 與 2026 本地評論持續提到胡椒湯、脆皮豬與穩定度；固定店面週一營業，正好避開清潔日街攤不齊的風險。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">18:45 甜點 · 星期一主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Ba%20Hao%20Tian%20Mi%208%20Phadung%20Dao%20Road%20Yaowarat%20Bangkok">Ba Hao Tian Mi · Yaowarat</a></h4></div><span class="meal-price">兩人 THB 220–320</span></div>
+                        <p>黑芝麻布丁／枸杞豆乳布丁約 THB 108–128，各點一份或共享。官方與 IG 常見招牌就是布丁；環境比路邊甜湯舒服。Sweettime 星期一公休，不能放成這天主線。</p>
+                      </div>
+                    </div>
+                    <p class="meal-note">星期一策略：固定店面先鎖死，街邊攤有開才加吃。若 ICONSIAM 午餐吃得太飽，Mother Roaster 只喝一杯共享，唐人街每家都點小份；19:05 必須往 MRT Hua Lamphong 移動。</p>
+                  </details>
                   <div class="rain-switch">
                     <b>☔ 大雨版本</b>曉廟縮短為一般參觀，不穿泰服；取消 Talat
                     Noi，延長 ICONSIAM 咖啡、吃飯與休息，傍晚依雨勢直接 MRT
@@ -2800,8 +3005,8 @@
                     <div class="stop">
                       <time>07:45</time>
                       <div>
-                        <b>Phrom Phong 早午餐咖啡</b
-                        ><span>選飯店 10 分鐘步行圈內，不追遠方口袋店。</span>
+                        <b><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarnies%20Sukhumvit%2037%201%2F38%20Sukhumvit%2037%20Bangkok">Sarnies Sukhumvit 37</a></b
+                        ><span>07:45–08:35 吃早餐；步行約 10–15 分鐘，點酸種麵包／可頌與咖啡，不追遠方口袋店。</span>
                       </div>
                     </div>
                     <div class="stop">
@@ -2835,10 +3040,9 @@
                     <div class="stop">
                       <time>11:50</time>
                       <div>
-                        <b>EmDistrict 輕午餐</b
+                        <b><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Zaozen%20Emsphere%20Ground%20Floor%20Bangkok">Zaozen · Emsphere G／GM</a></b
                         ><span
-                          >選出餐快、不過辣的一餐；12:55 回 Mercure
-                          取寄存行李。</span
+                          >快速泰式午餐，辣度先選一根辣椒；12:35 前吃完，12:55 回 Mercure 取寄存行李。</span
                         >
                       </div>
                     </div>
@@ -2870,6 +3074,32 @@
                       </div>
                     </div>
                   </div>
+                  <details class="meal-guide">
+                    <summary>🍽 D4 吃什麼｜最後早餐、快速午餐與機場備案（5 選）</summary>
+                    <div class="meal-grid">
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">07:45 早餐 · 本日主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarnies%20Sukhumvit%2037%201%2F38%20Sukhumvit%2037%20Bangkok">Sarnies Sukhumvit 37</a></h4></div><span class="meal-price">兩人 THB 500–850</span></div>
+                        <p>酸種可頌約 THB 110、火腿起司可頌約 THB 175，再各一杯咖啡；網路評價多認可自家酸種與咖啡，也坦白屬曼谷偏高價早午餐。D4 時間有限，選簡單烘焙品，不點等候久的大盤餐。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">07:45 早餐 · 舒服備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Ryoku%20Cafe%2028%20Sukhumvit%2035%20Bangkok">Ryoku Cafe · Sukhumvit 35</a></h4></div><span class="meal-price">兩人 THB 650–1,000</span></div>
+                        <p>08:00 才開門，花園白屋與舒芙蕾更好拍，環境勝 Sarnies；但會壓縮打包，所以只在前一晚已打包 80% 時選。這正是「環境好一點」的 B 備案，不是主線。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">11:50 午餐 · 主選</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Zaozen%20Emsphere%20Ground%20Floor%20Bangkok">Zaozen · Emsphere</a></h4></div><span class="meal-price">兩人 THB 450–750</span></div>
+                        <p>點現炒泰菜／打拋類，一人一盤，不加太多小菜。2025–26 評論重點是出餐快、可調辣、商場裡算合理；不是全旅程最驚豔的一餐，但最符合回程準時與腸胃安全。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">11:50 午餐 · 想吃麵備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Thong%20Smith%20Emsphere%20Bangkok">Thong Smith · Emsphere</a></h4></div><span class="meal-price">兩人 THB 420–700</span></div>
+                        <p>如果 D1 沒吃到，最後補船麵；基本牛／豬肉麵約 THB 149–219 起，另可能有 10% 服務費。比街頭貴，但出餐、座位與行李日舒適度更穩。</p>
+                      </div>
+                      <div class="meal-card">
+                        <div class="meal-top"><div><span class="meal-label">14:50 機場 · 只做備案</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Suvarnabhumi%20Airport%20999%20Nong%20Prue%20Bang%20Phli%20Samut%20Prakan">BKK 出境區補給</a></h4></div><span class="meal-price">兩人 THB 300–700</span></div>
+                        <p>若午餐因按摩或取行李延誤，直接照 13:15 出發，過安檢後再買三明治／簡餐；不要為了吃完商場午餐壓縮國際線報到時間。</p>
+                      </div>
+                    </div>
+                    <p class="meal-note">D4 原則只有一個：12:55 回飯店、13:15 離開不能動。所有早餐與午餐店都只是可替換模組，現場排隊超過 10 分鐘就換下一家。</p>
+                  </details>
                   <div class="rain-switch">
                     <b>☔ 大雨版本</b
                     >不影響主線；早餐與午餐都留在飯店／EmDistrict 連通區域，最晚
@@ -3137,6 +3367,37 @@
                 </div>
               </div>
             </section>
+            <section class="panel mall-plan reveal">
+              <h3>百貨不用逛完：你們真正值得看的樓層</h3>
+              <p>你和發發不買精品，所以我把「品牌數量」排除，僅保留建築、設計、咖啡、泰國食物與雨天價值。</p>
+              <div class="meal-grid">
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">D1／D4 · 飯店生活圈</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=EmQuartier%20695%20Sukhumvit%20Road%20Bangkok">EmQuartier</a></h4></div><span class="meal-price">建議 60–90 分</span></div>
+                  <p><b>只看：</b>戶外 Water Garden／空中步道、6F Helix 餐廳、% Arabica。Emporium 只去 B1 Gourmet Market、OH! RiCH 換匯；高樓精品層可整段略過。</p>
+                </div>
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">D1／D4 · 新商場</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Emsphere%20628%20Sukhumvit%20Road%20Bangkok">Emsphere</a></h4></div><span class="meal-price">建議 45–75 分</span></div>
+                  <p><b>只看：</b>G／GM EM Market Hall 吃東西、2F 科技／設計店、3F 市中心 IKEA。它的價值是餐飲與新建築，不是精品；D4 午餐只留在低樓層，別被 IKEA 單向動線拖走。</p>
+                </div>
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">D3 · 本趟最值得</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=ICONSIAM%20299%20Charoen%20Nakhon%20Road%20Bangkok">ICONSIAM</a></h4></div><span class="meal-price">建議 2 小時 20 分</span></div>
+                  <p><b>順序：</b>6F 午餐 → 7F 河景／Starbucks Reserve → GF SookSiam → 河岸 Apple Store 外部。社群對餐飲價格評價兩極，但對建築、河景與「不買東西也值得」的共識很強。</p>
+                </div>
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">D2 大雨才啟用</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/Siam+Center/@13.746277,100.532694,17z">Siam Center</a></h4></div><span class="meal-price">建議 45 分</span></div>
+                  <p><b>只看：</b>泰國設計師品牌、快閃與視覺陳列。你們不買精品也不會無聊；若只是一般連鎖品牌直接跳過，用室內天橋接下一站。</p>
+                </div>
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">D2 大雨才啟用</span><h4><a target="_blank" rel="noopener" href="https://www.google.com/maps/place/Siam+Discovery/@13.7465999,100.531355,17z">Siam Discovery</a></h4></div><span class="meal-price">建議 45–60 分</span></div>
+                  <p><b>只看：</b>生活風格、設計選物與空間陳列。它不是「血拼型」百貨，較像可逛的設計展；正好符合發發覺得環境不錯就願意體驗的條件。</p>
+                </div>
+                <div class="meal-card">
+                  <div class="meal-top"><div><span class="meal-label">網路評價怎麼用</span><h4>不是把爆紅店全塞進去</h4></div><span class="meal-price">動線優先</span></div>
+                  <p class="why">官方菜單／營業資料決定可不可行；Google、Wongnai、近期 YouTube、Reddit 與 IG／Threads 討論只用來看共識與缺點。凡是「好拍但排太久」「附餐拉高價格」「遠離軌道」都降為備案。</p>
+                </div>
+              </div>
+              <div class="source-note"><strong>本輪查核：</strong>價格以官方菜單、店家 LINE／官網及 2025–26 Wongnai 為主；社群交叉看近期 YouTube、Instagram、Threads 可檢索內容與旅遊社群。數字不引用短影音口播；夜市攤價、服務費與季節菜單仍以現場為準。</div>
+            </section>
             <section class="panel reveal">
               <h3>預約連結</h3>
               <p>
@@ -3230,7 +3491,7 @@
                   <span>4 次雙人 90 分按摩</span><b>約 NT$9,800–10,300</b>
                 </div>
                 <div class="budget-row">
-                  <span>餐飲與咖啡</span><b>約 NT$5,200</b>
+                  <span>餐飲與咖啡（四天雙人主選）</span><b>約 NT$7,500–8,800</b>
                 </div>
                 <div class="budget-row">
                   <span>BTS／MRT／ARL／船</span><b>約 NT$2,000</b>
@@ -3239,23 +3500,23 @@
                   <span>AIRE、門票與預備金</span><b>約 NT$3,700</b>
                 </div>
                 <div class="budget-row total">
-                  <span>落地支出目標</span><b>約 NT$21,000</b>
+                  <span>落地支出目標</span><b>約 NT$23,500–25,000</b>
                 </div>
               </div>
               <div
                 class="meter meter-95"
                 role="progressbar"
-                aria-label="落地支出佔二萬二上限約 95%"
+                aria-label="落地支出約二萬四千五百元"
                 aria-valuemin="0"
-                aria-valuemax="22000"
-                aria-valuenow="21000"
+                aria-valuemax="26000"
+                aria-valuenow="24500"
               >
                 <i></i>
               </div>
               <p class="budget-note">
-                加入 Divana 後，原本 NT$20,000 上限不再誠實；改抓
-                NT$21,000、最高 NT$22,000。Samatha
-                現價尚待店家書面回覆；泰服、大額購物、高空酒吧追加第二輪不在此金額內。
+                餐飲改用逐餐主選實算後，原本 NT$5,200 明顯低估；落地支出改抓
+                NT$23,500–25,000、最高預留 NT$26,000。Samatha
+                現價尚待店家書面回覆；泰服、大額購物與 AIRE 追加第二輪不在此金額內。
               </p>
             </section>
             <section class="panel reveal">
