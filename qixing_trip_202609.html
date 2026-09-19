@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#33424a">
+  <meta name="description" content="2026 年 9 月 20 日，從南勢角出發的七星山一日行程：冷水坑上山、小油坑下山、108 公車接駁、15:30 松竹園。">
+  <title>七星山｜9.20 雙人一日計畫</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2333424a'/%3E%3Cpath d='M12 46 27 21l9 13 6-8 10 20H12Z' fill='%23b7c5b1'/%3E%3Ccircle cx='45' cy='17' r='5' fill='%23d5b09e'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3RrALP4c7o4qH3yE0c0bWc1G9W0A=" crossorigin="">
+  <script>document.documentElement.classList.add("js");</script>
+  <style>
+    :root {
+      --ink: #33424a;
+      --ink-soft: #5d6d72;
+      --paper: #f5f1eb;
+      --paper-deep: #ebe4db;
+      --white: #fffdf9;
+      --sage: #aeb9aa;
+      --sage-deep: #71837b;
+      --clay: #b8897e;
+      --clay-deep: #98675f;
+      --mist: #dce4e0;
+      --lavender: #ada6b7;
+      --line: rgba(51, 66, 74, .14);
+      --shadow: 0 18px 50px rgba(51, 66, 74, .10);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 7%, rgba(174, 185, 170, .28), transparent 29rem),
+        radial-gradient(circle at 94% 16%, rgba(184, 137, 126, .18), transparent 24rem),
+        var(--paper);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    img, svg { max-width: 100%; }
+    .page { overflow: hidden; }
+    .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--clay-deep);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .muted { color: var(--ink-soft); }
+    .small { font-size: .84rem; }
+    .section { padding: 60px 0 0; }
+    .section-heading { display: flex; gap: 16px; align-items: end; justify-content: space-between; margin-bottom: 20px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { letter-spacing: -.035em; line-height: 1.15; }
+    h1 { max-width: 660px; margin-bottom: 18px; font-size: clamp(2.6rem, 12vw, 5.7rem); font-weight: 800; }
+    h2 { margin-bottom: 9px; font-size: clamp(1.8rem, 5vw, 3rem); }
+    h3 { margin-bottom: 8px; font-size: 1.18rem; }
+
+    .hero { position: relative; padding: 25px 0 44px; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -12%;
+      width: 70%;
+      height: 360px;
+      opacity: .62;
+      background:
+        linear-gradient(146deg, transparent 0 30%, rgba(113, 131, 123, .20) 30.5% 31%, transparent 31.5% 43%, rgba(113, 131, 123, .15) 43.5% 44%, transparent 44.5%),
+        linear-gradient(161deg, transparent 0 48%, rgba(184, 137, 126, .19) 48.5% 49%, transparent 49.5% 62%, rgba(184, 137, 126, .15) 62.5% 63%, transparent 63.5%);
+      pointer-events: none;
+    }
+    .hero-top, .hero-main, .hero-bottom { position: relative; z-index: 1; }
+    .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 56px; }
+    .brand-mark { display: inline-flex; gap: 9px; align-items: center; color: var(--ink); font-weight: 800; letter-spacing: .05em; }
+    .brand-dot { display: inline-grid; width: 30px; height: 30px; place-items: center; border-radius: 10px; color: var(--white); background: var(--ink); font-size: .8rem; }
+    .date-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 1px solid rgba(51,66,74,.17); border-radius: 999px; background: rgba(255,253,249,.46); color: var(--ink-soft); font-size: .78rem; font-weight: 750; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--sage-deep); font-weight: 800; }
+    .hero-kicker::before { content: ""; display: inline-block; width: 42px; height: 2px; border-radius: 9px; background: var(--clay); }
+    .hero-lede { max-width: 650px; margin-bottom: 23px; color: var(--ink-soft); font-size: 1.08rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; color: var(--ink); background: rgba(255,253,249,.70); font-size: .83rem; font-weight: 750; box-shadow: 0 5px 16px rgba(51,66,74,.04); }
+    .tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--clay); }
+    .hero-bottom { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 32px; }
+    .control-alert { position: relative; padding: 18px 18px 18px 50px; border: 1px solid rgba(152,103,95,.23); border-radius: var(--radius-md); background: rgba(184,137,126,.16); box-shadow: var(--shadow); }
+    .control-alert .alert-icon { position: absolute; top: 18px; left: 18px; display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; color: var(--white); background: var(--clay-deep); font-size: .75rem; font-weight: 900; }
+    .control-alert strong { display: block; margin-bottom: 4px; font-size: .97rem; }
+    .control-alert p { margin: 0; color: var(--ink-soft); font-size: .88rem; }
+
+    .quick-nav { position: sticky; top: 0; z-index: 20; border-top: 1px solid rgba(51,66,74,.10); border-bottom: 1px solid rgba(51,66,74,.10); background: rgba(245,241,235,.87); backdrop-filter: blur(16px); }
+    .quick-nav .wrap { display: flex; overflow-x: auto; gap: 7px; padding: 9px 0; scrollbar-width: none; }
+    .quick-nav .wrap::-webkit-scrollbar { display: none; }
+    .quick-nav a { flex: 0 0 auto; padding: 8px 12px; border-radius: 999px; color: var(--ink-soft); font-size: .83rem; font-weight: 800; text-decoration: none; }
+    .quick-nav a:first-child { background: var(--ink); color: var(--white); }
+
+    .surface { border: 1px solid rgba(51,66,74,.10); border-radius: var(--radius-lg); background: rgba(255,253,249,.78); box-shadow: var(--shadow); }
+    .summary-grid { display: grid; grid-template-columns: 1fr; gap: 13px; }
+    .summary-card { padding: 20px; }
+    .route-ribbon { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin: 17px 0 0; }
+    .route-node { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 9px; background: var(--mist); color: var(--ink); font-size: .8rem; font-weight: 800; }
+    .route-arrow { color: var(--clay-deep); font-weight: 900; }
+    .action-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+    .button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 7px; padding: 10px 14px; border: 1px solid rgba(51,66,74,.16); border-radius: 12px; background: var(--ink); color: var(--white); font-size: .86rem; font-weight: 800; text-decoration: none; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+    .button.secondary { background: var(--white); color: var(--ink); }
+    .button.soft { border-color: transparent; background: var(--mist); color: var(--ink); }
+    .button:hover, .button:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 19px rgba(51,66,74,.14); }
+    .button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid rgba(184,137,126,.50); outline-offset: 3px; }
+
+    .timeline { position: relative; display: grid; gap: 13px; }
+    .timeline::before { content: ""; position: absolute; top: 15px; bottom: 15px; left: 15px; width: 1px; background: linear-gradient(var(--clay), var(--sage-deep), var(--lavender)); }
+    .time-item { position: relative; display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 14px; align-items: start; }
+    .time { position: relative; z-index: 1; padding-top: 3px; color: var(--clay-deep); font-size: .83rem; font-weight: 850; }
+    .time-card { padding: 15px 16px; border: 1px solid rgba(51,66,74,.10); border-radius: var(--radius-md); background: rgba(255,253,249,.75); }
+    .time-card .title-line { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+    .time-card h3 { margin-bottom: 3px; font-size: 1.03rem; }
+    .time-card p { margin: 0; color: var(--ink-soft); font-size: .87rem; }
+    .mode { flex: 0 0 auto; padding: 4px 7px; border-radius: 7px; color: var(--ink); background: var(--paper-deep); font-size: .7rem; font-weight: 850; }
+    .mode.car { background: rgba(174,185,170,.45); }
+    .mode.walk { background: rgba(173,166,183,.35); }
+    .mode.bus { background: rgba(220,228,224,.90); }
+
+    .map-shell { overflow: hidden; }
+    .map-intro { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 19px 19px 13px; }
+    .map-intro p { margin: 0; color: var(--ink-soft); font-size: .88rem; }
+    #routeMap { min-height: 390px; background: #dce4e0; }
+    html:not(.js) #routeMap { display: none; }
+    .leaflet-container { font-family: inherit; }
+    .leaflet-control-attribution { font-size: 9px; }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--white); color: var(--ink); }
+    .leaflet-popup-content { min-width: 170px; margin: 14px; font-family: inherit; font-size: .83rem; }
+    .popup-title { margin-bottom: 5px; font-weight: 850; }
+    .popup-meta { margin-bottom: 9px; color: var(--ink-soft); }
+    .popup-link { display: inline-flex; padding: 6px 9px; border-radius: 8px; background: var(--ink); color: var(--white); font-weight: 800; text-decoration: none; }
+    .map-legend { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 19px 18px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .78rem; }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-line { width: 25px; height: 4px; border-radius: 99px; background: var(--clay-deep); }
+    .legend-line.walk { background: var(--lavender); }
+    .legend-line.bus { background: var(--sage-deep); border-top: 2px dashed var(--sage-deep); background: transparent; }
+    .map-note { padding: 0 19px 17px; color: var(--ink-soft); font-size: .76rem; }
+    .fallback-map { display: block; padding: 10px; }
+    .fallback-map svg { display: block; width: 100%; height: auto; border-radius: 16px; background: linear-gradient(145deg, #d9e2dc, #e8e2dc); }
+    .fallback-map a { text-decoration: none; }
+    .fallback-pin circle { transition: fill .2s ease, transform .2s ease; transform-box: fill-box; transform-origin: center; }
+    .fallback-pin:hover circle, .fallback-pin:focus circle { fill: var(--clay-deep); transform: scale(1.12); }
+
+    .stops-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .stop-card { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; padding: 17px; }
+    .stop-index { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 12px; color: var(--white); background: var(--ink); font-weight: 900; }
+    .stop-card:nth-child(2n) .stop-index { background: var(--clay-deep); }
+    .stop-card:nth-child(3n) .stop-index { background: var(--sage-deep); }
+    .stop-card h3 { margin-bottom: 3px; font-size: 1.04rem; }
+    .stop-card p { margin-bottom: 11px; color: var(--ink-soft); font-size: .84rem; }
+    .place-link { display: inline-flex; align-items: center; gap: 6px; color: var(--clay-deep); font-size: .83rem; font-weight: 850; text-decoration: none; }
+    .place-link::after { content: "↗"; font-size: 1rem; }
+
+    .risk-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .risk-card { padding: 19px; }
+    .risk-card.control { border-color: rgba(152,103,95,.28); background: rgba(184,137,126,.13); }
+    .risk-card.route { background: rgba(174,185,170,.20); }
+    .risk-card h3 { display: flex; gap: 9px; align-items: center; font-size: 1.06rem; }
+    .risk-card p { margin-bottom: 0; color: var(--ink-soft); font-size: .87rem; }
+    .risk-card ul { margin: 11px 0 0; padding-left: 19px; color: var(--ink-soft); font-size: .86rem; }
+    .risk-card li + li { margin-top: 6px; }
+    .risk-label { display: inline-flex; padding: 4px 7px; border-radius: 6px; background: rgba(255,253,249,.72); color: var(--clay-deep); font-size: .67rem; letter-spacing: .08em; }
+
+    .two-col { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .check-card, .source-card { padding: 19px; }
+    .checklist { display: grid; gap: 10px; margin-top: 15px; }
+    .check { display: flex; gap: 10px; align-items: start; color: var(--ink-soft); font-size: .87rem; }
+    .check input { flex: 0 0 auto; width: 19px; height: 19px; margin-top: 2px; accent-color: var(--sage-deep); }
+    .check input:checked + span { color: var(--sage-deep); text-decoration: line-through; text-decoration-thickness: 2px; }
+    .source-list { display: grid; gap: 9px; margin: 15px 0 0; }
+    .source-list a { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 11px; border-radius: 10px; background: var(--paper); color: var(--ink-soft); font-size: .82rem; font-weight: 750; text-decoration: none; }
+    .source-list a span:last-child { color: var(--clay-deep); }
+
+    .footer { margin-top: 70px; padding: 35px 0 100px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .78rem; }
+    .footer p { max-width: 760px; margin-bottom: 9px; }
+    .footer strong { color: var(--ink); }
+    .mobile-bar { position: fixed; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); left: 12px; z-index: 30; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 6px; border: 1px solid rgba(51,66,74,.15); border-radius: 17px; background: rgba(255,253,249,.89); box-shadow: 0 16px 35px rgba(51,66,74,.20); backdrop-filter: blur(16px); }
+    .mobile-bar a { padding: 8px 4px; border-radius: 11px; color: var(--ink-soft); font-size: .72rem; font-weight: 850; text-align: center; text-decoration: none; }
+    .mobile-bar a:first-child { background: var(--ink); color: var(--white); }
+
+    .reveal { opacity: 0; transform: translateY(15px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    .route-pulse { animation: routePulse 3.8s ease-in-out infinite; }
+    @keyframes routePulse { 0%, 100% { opacity: .70; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+
+    @media (min-width: 700px) {
+      .wrap { width: min(1100px, calc(100% - 64px)); }
+      .hero { padding-top: 34px; padding-bottom: 62px; }
+      .hero-top { margin-bottom: 90px; }
+      .hero-bottom { grid-template-columns: minmax(0, 1fr) 310px; align-items: stretch; }
+      .summary-grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); }
+      .stops-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .risk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); }
+      .mobile-bar { display: none; }
+      .footer { padding-bottom: 50px; }
+    }
+
+    @media (min-width: 1000px) {
+      .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+      .timeline::before { display: none; }
+      .time-item { grid-template-columns: 64px minmax(0, 1fr); }
+      .time-card { min-height: 108px; }
+      .hero-main { padding-left: 7%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <div class="wrap">
+        <div class="hero-top">
+          <div class="brand-mark"><span class="brand-dot">山</span><span>一日山行筆記</span></div>
+          <span class="date-chip">SUN · 2026.09.20</span>
+        </div>
+        <div class="hero-main">
+          <p class="hero-kicker">QIXING MOUNTAIN / DAY PLAN</p>
+          <h1>七星山，<br>把一天走成一條線。</h1>
+          <p class="hero-lede">南勢角出發，冷水坑上、七星山東峰與主峰、小油坑下，再搭 108 回車位。15:30 在松竹園吃飯，回程走平菁街側，避開陽明山下山管制點。</p>
+          <div class="hero-tags">
+            <span class="tag"><span class="dot"></span>展佑 × 發發</span>
+            <span class="tag">06:30 開車</span>
+            <span class="tag">15:30 松竹園</span>
+            <span class="tag">單向縱走</span>
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <div class="control-alert route-pulse">
+            <span class="alert-icon">!</span>
+            <strong>今天最重要的節點：07:20–07:40 通過復興橋頭</strong>
+            <p>週日小客車上山管制通常從 08:00 開始；回程預計不走仰德大道與陽明路下山管制點，但山區仍可能有臨時交通狀況。</p>
+          </div>
+          <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4&travelmode=driving" target="_blank" rel="noreferrer">開啟上山導航 ↗</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="quick-nav" aria-label="頁面導覽">
+      <div class="wrap">
+        <a href="#plan">總覽</a>
+        <a href="#timeline">時間軸</a>
+        <a href="#map">地圖</a>
+        <a href="#places">地點</a>
+        <a href="#notice">注意</a>
+        <a href="#pack">準備</a>
+      </div>
+    </nav>
+
+    <main class="wrap">
+      <section class="section reveal" id="plan">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / ROUTE LOGIC</p>
+            <h2>先記住這四段</h2>
+          </div>
+          <span class="muted small">一台車 · 一段山徑 · 一班公車</span>
+        </div>
+        <div class="summary-grid">
+          <article class="surface summary-card">
+            <h3>最順的安排</h3>
+            <p class="muted">車停冷水坑，從東側上主峰，沿主稜到小油坑，再用 108 把兩人送回冷水坑取車。這樣不用走回頭路，也把下午時間留給 15:30 的餐期。</p>
+            <div class="route-ribbon" aria-label="四段路線">
+              <span class="route-node">🚗 南勢角 → 冷水坑</span><span class="route-arrow">→</span>
+              <span class="route-node">🥾 東峰 → 主峰 → 小油坑</span><span class="route-arrow">→</span>
+              <span class="route-node">🚌 108 回冷水坑</span><span class="route-arrow">→</span>
+              <span class="route-node">🍲 松竹園 → 南勢角</span>
+            </div>
+            <div class="action-row">
+              <a class="button" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">看冷水坑停車場</a>
+              <a class="button soft" href="https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0100010800" target="_blank" rel="noreferrer">看 108 班次</a>
+            </div>
+          </article>
+          <article class="surface summary-card">
+            <p class="eyebrow">RETURN RULE</p>
+            <h3>17:00 左右離席，走側線回家</h3>
+            <p class="muted">松竹園 → 永公路 → 平菁街 → 至善路三段 → 重慶北路 → 環河／台 64 → 南勢角。導航時不要選回仰德大道或陽金公路。</p>
+            <div class="action-row">
+              <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&waypoints=%E5%B9%B3%E8%8F%81%E8%A1%97%7C%E8%87%B3%E5%96%84%E8%B7%AF%E4%B8%89%E6%AE%B5%7C%E9%87%8D%E6%85%B6%E5%8C%97%E8%B7%AF&travelmode=driving" target="_blank" rel="noreferrer">開啟回程路線 ↗</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="timeline">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / DAY RHYTHM</p>
+            <h2>明天的時間軸</h2>
+          </div>
+          <span class="muted small">以不趕 15:30 為優先</span>
+        </div>
+        <div class="timeline">
+          <div class="time-item"><div class="time">06:30</div><article class="time-card"><div class="title-line"><h3>南勢角出發</h3><span class="mode car">🚗 開車</span></div><p>走環河／台 64 方向，目標在 08:00 前通過復興橋頭。</p></article></div>
+          <div class="time-item"><div class="time">07:20–<br>07:40</div><article class="time-card"><div class="title-line"><h3>復興橋頭</h3><span class="mode car">管制節點</span></div><p>仰德大道、至誠路口。週日上山管制前通過，後續往格致路、菁山路。</p></article></div>
+          <div class="time-item"><div class="time">07:50–<br>08:10</div><article class="time-card"><div class="title-line"><h3>冷水坑停車</h3><span class="mode car">🚗 下車</span></div><p>停冷水坑 1 號停車場；整理水、外套、登山杖，服務站旁登山口起登。</p></article></div>
+          <div class="time-item"><div class="time">08:10–<br>09:25</div><article class="time-card"><div class="title-line"><h3>冷水坑 → 七星山東峰</h3><span class="mode walk">🥾 步行</span></div><p>緩上坡與稜線段，保留 10 分鐘給東峰拍照和補水。</p></article></div>
+          <div class="time-item"><div class="time">09:25–<br>10:15</div><article class="time-card"><div class="title-line"><h3>東峰 → 七星山主峰</h3><span class="mode walk">🥾 步行</span></div><p>抵達台北市最高點；風大時不要停在風口邊緣，主峰拍照後直接往小油坑。</p></article></div>
+          <div class="time-item"><div class="time">10:15–<br>11:40</div><article class="time-card"><div class="title-line"><h3>主峰 → 小油坑</h3><span class="mode walk">🥾 下山</span></div><p>下坡路段放慢，預留腳程與天候緩衝；最晚 12:00 左右離開小油坑服務站。</p></article></div>
+          <div class="time-item"><div class="time">12:00–<br>13:25</div><article class="time-card"><div class="title-line"><h3>108 回冷水坑</h3><span class="mode bus">🚌 公車</span></div><p>到小油坑服務站看站牌與即時班次；週日約 20–30 分鐘一班，搭回冷水坑取車。</p></article></div>
+          <div class="time-item"><div class="time">13:25–<br>15:15</div><article class="time-card"><div class="title-line"><h3>冷水坑 → 松竹園</h3><span class="mode car">🚗 開車</span></div><p>取車、擦乾、補水後下山。目標 15:15 抵達，留 15 分鐘給停車與入座。</p></article></div>
+          <div class="time-item"><div class="time">15:30–<br>17:00</div><article class="time-card"><div class="title-line"><h3>松竹園午餐</h3><span class="mode">🍲 已預約</span></div><p>永公路 546 號。週末午餐時段約到 16:00，既然預約 15:30，建議不要壓線。</p></article></div>
+          <div class="time-item"><div class="time">17:00–<br>19:00</div><article class="time-card"><div class="title-line"><h3>側線回南勢角</h3><span class="mode car">🚗 回家</span></div><p>永公路 → 平菁街 → 至善路三段 → 重慶北路 → 環河／台 64；以 18:15–19:15 到家估算。</p></article></div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="map">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / GEO VIEW</p>
+            <h2>路線地圖</h2>
+          </div>
+          <span class="muted small">點圖釘可開 Google Maps</span>
+        </div>
+        <div class="surface map-shell">
+          <div class="map-intro">
+            <p>車程是示意線，山徑與 108 轉乘節點按實際地理位置標示。</p>
+            <a class="button soft" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&waypoints=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4%7C%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99&travelmode=driving" target="_blank" rel="noreferrer">在 Google Maps 看全段 ↗</a>
+          </div>
+          <div id="routeMap" role="img" aria-label="南勢角、冷水坑、七星山、 小油坑、松竹園的行程路線地圖"></div>
+          <div class="fallback-map" id="fallbackMap" aria-label="路線示意地圖">
+            <svg viewBox="0 0 900 650" role="img" aria-labelledby="fallbackTitle fallbackDesc">
+              <title id="fallbackTitle">七星山一日路線示意圖</title>
+              <desc id="fallbackDesc">南勢角開車到冷水坑，步行經七星山東峰與主峰到小油坑，搭 108 回冷水坑，再開車到松竹園與南勢角。</desc>
+              <path d="M80 565 C205 520 252 424 335 350 S470 242 546 171 S718 110 819 76" fill="none" stroke="#b8897e" stroke-width="10" stroke-linecap="round" stroke-dasharray="20 11" opacity=".82"/>
+              <path d="M335 350 C383 301 429 315 475 259 S524 190 546 171" fill="none" stroke="#ada6b7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 14"/>
+              <path d="M546 171 C589 196 612 242 634 300 C603 334 564 359 497 370 C442 375 391 363 335 350" fill="none" stroke="#71837b" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 14"/>
+              <path d="M92 491 Q180 410 278 467 T469 455" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".55"/>
+              <path d="M121 270 Q228 215 329 262 T515 235 T773 264" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".45"/>
+              <path d="M175 135 Q302 91 423 137 T728 126" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".38"/>
+              <g font-family="Noto Sans TC, sans-serif" fill="#33424a">
+                <text x="70" y="607" font-size="21" font-weight="800">南勢角</text><text x="68" y="630" font-size="15">06:30 車</text>
+                <text x="164" y="452" font-size="18" font-weight="800">復興橋頭</text><text x="164" y="473" font-size="14">07:20–07:40</text>
+                <text x="286" y="398" font-size="21" font-weight="800">冷水坑</text><text x="285" y="420" font-size="15">停車／起登</text>
+                <text x="411" y="238" font-size="20" font-weight="800">東峰</text><text x="520" y="138" font-size="21" font-weight="800">主峰</text>
+                <text x="613" y="341" font-size="20" font-weight="800">小油坑</text><text x="606" y="363" font-size="15">108 回車位</text>
+                <text x="352" y="391" font-size="15" font-weight="800">冷水坑服務站</text>
+                <text x="772" y="50" font-size="20" font-weight="800">松竹園</text><text x="772" y="70" font-size="15">15:30 午餐</text>
+              </g>
+              <a class="fallback-pin" data-map-query="南勢角捷運站" data-map-coords="24.9907,121.5085" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="82" cy="565" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="82" y="570" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">1</text></a>
+              <a class="fallback-pin" data-map-query="台北市士林區至誠路仰德大道復興橋" data-map-coords="25.1034,121.5350" href="https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B" target="_blank" rel="noreferrer"><circle cx="205" cy="480" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="205" y="485" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">2</text></a>
+              <a class="fallback-pin" data-map-query="冷水坑第一停車場" data-map-coords="25.1667,121.5648" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer"><circle cx="335" cy="350" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="335" y="355" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">3</text></a>
+              <a class="fallback-pin" data-map-query="七星山東峰" data-map-coords="25.1701,121.5681" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E6%9D%B1%E5%B3%B0" target="_blank" rel="noreferrer"><circle cx="475" cy="259" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="475" y="264" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">4</text></a>
+              <a class="fallback-pin" data-map-query="七星山主峰" data-map-coords="25.1718,121.5586" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E4%B8%BB%E5%B3%B0" target="_blank" rel="noreferrer"><circle cx="546" cy="171" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="546" y="176" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">5</text></a>
+              <a class="fallback-pin" data-map-query="小油坑服務站" data-map-coords="25.1827,121.5467" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="634" cy="300" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="634" y="305" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">6</text></a>
+              <a class="fallback-pin" data-map-query="冷水坑遊客服務站" data-map-coords="25.1666,121.5657" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E9%81%8A%E5%AE%A2%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="385" cy="350" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="385" y="355" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">7</text></a>
+              <a class="fallback-pin" data-map-query="松竹園 台北市士林區永公路546號" data-map-coords="25.1390,121.5587" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F" target="_blank" rel="noreferrer"><circle cx="819" cy="76" r="13" fill="#98675f" stroke="#fffdf9" stroke-width="6"/><text x="819" y="81" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">8</text></a>
+            </svg>
+          </div>
+          <div class="map-legend">
+            <span class="legend-item"><i class="legend-line"></i>開車</span>
+            <span class="legend-item"><i class="legend-line walk"></i>步行登山</span>
+            <span class="legend-item"><i class="legend-line bus"></i>108 公車</span>
+            <span class="legend-item">1→8 行程順序</span>
+          </div>
+          <p class="map-note">地圖用來看方向與節點，不取代當日導航；山區道路、停車與公車班次請以現場和官方頁面為準。</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="places">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">04 / PINNED PLACES</p>
+            <h2>每個點都能直接導航</h2>
+          </div>
+          <span class="muted small">搜尋結果以明確地標為主</span>
+        </div>
+        <div class="stops-grid">
+          <article class="surface stop-card"><div class="stop-index">1</div><div><h3>南勢角捷運站</h3><p>出發集合點；06:30 離開。</p><a class="place-link" data-map-query="南勢角捷運站" data-map-coords="24.9907,121.5085" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">2</div><div><h3>復興橋頭／至誠路口</h3><p>仰德大道上山管制的觀察節點。</p><a class="place-link" data-map-query="台北市士林區至誠路仰德大道復興橋" data-map-coords="25.1034,121.5350" href="https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">3</div><div><h3>冷水坑 1 號停車場</h3><p>停車、取水、服務站旁起登；先看入口即時影像。</p><a class="place-link" data-map-query="冷水坑第一停車場" data-map-coords="25.1667,121.5648" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">4</div><div><h3>七星山東峰</h3><p>主稜中途節點；補水、拍照，不久留。</p><a class="place-link" data-map-query="七星山東峰" data-map-coords="25.1701,121.5681" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E6%9D%B1%E5%B3%B0" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">5</div><div><h3>七星山主峰</h3><p>台北市最高點；風大時以安全與保暖優先。</p><a class="place-link" data-map-query="七星山主峰" data-map-coords="25.1718,121.5586" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E4%B8%BB%E5%B3%B0" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">6</div><div><h3>小油坑服務站</h3><p>下山出口與 108 搭車點；先確認下一班車。</p><a class="place-link" data-map-query="小油坑服務站" data-map-coords="25.1827,121.5467" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">7</div><div><h3>冷水坑服務站</h3><p>108 下車處；步行回 1 號停車場取車。</p><a class="place-link" data-map-query="冷水坑遊客服務站" data-map-coords="25.1666,121.5657" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E9%81%8A%E5%AE%A2%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">+</div><div><h3>小油坑停車場</h3><p>不作為本次停車點，但作為小油坑一帶的備援地標。</p><a class="place-link" data-map-query="小油坑停車場" data-map-coords="25.1824,121.5466" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">8</div><div><h3>松竹園｜永公路 546 號</h3><p>15:30 午餐；電話 02-2861-6261，建議出發前再確認訂位。</p><a class="place-link" data-map-query="松竹園 台北市士林區永公路546號" data-map-coords="25.1390,121.5587" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="notice">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">05 / WHAT CAN CHANGE</p>
+            <h2>管制與備案</h2>
+          </div>
+          <span class="muted small">把不確定性留在山下</span>
+        </div>
+        <div class="risk-grid">
+          <article class="surface risk-card control">
+            <span class="risk-label">最需要記得</span>
+            <h3>上午上山管制</h3>
+            <p>週日小客車上山管制常見時段為 08:00–15:00，位置在復興橋頭。06:30 出發的策略就是在管制前通過。</p>
+            <ul><li>如果 07:40 還沒過復興橋頭，先依現場警察指揮。</li><li>停車位不是預約制，滿位時不要在路邊等候。</li></ul>
+          </article>
+          <article class="surface risk-card route">
+            <span class="risk-label">回程判斷</span>
+            <h3>下午回程通常不碰到該管制</h3>
+            <p>從松竹園走永公路、平菁街、至善路三段，不會經過陽明路／仰德大道的下山管制點。</p>
+            <ul><li>仍可能遇到車流、活動、事故或臨時交管。</li><li>導航若把你導回仰德大道，手動改走平菁街側。</li></ul>
+          </article>
+          <article class="surface risk-card">
+            <span class="risk-label">山徑與公車</span>
+            <h3>不要為了吃飯壓縮安全時間</h3>
+            <p>七星山步道有風、雲霧和濕滑路面變化；108 也可能受車流影響，不要把班次當成保證。</p>
+            <ul><li>10:30 還沒到主峰，縮短拍照並穩定下山。</li><li>12:45 前到小油坑，留時間等 108 與轉乘。</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="pack">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">06 / LEAVE LIGHT</p>
+            <h2>出門前 5 分鐘</h2>
+          </div>
+          <span class="muted small">勾選會留在這台手機</span>
+        </div>
+        <div class="two-col">
+          <article class="surface check-card">
+            <h3>雙人快速清單</h3>
+            <div class="checklist">
+              <label class="check"><input type="checkbox" data-check="weather"><span>看中央氣象署七星山／陽明山天氣與雷雨、風勢</span></label>
+              <label class="check"><input type="checkbox" data-check="trail"><span>看陽明山國家公園道路與步道開放資訊</span></label>
+              <label class="check"><input type="checkbox" data-check="parking"><span>看冷水坑 1 號停車場入口影像與小油坑停車狀況</span></label>
+              <label class="check"><input type="checkbox" data-check="bus"><span>把 108 路線頁加到手機分頁，回程現場再看班次</span></label>
+              <label class="check"><input type="checkbox" data-check="gear"><span>水、薄外套、雨具、止滑鞋、行動電源、頭燈／小手電筒</span></label>
+              <label class="check"><input type="checkbox" data-check="reservation"><span>再次確認 15:30 松竹園訂位與電話</span></label>
+            </div>
+          </article>
+          <article class="surface source-card">
+            <h3>出發前只看這幾個官方頁</h3>
+            <div class="source-list">
+              <a href="https://www.ymsnp.gov.tw/ch/titlelist/traffic-news/59" target="_blank" rel="noreferrer"><span>仰德大道交通管制</span><span>↗</span></a>
+              <a href="https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0100010800" target="_blank" rel="noreferrer"><span>108 公車站序與班次</span><span>↗</span></a>
+              <a href="https://www.ymsnp.gov.tw/ch/sglarticle/lengshuikeng-parking-lot" target="_blank" rel="noreferrer"><span>冷水坑停車場影像</span><span>↗</span></a>
+              <a href="https://www.ymsnp.gov.tw/ch/trailopen/road-and-trail-opening-information" target="_blank" rel="noreferrer"><span>道路與步道開放</span><span>↗</span></a>
+              <a href="https://www.cwa.gov.tw/V8/C/L/Mountain/Mountain.html" target="_blank" rel="noreferrer"><span>中央氣象署登山天氣</span><span>↗</span></a>
+              <a href="https://www.28616261.com.tw/" target="_blank" rel="noreferrer"><span>松竹園官方網站</span><span>↗</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p><strong>最後判斷：</strong>早上把車開進山、下午從松竹園走平菁街側回程，原則上能避開仰德大道下山管制；但請以當日現場指揮、道路公告與天候為最高優先。</p>
+        <p>資料基準：2026/09/19 整理。網站內的地圖與時間是行程規劃用，不是即時交通保證。</p>
+      </div>
+    </footer>
+
+    <nav class="mobile-bar" aria-label="手機快速導覽">
+      <a href="#plan">總覽</a>
+      <a href="#map">地圖</a>
+      <a href="#notice">注意</a>
+    </nav>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const places = [
+      { n: 1, name: "南勢角捷運站", meta: "06:30 出發 · 開車", coords: [24.9907, 121.5085], query: "南勢角捷運站" },
+      { n: 2, name: "復興橋頭／至誠路口", meta: "07:20–07:40 · 上山管制節點", coords: [25.1034, 121.5350], query: "台北市士林區至誠路仰德大道復興橋" },
+      { n: 3, name: "冷水坑 1 號停車場", meta: "07:50–08:10 · 停車／起登", coords: [25.1667, 121.5648], query: "冷水坑第一停車場" },
+      { n: 4, name: "七星山東峰", meta: "09:25 左右 · 步行節點", coords: [25.1701, 121.5681], query: "七星山東峰" },
+      { n: 5, name: "七星山主峰", meta: "10:15 左右 · 台北市最高點", coords: [25.1718, 121.5586], query: "七星山主峰" },
+      { n: 6, name: "小油坑服務站", meta: "11:40–12:00 · 108 搭車", coords: [25.1827, 121.5467], query: "小油坑服務站" },
+      { n: 7, name: "冷水坑服務站", meta: "13:00 左右 · 回到車位", coords: [25.1666, 121.5657], query: "冷水坑遊客服務站" },
+      { n: 8, name: "松竹園｜永公路 546 號", meta: "15:30 · 午餐", coords: [25.1390, 121.5587], query: "松竹園 台北市士林區永公路546號" }
+    ];
+    const mapQuery = (query, coords) => {
+      const exactQuery = coords ? query + ", " + coords.join(",") : query;
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(exactQuery);
+    };
+
+    function bindMapLinks() {
+      document.querySelectorAll("[data-map-query]").forEach((link) => {
+        const coords = (link.dataset.mapCoords || "").split(",").map(Number).filter((value) => Number.isFinite(value));
+        link.href = mapQuery(link.dataset.mapQuery, coords.length === 2 ? coords : null);
+      });
+    }
+
+    function initMap() {
+      const mapNode = document.getElementById("routeMap");
+      const fallback = document.getElementById("fallbackMap");
+      bindMapLinks();
+      if (!window.L) {
+        mapNode.style.display = "none";
+        fallback.style.display = "block";
+        return;
+      }
+      fallback.style.display = "none";
+      const map = L.map(mapNode, { scrollWheelZoom: false, tap: true, zoomControl: false });
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "© OpenStreetMap contributors"
+      }).addTo(map);
+      const carRoute = [places[0].coords, places[1].coords, places[2].coords, places[7].coords, places[0].coords];
+      const walkRoute = [places[2].coords, places[3].coords, places[4].coords, places[5].coords];
+      const busRoute = [places[5].coords, places[6].coords];
+      const line = (coords, color, dashArray) => L.polyline(coords, { color, weight: 5, opacity: .88, dashArray, lineCap: "round", lineJoin: "round" }).addTo(map);
+      line(carRoute, "#98675f", "16 10");
+      line(walkRoute, "#ada6b7", "2 11");
+      line(busRoute, "#71837b", "4 11");
+      const bounds = L.latLngBounds(places.map((p) => p.coords));
+      map.fitBounds(bounds, { padding: [22, 22] });
+      places.forEach((place) => {
+        const marker = L.circleMarker(place.coords, { radius: 8, color: "#fffdf9", weight: 3, fillColor: place.n === 8 ? "#98675f" : "#33424a", fillOpacity: 1 });
+        marker.addTo(map).bindPopup('<div class="popup-title">' + place.n + '. ' + place.name + '</div><div class="popup-meta">' + place.meta + '</div><a class="popup-link" href="' + mapQuery(place.query, place.coords) + '" target="_blank" rel="noreferrer">開啟 Google Maps ↗</a>');
+      });
+      window.addEventListener("resize", () => map.invalidateSize(), { passive: true });
+    }
+
+    function initChecklist() {
+      document.querySelectorAll("[data-check]").forEach((input) => {
+        const key = "qixing-20260920-" + input.dataset.check;
+        input.checked = localStorage.getItem(key) === "1";
+        input.addEventListener("change", () => localStorage.setItem(key, input.checked ? "1" : "0"));
+      });
+    }
+
+    function initReveal() {
+      const items = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window)) { items.forEach((item) => item.classList.add("is-visible")); return; }
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); } });
+      }, { threshold: .08 });
+      items.forEach((item) => observer.observe(item));
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initMap();
+      initChecklist();
+      initReveal();
+    });
+  </script>
+</body>
+</html>
