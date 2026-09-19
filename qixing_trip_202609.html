@@ -4,12 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#33424a">
-  <meta name="description" content="2026 年 9 月 20 日，從南勢角出發的七星山一日行程：冷水坑上山、小油坑下山、108 公車接駁、15:30 松竹園。">
+  <meta name="description" content="2026 年 9 月 20 日，從南勢角出發的七星山一日行程：福林站加油、冷水坑上山、小油坑下山、108 公車接駁、15:30 松竹園，餐後以平菁街側導航回家。">
   <title>七星山｜9.20 雙人一日計畫</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2333424a'/%3E%3Cpath d='M12 46 27 21l9 13 6-8 10 20H12Z' fill='%23b7c5b1'/%3E%3Ccircle cx='45' cy='17' r='5' fill='%23d5b09e'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="preconnect" href="https://tile.openstreetmap.org">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3RrALP4c7o4qH3yE0c0bWc1G9W0A=" crossorigin="">
   <script>document.documentElement.classList.add("js");</script>
   <style>
     :root {
@@ -19,13 +16,13 @@
       --paper-deep: #ebe4db;
       --white: #fffdf9;
       --sage: #aeb9aa;
-      --sage-deep: #71837b;
+      --sage-deep: #60736a;
       --clay: #b8897e;
-      --clay-deep: #98675f;
+      --clay-deep: #8d5e56;
       --mist: #dce4e0;
       --lavender: #ada6b7;
       --line: rgba(51, 66, 74, .14);
-      --shadow: 0 18px 50px rgba(51, 66, 74, .10);
+      --shadow: 0 12px 32px rgba(51, 66, 74, .08);
       --radius-lg: 28px;
       --radius-md: 18px;
       --radius-sm: 12px;
@@ -49,7 +46,7 @@
     a { color: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }
     img, svg { max-width: 100%; }
-    .page { overflow: hidden; }
+    .page { position: relative; }
     .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
     .eyebrow {
       margin: 0 0 9px;
@@ -61,11 +58,11 @@
     }
     .muted { color: var(--ink-soft); }
     .small { font-size: .84rem; }
-    .section { padding: 60px 0 0; }
+    .section { padding: 52px 0 0; }
     .section-heading { display: flex; gap: 16px; align-items: end; justify-content: space-between; margin-bottom: 20px; }
     h1, h2, h3, p { margin-top: 0; }
     h1, h2, h3 { letter-spacing: -.035em; line-height: 1.15; }
-    h1 { max-width: 660px; margin-bottom: 18px; font-size: clamp(2.6rem, 12vw, 5.7rem); font-weight: 800; }
+    h1 { max-width: 660px; margin-bottom: 18px; font-size: clamp(2.25rem, 9.5vw, 4.6rem); font-weight: 800; }
     h2 { margin-bottom: 9px; font-size: clamp(1.8rem, 5vw, 3rem); }
     h3 { margin-bottom: 8px; font-size: 1.18rem; }
 
@@ -74,17 +71,17 @@
       content: "";
       position: absolute;
       top: 0;
-      right: -12%;
-      width: 70%;
-      height: 360px;
-      opacity: .62;
+      right: 0;
+      width: 68%;
+      height: 290px;
+      opacity: .40;
       background:
         linear-gradient(146deg, transparent 0 30%, rgba(113, 131, 123, .20) 30.5% 31%, transparent 31.5% 43%, rgba(113, 131, 123, .15) 43.5% 44%, transparent 44.5%),
         linear-gradient(161deg, transparent 0 48%, rgba(184, 137, 126, .19) 48.5% 49%, transparent 49.5% 62%, rgba(184, 137, 126, .15) 62.5% 63%, transparent 63.5%);
       pointer-events: none;
     }
     .hero-top, .hero-main, .hero-bottom { position: relative; z-index: 1; }
-    .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 56px; }
+    .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 32px; }
     .brand-mark { display: inline-flex; gap: 9px; align-items: center; color: var(--ink); font-weight: 800; letter-spacing: .05em; }
     .brand-dot { display: inline-grid; width: 30px; height: 30px; place-items: center; border-radius: 10px; color: var(--white); background: var(--ink); font-size: .8rem; }
     .date-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 1px solid rgba(51,66,74,.17); border-radius: 999px; background: rgba(255,253,249,.46); color: var(--ink-soft); font-size: .78rem; font-weight: 750; }
@@ -132,29 +129,18 @@
     .mode.walk { background: rgba(173,166,183,.35); }
     .mode.bus { background: rgba(220,228,224,.90); }
 
-    .map-shell { overflow: hidden; }
-    .map-intro { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 19px 19px 13px; }
-    .map-intro p { margin: 0; color: var(--ink-soft); font-size: .88rem; }
-    #routeMap { min-height: 390px; background: #dce4e0; }
-    html:not(.js) #routeMap { display: none; }
-    .leaflet-container { font-family: inherit; }
-    .leaflet-control-attribution { font-size: 9px; }
-    .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--white); color: var(--ink); }
-    .leaflet-popup-content { min-width: 170px; margin: 14px; font-family: inherit; font-size: .83rem; }
-    .popup-title { margin-bottom: 5px; font-weight: 850; }
-    .popup-meta { margin-bottom: 9px; color: var(--ink-soft); }
-    .popup-link { display: inline-flex; padding: 6px 9px; border-radius: 8px; background: var(--ink); color: var(--white); font-weight: 800; text-decoration: none; }
-    .map-legend { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 19px 18px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .78rem; }
-    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
-    .legend-line { width: 25px; height: 4px; border-radius: 99px; background: var(--clay-deep); }
-    .legend-line.walk { background: var(--lavender); }
-    .legend-line.bus { background: var(--sage-deep); border-top: 2px dashed var(--sage-deep); background: transparent; }
-    .map-note { padding: 0 19px 17px; color: var(--ink-soft); font-size: .76rem; }
-    .fallback-map { display: block; padding: 10px; }
-    .fallback-map svg { display: block; width: 100%; height: auto; border-radius: 16px; background: linear-gradient(145deg, #d9e2dc, #e8e2dc); }
-    .fallback-map a { text-decoration: none; }
-    .fallback-pin circle { transition: fill .2s ease, transform .2s ease; transform-box: fill-box; transform-origin: center; }
-    .fallback-pin:hover circle, .fallback-pin:focus circle { fill: var(--clay-deep); transform: scale(1.12); }
+    .nav-stack { display: grid; gap: 12px; }
+    .nav-card { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 17px; }
+    .nav-num { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 11px; color: var(--white); background: var(--ink); font-size: .9rem; font-weight: 900; }
+    .nav-card:nth-child(2n) .nav-num { background: var(--clay-deep); }
+    .nav-card:nth-child(3n) .nav-num { background: var(--sage-deep); }
+    .nav-card h3 { margin-bottom: 4px; font-size: 1.03rem; }
+    .nav-card p { margin: 0; color: var(--ink-soft); font-size: .86rem; }
+    .nav-card .action-row { margin-top: 12px; }
+    .nav-card .button { width: 100%; }
+    .nav-warning { margin-top: 12px; }
+    .return-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .return-links .button { min-width: 0; padding: 9px 8px; font-size: .78rem; }
 
     .stops-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .stop-card { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; padding: 17px; }
@@ -193,8 +179,9 @@
     .mobile-bar a { padding: 8px 4px; border-radius: 11px; color: var(--ink-soft); font-size: .72rem; font-weight: 850; text-align: center; text-decoration: none; }
     .mobile-bar a:first-child { background: var(--ink); color: var(--white); }
 
-    .reveal { opacity: 0; transform: translateY(15px); transition: opacity .65s ease, transform .65s ease; }
-    .reveal.is-visible { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; transition: opacity .65s ease, transform .65s ease; }
+    .js .reveal { opacity: 0; transform: translateY(15px); }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
     .route-pulse { animation: routePulse 3.8s ease-in-out infinite; }
     @keyframes routePulse { 0%, 100% { opacity: .70; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }
     @media (prefers-reduced-motion: reduce) {
@@ -205,7 +192,7 @@
     @media (min-width: 700px) {
       .wrap { width: min(1100px, calc(100% - 64px)); }
       .hero { padding-top: 34px; padding-bottom: 62px; }
-      .hero-top { margin-bottom: 90px; }
+      .hero-top { margin-bottom: 52px; }
       .hero-bottom { grid-template-columns: minmax(0, 1fr) 310px; align-items: stretch; }
       .summary-grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); }
       .stops-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -235,21 +222,22 @@
         <div class="hero-main">
           <p class="hero-kicker">QIXING MOUNTAIN / DAY PLAN</p>
           <h1>七星山，<br>把一天走成一條線。</h1>
-          <p class="hero-lede">南勢角出發，冷水坑上、七星山東峰與主峰、小油坑下，再搭 108 回車位。15:30 在松竹園吃飯，回程走平菁街側，避開陽明山下山管制點。</p>
+          <p class="hero-lede">06:30 從南勢角出發，先到福林站加油，再在 08:00 前通過復興橋頭，冷水坑上、七星山東峰與主峰、小油坑下，搭 108 回車位。15:30 松竹園用餐；餐後不要直接輸入南勢角，按回程導航接力走平菁街側。</p>
           <div class="hero-tags">
             <span class="tag"><span class="dot"></span>展佑 × 發發</span>
             <span class="tag">06:30 開車</span>
+            <span class="tag">07:05 福林站</span>
             <span class="tag">15:30 松竹園</span>
-            <span class="tag">單向縱走</span>
+            <span class="tag">導航接力回家</span>
           </div>
         </div>
         <div class="hero-bottom">
           <div class="control-alert route-pulse">
             <span class="alert-icon">!</span>
-            <strong>今天最重要的節點：07:20–07:40 通過復興橋頭</strong>
-            <p>週日小客車上山管制通常從 08:00 開始；回程預計不走仰德大道與陽明路下山管制點，但山區仍可能有臨時交通狀況。</p>
+            <strong>今天最重要的節點：07:30–07:45 通過復興橋頭</strong>
+            <p>先在福林站加油，再通過仰德大道／至誠路口；週日上山管制通常 08:00 開始。餐後不要直接導航南勢角，按平菁街 → 至善路三段 → 重慶北路回家。</p>
           </div>
-          <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4&travelmode=driving" target="_blank" rel="noreferrer">開啟上山導航 ↗</a>
+          <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%E7%9B%B4%E7%87%9F%E7%A6%8F%E6%9E%97%E7%AB%99%20%E4%B8%AD%E5%B1%B1%E5%8C%97%E8%B7%AF%E4%BA%94%E6%AE%B5465%E8%99%9F&travelmode=driving" target="_blank" rel="noreferrer">先導航到福林站 ↗</a>
         </div>
       </div>
     </header>
@@ -258,7 +246,7 @@
       <div class="wrap">
         <a href="#plan">總覽</a>
         <a href="#timeline">時間軸</a>
-        <a href="#map">地圖</a>
+        <a href="#navigate">導航</a>
         <a href="#places">地點</a>
         <a href="#notice">注意</a>
         <a href="#pack">準備</a>
@@ -277,24 +265,24 @@
         <div class="summary-grid">
           <article class="surface summary-card">
             <h3>最順的安排</h3>
-            <p class="muted">車停冷水坑，從東側上主峰，沿主稜到小油坑，再用 108 把兩人送回冷水坑取車。這樣不用走回頭路，也把下午時間留給 15:30 的餐期。</p>
+            <p class="muted">先到福林站加油，再把車停冷水坑；從東側上主峰，沿主稜到小油坑，再用 108 把兩人送回冷水坑取車。這樣不用走回頭路，也把下午時間留給 15:30 的餐期。</p>
             <div class="route-ribbon" aria-label="四段路線">
-              <span class="route-node">🚗 南勢角 → 冷水坑</span><span class="route-arrow">→</span>
+              <span class="route-node">🚗 南勢角 → 福林站 → 冷水坑</span><span class="route-arrow">→</span>
               <span class="route-node">🥾 東峰 → 主峰 → 小油坑</span><span class="route-arrow">→</span>
               <span class="route-node">🚌 108 回冷水坑</span><span class="route-arrow">→</span>
-              <span class="route-node">🍲 松竹園 → 南勢角</span>
+              <span class="route-node">🍲 松竹園 → 導航接力回家</span>
             </div>
             <div class="action-row">
-              <a class="button" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">看冷水坑停車場</a>
+              <a class="button" data-nav-query="冷水坑第一停車場" data-nav-coords="25.1667,121.5648" href="https://www.google.com/maps/dir/?api=1&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4%2C%2025.1667%2C121.5648&travelmode=driving" target="_blank" rel="noreferrer">導航到冷水坑停車場</a>
               <a class="button soft" href="https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0100010800" target="_blank" rel="noreferrer">看 108 班次</a>
             </div>
           </article>
           <article class="surface summary-card">
             <p class="eyebrow">RETURN RULE</p>
-            <h3>17:00 左右離席，走側線回家</h3>
-            <p class="muted">松竹園 → 永公路 → 平菁街 → 至善路三段 → 重慶北路 → 環河／台 64 → 南勢角。導航時不要選回仰德大道或陽金公路。</p>
+            <h3>餐後不要直接輸入南勢角</h3>
+            <p class="muted">Google Maps 可能為了最快而選仰德大道。請用導航接力：松竹園 → 平菁街 → 至善路三段 → 重慶北路 → 南勢角，鎖住山下側線。</p>
             <div class="action-row">
-              <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&waypoints=%E5%B9%B3%E8%8F%81%E8%A1%97%7C%E8%87%B3%E5%96%84%E8%B7%AF%E4%B8%89%E6%AE%B5%7C%E9%87%8D%E6%85%B6%E5%8C%97%E8%B7%AF&travelmode=driving" target="_blank" rel="noreferrer">開啟回程路線 ↗</a>
+              <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&waypoints=%E5%B9%B3%E8%8F%81%E8%A1%97%7C%E8%87%B3%E5%96%84%E8%B7%AF%E4%B8%89%E6%AE%B5%7C%E9%87%8D%E6%85%B6%E5%8C%97%E8%B7%AF&travelmode=driving" target="_blank" rel="noreferrer">開啟鎖定回程 ↗</a>
             </div>
           </article>
         </div>
@@ -309,9 +297,10 @@
           <span class="muted small">以不趕 15:30 為優先</span>
         </div>
         <div class="timeline">
-          <div class="time-item"><div class="time">06:30</div><article class="time-card"><div class="title-line"><h3>南勢角出發</h3><span class="mode car">🚗 開車</span></div><p>走環河／台 64 方向，目標在 08:00 前通過復興橋頭。</p></article></div>
-          <div class="time-item"><div class="time">07:20–<br>07:40</div><article class="time-card"><div class="title-line"><h3>復興橋頭</h3><span class="mode car">管制節點</span></div><p>仰德大道、至誠路口。週日上山管制前通過，後續往格致路、菁山路。</p></article></div>
-          <div class="time-item"><div class="time">07:50–<br>08:10</div><article class="time-card"><div class="title-line"><h3>冷水坑停車</h3><span class="mode car">🚗 下車</span></div><p>停冷水坑 1 號停車場；整理水、外套、登山杖，服務站旁登山口起登。</p></article></div>
+          <div class="time-item"><div class="time">06:30</div><article class="time-card"><div class="title-line"><h3>南勢角出發</h3><span class="mode car">🚗 開車</span></div><p>第一段只導航到福林站；不要一開始就把冷水坑設成唯一目的地。</p></article></div>
+          <div class="time-item"><div class="time">07:05–<br>07:15</div><article class="time-card"><div class="title-line"><h3>福林站加油</h3><span class="mode car">⛽ 24 小時</span></div><p>台灣中油直營福林站，中山北路五段 465 號。加完油再按下一段導航。</p></article></div>
+          <div class="time-item"><div class="time">07:30–<br>07:45</div><article class="time-card"><div class="title-line"><h3>復興橋頭</h3><span class="mode car">管制節點</span></div><p>福林站 → 仰德大道／至誠路口；目標在週日 08:00 上山管制前通過，後續往格致路、菁山路。</p></article></div>
+          <div class="time-item"><div class="time">07:55–<br>08:10</div><article class="time-card"><div class="title-line"><h3>冷水坑停車</h3><span class="mode car">🚗 下車</span></div><p>停冷水坑 1 號停車場；整理水、外套、登山杖，服務站旁登山口起登。</p></article></div>
           <div class="time-item"><div class="time">08:10–<br>09:25</div><article class="time-card"><div class="title-line"><h3>冷水坑 → 七星山東峰</h3><span class="mode walk">🥾 步行</span></div><p>緩上坡與稜線段，保留 10 分鐘給東峰拍照和補水。</p></article></div>
           <div class="time-item"><div class="time">09:25–<br>10:15</div><article class="time-card"><div class="title-line"><h3>東峰 → 七星山主峰</h3><span class="mode walk">🥾 步行</span></div><p>抵達台北市最高點；風大時不要停在風口邊緣，主峰拍照後直接往小油坑。</p></article></div>
           <div class="time-item"><div class="time">10:15–<br>11:40</div><article class="time-card"><div class="title-line"><h3>主峰 → 小油坑</h3><span class="mode walk">🥾 下山</span></div><p>下坡路段放慢，預留腳程與天候緩衝；最晚 12:00 左右離開小油坑服務站。</p></article></div>
@@ -322,58 +311,69 @@
         </div>
       </section>
 
-      <section class="section reveal" id="map">
+      <section class="section reveal" id="navigate">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">03 / GEO VIEW</p>
-            <h2>路線地圖</h2>
+            <p class="eyebrow">03 / NAVIGATION HANDOFF</p>
+            <h2>每一段只按下一站</h2>
           </div>
-          <span class="muted small">點圖釘可開 Google Maps</span>
+          <span class="muted small">沒有地圖，只有可操作的下一站</span>
         </div>
-        <div class="surface map-shell">
-          <div class="map-intro">
-            <p>車程是示意線，山徑與 108 轉乘節點按實際地理位置標示。</p>
-            <a class="button soft" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&waypoints=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4%7C%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99&travelmode=driving" target="_blank" rel="noreferrer">在 Google Maps 看全段 ↗</a>
-          </div>
-          <div id="routeMap" role="img" aria-label="南勢角、冷水坑、七星山、 小油坑、松竹園的行程路線地圖"></div>
-          <div class="fallback-map" id="fallbackMap" aria-label="路線示意地圖">
-            <svg viewBox="0 0 900 650" role="img" aria-labelledby="fallbackTitle fallbackDesc">
-              <title id="fallbackTitle">七星山一日路線示意圖</title>
-              <desc id="fallbackDesc">南勢角開車到冷水坑，步行經七星山東峰與主峰到小油坑，搭 108 回冷水坑，再開車到松竹園與南勢角。</desc>
-              <path d="M80 565 C205 520 252 424 335 350 S470 242 546 171 S718 110 819 76" fill="none" stroke="#b8897e" stroke-width="10" stroke-linecap="round" stroke-dasharray="20 11" opacity=".82"/>
-              <path d="M335 350 C383 301 429 315 475 259 S524 190 546 171" fill="none" stroke="#ada6b7" stroke-width="10" stroke-linecap="round" stroke-dasharray="5 14"/>
-              <path d="M546 171 C589 196 612 242 634 300 C603 334 564 359 497 370 C442 375 391 363 335 350" fill="none" stroke="#71837b" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 14"/>
-              <path d="M92 491 Q180 410 278 467 T469 455" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".55"/>
-              <path d="M121 270 Q228 215 329 262 T515 235 T773 264" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".45"/>
-              <path d="M175 135 Q302 91 423 137 T728 126" fill="none" stroke="#aeb9aa" stroke-width="2" opacity=".38"/>
-              <g font-family="Noto Sans TC, sans-serif" fill="#33424a">
-                <text x="70" y="607" font-size="21" font-weight="800">南勢角</text><text x="68" y="630" font-size="15">06:30 車</text>
-                <text x="164" y="452" font-size="18" font-weight="800">復興橋頭</text><text x="164" y="473" font-size="14">07:20–07:40</text>
-                <text x="286" y="398" font-size="21" font-weight="800">冷水坑</text><text x="285" y="420" font-size="15">停車／起登</text>
-                <text x="411" y="238" font-size="20" font-weight="800">東峰</text><text x="520" y="138" font-size="21" font-weight="800">主峰</text>
-                <text x="613" y="341" font-size="20" font-weight="800">小油坑</text><text x="606" y="363" font-size="15">108 回車位</text>
-                <text x="352" y="391" font-size="15" font-weight="800">冷水坑服務站</text>
-                <text x="772" y="50" font-size="20" font-weight="800">松竹園</text><text x="772" y="70" font-size="15">15:30 午餐</text>
-              </g>
-              <a class="fallback-pin" data-map-query="南勢角捷運站" data-map-coords="24.9907,121.5085" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="82" cy="565" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="82" y="570" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">1</text></a>
-              <a class="fallback-pin" data-map-query="台北市士林區至誠路仰德大道復興橋" data-map-coords="25.1034,121.5350" href="https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B" target="_blank" rel="noreferrer"><circle cx="205" cy="480" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="205" y="485" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">2</text></a>
-              <a class="fallback-pin" data-map-query="冷水坑第一停車場" data-map-coords="25.1667,121.5648" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer"><circle cx="335" cy="350" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="335" y="355" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">3</text></a>
-              <a class="fallback-pin" data-map-query="七星山東峰" data-map-coords="25.1701,121.5681" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E6%9D%B1%E5%B3%B0" target="_blank" rel="noreferrer"><circle cx="475" cy="259" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="475" y="264" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">4</text></a>
-              <a class="fallback-pin" data-map-query="七星山主峰" data-map-coords="25.1718,121.5586" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E4%B8%BB%E5%B3%B0" target="_blank" rel="noreferrer"><circle cx="546" cy="171" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="546" y="176" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">5</text></a>
-              <a class="fallback-pin" data-map-query="小油坑服務站" data-map-coords="25.1827,121.5467" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="634" cy="300" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="634" y="305" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">6</text></a>
-              <a class="fallback-pin" data-map-query="冷水坑遊客服務站" data-map-coords="25.1666,121.5657" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E9%81%8A%E5%AE%A2%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer"><circle cx="385" cy="350" r="13" fill="#33424a" stroke="#fffdf9" stroke-width="6"/><text x="385" y="355" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">7</text></a>
-              <a class="fallback-pin" data-map-query="松竹園 台北市士林區永公路546號" data-map-coords="25.1390,121.5587" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F" target="_blank" rel="noreferrer"><circle cx="819" cy="76" r="13" fill="#98675f" stroke="#fffdf9" stroke-width="6"/><text x="819" y="81" font-family="Noto Sans TC, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fffdf9">8</text></a>
-            </svg>
-          </div>
-          <div class="map-legend">
-            <span class="legend-item"><i class="legend-line"></i>開車</span>
-            <span class="legend-item"><i class="legend-line walk"></i>步行登山</span>
-            <span class="legend-item"><i class="legend-line bus"></i>108 公車</span>
-            <span class="legend-item">1→8 行程順序</span>
-          </div>
-          <p class="map-note">地圖用來看方向與節點，不取代當日導航；山區道路、停車與公車班次請以現場和官方頁面為準。</p>
+        <div class="nav-stack">
+          <article class="surface nav-card">
+            <div class="nav-num">1</div>
+            <div>
+              <h3>南勢角 → 福林站</h3>
+              <p>07:05–07:15 加油；台灣中油直營福林站，中山北路五段 465 號，24 小時營業。</p>
+              <div class="action-row">
+                <a class="button" href="https://www.google.com/maps/dir/?api=1&origin=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&destination=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%E7%9B%B4%E7%87%9F%E7%A6%8F%E6%9E%97%E7%AB%99%20%E4%B8%AD%E5%B1%B1%E5%8C%97%E8%B7%AF%E4%BA%94%E6%AE%B5465%E8%99%9F&travelmode=driving" target="_blank" rel="noreferrer">導航到福林站 ↗</a>
+              </div>
+            </div>
+          </article>
+          <article class="surface nav-card">
+            <div class="nav-num">2</div>
+            <div>
+              <h3>福林站 → 復興橋頭</h3>
+              <p>加油後才切到這一段；目標 07:30–07:45 通過仰德大道／至誠路口，避開 08:00 上山管制。</p>
+              <div class="action-row">
+                <a class="button" data-nav-query="台北市士林區至誠路仰德大道復興橋" data-nav-coords="25.1034,121.5350" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B%2C%2025.1034%2C121.5350&travelmode=driving" target="_blank" rel="noreferrer">導航到復興橋頭 ↗</a>
+              </div>
+            </div>
+          </article>
+          <article class="surface nav-card">
+            <div class="nav-num">3</div>
+            <div>
+              <h3>復興橋頭 → 冷水坑 1 號停車場</h3>
+              <p>通過管制節點後再導航冷水坑；抵達後下車步行，不要把山徑當成車輛路線。</p>
+              <div class="action-row">
+                <a class="button" data-nav-query="冷水坑第一停車場" data-nav-coords="25.1667,121.5648" href="https://www.google.com/maps/dir/?api=1&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4%2C%2025.1667%2C121.5648&travelmode=driving" target="_blank" rel="noreferrer">導航到冷水坑 ↗</a>
+              </div>
+            </div>
+          </article>
+          <article class="surface nav-card">
+            <div class="nav-num">4</div>
+            <div>
+              <h3>餐後：松竹園 → 南勢角</h3>
+              <p>17:00 左右離席。若不想被帶回仰德大道，使用全段路線或照 1→2→3→4 逐段按下一站。</p>
+              <div class="action-row">
+                <a class="button secondary" href="https://www.google.com/maps/dir/?api=1&origin=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99&waypoints=%E5%B9%B3%E8%8F%81%E8%A1%97%7C%E8%87%B3%E5%96%84%E8%B7%AF%E4%B8%89%E6%AE%B5%7C%E9%87%8D%E6%85%B6%E5%8C%97%E8%B7%AF&travelmode=driving" target="_blank" rel="noreferrer">開啟鎖定全段回程 ↗</a>
+              </div>
+              <div class="return-links">
+                <a class="button soft" data-nav-query="平菁街" href="https://www.google.com/maps/dir/?api=1&destination=%E5%B9%B3%E8%8F%81%E8%A1%97&travelmode=driving" target="_blank" rel="noreferrer">1 平菁街</a>
+                <a class="button soft" data-nav-query="至善路三段" href="https://www.google.com/maps/dir/?api=1&destination=%E8%87%B3%E5%96%84%E8%B7%AF%E4%B8%89%E6%AE%B5&travelmode=driving" target="_blank" rel="noreferrer">2 至善路三段</a>
+                <a class="button soft" data-nav-query="重慶北路" href="https://www.google.com/maps/dir/?api=1&destination=%E9%87%8D%E6%85%B6%E5%8C%97%E8%B7%AF&travelmode=driving" target="_blank" rel="noreferrer">3 重慶北路</a>
+                <a class="button soft" data-nav-query="南勢角捷運站" data-nav-coords="24.9907,121.5085" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99%2C%2024.9907%2C121.5085&travelmode=driving" target="_blank" rel="noreferrer">4 南勢角</a>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="control-alert route-pulse nav-warning">
+          <span class="alert-icon">!</span>
+          <strong>回程導航順序：平菁街 → 至善路三段 → 重慶北路 → 南勢角</strong>
+          <p>不要在松竹園直接輸入南勢角。就算 Google Maps 顯示較快，也先到下一個中途點，再重新導航下一段。</p>
         </div>
       </section>
+
 
       <section class="section reveal" id="places">
         <div class="section-heading">
@@ -381,18 +381,19 @@
             <p class="eyebrow">04 / PINNED PLACES</p>
             <h2>每個點都能直接導航</h2>
           </div>
-          <span class="muted small">搜尋結果以明確地標為主</span>
+          <span class="muted small">每張卡片都指向 Google Maps 導航</span>
         </div>
         <div class="stops-grid">
-          <article class="surface stop-card"><div class="stop-index">1</div><div><h3>南勢角捷運站</h3><p>出發集合點；06:30 離開。</p><a class="place-link" data-map-query="南勢角捷運站" data-map-coords="24.9907,121.5085" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">2</div><div><h3>復興橋頭／至誠路口</h3><p>仰德大道上山管制的觀察節點。</p><a class="place-link" data-map-query="台北市士林區至誠路仰德大道復興橋" data-map-coords="25.1034,121.5350" href="https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">3</div><div><h3>冷水坑 1 號停車場</h3><p>停車、取水、服務站旁起登；先看入口即時影像。</p><a class="place-link" data-map-query="冷水坑第一停車場" data-map-coords="25.1667,121.5648" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">4</div><div><h3>七星山東峰</h3><p>主稜中途節點；補水、拍照，不久留。</p><a class="place-link" data-map-query="七星山東峰" data-map-coords="25.1701,121.5681" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E6%9D%B1%E5%B3%B0" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">5</div><div><h3>七星山主峰</h3><p>台北市最高點；風大時以安全與保暖優先。</p><a class="place-link" data-map-query="七星山主峰" data-map-coords="25.1718,121.5586" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%83%E6%98%9F%E5%B1%B1%E4%B8%BB%E5%B3%B0" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">6</div><div><h3>小油坑服務站</h3><p>下山出口與 108 搭車點；先確認下一班車。</p><a class="place-link" data-map-query="小油坑服務站" data-map-coords="25.1827,121.5467" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">7</div><div><h3>冷水坑服務站</h3><p>108 下車處；步行回 1 號停車場取車。</p><a class="place-link" data-map-query="冷水坑遊客服務站" data-map-coords="25.1666,121.5657" href="https://www.google.com/maps/search/?api=1&query=%E5%86%B7%E6%B0%B4%E5%9D%91%E9%81%8A%E5%AE%A2%E6%9C%8D%E5%8B%99%E7%AB%99" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">+</div><div><h3>小油坑停車場</h3><p>不作為本次停車點，但作為小油坑一帶的備援地標。</p><a class="place-link" data-map-query="小油坑停車場" data-map-coords="25.1824,121.5466" href="https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%B2%B9%E5%9D%91%E5%81%9C%E8%BB%8A%E5%A0%B4" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
-          <article class="surface stop-card"><div class="stop-index">8</div><div><h3>松竹園｜永公路 546 號</h3><p>15:30 午餐；電話 02-2861-6261，建議出發前再確認訂位。</p><a class="place-link" data-map-query="松竹園 台北市士林區永公路546號" data-map-coords="25.1390,121.5587" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F" target="_blank" rel="noreferrer">Google Maps 地標</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">1</div><div><h3>南勢角捷運站</h3><p>出發集合點；06:30 離開。</p><a class="place-link" data-nav-query="南勢角捷運站" data-nav-coords="24.9907,121.5085" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8D%97%E5%8B%A2%E8%A7%92%E6%8D%B7%E9%81%8B%E7%AB%99%2C%2024.9907%2C121.5085&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">⛽</div><div><h3>台灣中油直營 福林站</h3><p>07:05–07:15 加油；中山北路五段 465 號，Google Maps 顯示 24 小時營業。</p><a class="place-link" data-nav-query="台灣中油直營 福林站 中山北路五段465號" data-nav-coords="25.0923268,121.527385" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%E7%9B%B4%E7%87%9F%20%E7%A6%8F%E6%9E%97%E7%AB%99%20%E4%B8%AD%E5%B1%B1%E5%8C%97%E8%B7%AF%E4%BA%94%E6%AE%B5465%E8%99%9F%2C%2025.0923268%2C121.527385&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">3</div><div><h3>復興橋頭／至誠路口</h3><p>仰德大道上山管制的觀察節點。</p><a class="place-link" data-nav-query="台北市士林區至誠路仰德大道復興橋" data-nav-coords="25.1034,121.5350" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E8%87%B3%E8%AA%A0%E8%B7%AF%E4%BB%B0%E5%BE%B7%E5%A4%A7%E9%81%93%E5%BE%A9%E8%88%88%E6%A9%8B%2C%2025.1034%2C121.5350&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">4</div><div><h3>冷水坑 1 號停車場</h3><p>停車、取水、服務站旁起登；先看入口即時影像。</p><a class="place-link" data-nav-query="冷水坑第一停車場" data-nav-coords="25.1667,121.5648" href="https://www.google.com/maps/dir/?api=1&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E7%AC%AC%E4%B8%80%E5%81%9C%E8%BB%8A%E5%A0%B4%2C%2025.1667%2C121.5648&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">5</div><div><h3>七星山東峰</h3><p>主稜中途節點；補水、拍照，不久留。</p><a class="place-link" data-nav-query="七星山東峰" data-nav-coords="25.1701,121.5681" data-nav-mode="walking" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%83%E6%98%9F%E5%B1%B1%E6%9D%B1%E5%B3%B0%2C%2025.1701%2C121.5681&travelmode=walking" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">6</div><div><h3>七星山主峰</h3><p>台北市最高點；風大時以安全與保暖優先。</p><a class="place-link" data-nav-query="七星山主峰" data-nav-coords="25.1718,121.5586" data-nav-mode="walking" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%83%E6%98%9F%E5%B1%B1%E4%B8%BB%E5%B3%B0%2C%2025.1718%2C121.5586&travelmode=walking" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">7</div><div><h3>小油坑服務站</h3><p>下山出口與 108 搭車點；先確認下一班車。</p><a class="place-link" data-nav-query="小油坑服務站" data-nav-coords="25.1827,121.5467" data-nav-mode="walking" href="https://www.google.com/maps/dir/?api=1&destination=%E5%B0%8F%E6%B2%B9%E5%9D%91%E6%9C%8D%E5%8B%99%E7%AB%99%2C%2025.1827%2C121.5467&travelmode=walking" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">8</div><div><h3>冷水坑服務站</h3><p>108 下車處；步行回 1 號停車場取車。</p><a class="place-link" data-nav-query="冷水坑遊客服務站" data-nav-coords="25.1666,121.5657" data-nav-mode="walking" href="https://www.google.com/maps/dir/?api=1&destination=%E5%86%B7%E6%B0%B4%E5%9D%91%E9%81%8A%E5%AE%A2%E6%9C%8D%E5%8B%99%E7%AB%99%2C%2025.1666%2C121.5657&travelmode=walking" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">+</div><div><h3>小油坑停車場</h3><p>不作為本次停車點，但作為小油坑一帶的備援地標。</p><a class="place-link" data-nav-query="小油坑停車場" data-nav-coords="25.1824,121.5466" href="https://www.google.com/maps/dir/?api=1&destination=%E5%B0%8F%E6%B2%B9%E5%9D%91%E5%81%9C%E8%BB%8A%E5%A0%B4%2C%2025.1824%2C121.5466&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
+          <article class="surface stop-card"><div class="stop-index">9</div><div><h3>松竹園｜永公路 546 號</h3><p>15:30 午餐；電話 02-2861-6261，建議出發前再確認訂位。</p><a class="place-link" data-nav-query="松竹園 台北市士林區永公路546號" data-nav-coords="25.1390,121.5587" href="https://www.google.com/maps/dir/?api=1&destination=%E6%9D%BE%E7%AB%B9%E5%9C%92%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A3%AB%E6%9E%97%E5%8D%80%E6%B0%B8%E5%85%AC%E8%B7%AF546%E8%99%9F%2C%2025.1390%2C121.5587&travelmode=driving" target="_blank" rel="noreferrer">開始導航到這裡</a></div></article>
         </div>
       </section>
 
@@ -464,71 +465,28 @@
     <footer class="footer">
       <div class="wrap">
         <p><strong>最後判斷：</strong>早上把車開進山、下午從松竹園走平菁街側回程，原則上能避開仰德大道下山管制；但請以當日現場指揮、道路公告與天候為最高優先。</p>
-        <p>資料基準：2026/09/19 整理。網站內的地圖與時間是行程規劃用，不是即時交通保證。</p>
+        <p>資料基準：2026/09/19 整理。網站內的時間與導航是行程規劃用，不是即時交通保證。</p>
       </div>
     </footer>
 
     <nav class="mobile-bar" aria-label="手機快速導覽">
       <a href="#plan">總覽</a>
-      <a href="#map">地圖</a>
+      <a href="#navigate">導航</a>
       <a href="#notice">注意</a>
     </nav>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
-    const places = [
-      { n: 1, name: "南勢角捷運站", meta: "06:30 出發 · 開車", coords: [24.9907, 121.5085], query: "南勢角捷運站" },
-      { n: 2, name: "復興橋頭／至誠路口", meta: "07:20–07:40 · 上山管制節點", coords: [25.1034, 121.5350], query: "台北市士林區至誠路仰德大道復興橋" },
-      { n: 3, name: "冷水坑 1 號停車場", meta: "07:50–08:10 · 停車／起登", coords: [25.1667, 121.5648], query: "冷水坑第一停車場" },
-      { n: 4, name: "七星山東峰", meta: "09:25 左右 · 步行節點", coords: [25.1701, 121.5681], query: "七星山東峰" },
-      { n: 5, name: "七星山主峰", meta: "10:15 左右 · 台北市最高點", coords: [25.1718, 121.5586], query: "七星山主峰" },
-      { n: 6, name: "小油坑服務站", meta: "11:40–12:00 · 108 搭車", coords: [25.1827, 121.5467], query: "小油坑服務站" },
-      { n: 7, name: "冷水坑服務站", meta: "13:00 左右 · 回到車位", coords: [25.1666, 121.5657], query: "冷水坑遊客服務站" },
-      { n: 8, name: "松竹園｜永公路 546 號", meta: "15:30 · 午餐", coords: [25.1390, 121.5587], query: "松竹園 台北市士林區永公路546號" }
-    ];
-    const mapQuery = (query, coords) => {
-      const exactQuery = coords ? query + ", " + coords.join(",") : query;
-      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(exactQuery);
+    const navUrl = (query, coords, mode = "driving") => {
+      const exactQuery = coords && coords.length === 2 ? query + ", " + coords.join(",") : query;
+      return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(exactQuery) + "&travelmode=" + mode;
     };
 
-    function bindMapLinks() {
-      document.querySelectorAll("[data-map-query]").forEach((link) => {
-        const coords = (link.dataset.mapCoords || "").split(",").map(Number).filter((value) => Number.isFinite(value));
-        link.href = mapQuery(link.dataset.mapQuery, coords.length === 2 ? coords : null);
+    function bindNavigationLinks() {
+      document.querySelectorAll("[data-nav-query]").forEach((link) => {
+        const coords = (link.dataset.navCoords || "").split(",").map(Number).filter((value) => Number.isFinite(value));
+        link.href = navUrl(link.dataset.navQuery, coords.length === 2 ? coords : null, link.dataset.navMode || "driving");
       });
-    }
-
-    function initMap() {
-      const mapNode = document.getElementById("routeMap");
-      const fallback = document.getElementById("fallbackMap");
-      bindMapLinks();
-      if (!window.L) {
-        mapNode.style.display = "none";
-        fallback.style.display = "block";
-        return;
-      }
-      fallback.style.display = "none";
-      const map = L.map(mapNode, { scrollWheelZoom: false, tap: true, zoomControl: false });
-      L.control.zoom({ position: "bottomright" }).addTo(map);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 18,
-        attribution: "© OpenStreetMap contributors"
-      }).addTo(map);
-      const carRoute = [places[0].coords, places[1].coords, places[2].coords, places[7].coords, places[0].coords];
-      const walkRoute = [places[2].coords, places[3].coords, places[4].coords, places[5].coords];
-      const busRoute = [places[5].coords, places[6].coords];
-      const line = (coords, color, dashArray) => L.polyline(coords, { color, weight: 5, opacity: .88, dashArray, lineCap: "round", lineJoin: "round" }).addTo(map);
-      line(carRoute, "#98675f", "16 10");
-      line(walkRoute, "#ada6b7", "2 11");
-      line(busRoute, "#71837b", "4 11");
-      const bounds = L.latLngBounds(places.map((p) => p.coords));
-      map.fitBounds(bounds, { padding: [22, 22] });
-      places.forEach((place) => {
-        const marker = L.circleMarker(place.coords, { radius: 8, color: "#fffdf9", weight: 3, fillColor: place.n === 8 ? "#98675f" : "#33424a", fillOpacity: 1 });
-        marker.addTo(map).bindPopup('<div class="popup-title">' + place.n + '. ' + place.name + '</div><div class="popup-meta">' + place.meta + '</div><a class="popup-link" href="' + mapQuery(place.query, place.coords) + '" target="_blank" rel="noreferrer">開啟 Google Maps ↗</a>');
-      });
-      window.addEventListener("resize", () => map.invalidateSize(), { passive: true });
     }
 
     function initChecklist() {
@@ -549,7 +507,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      initMap();
+      bindNavigationLinks();
       initChecklist();
       initReveal();
     });
