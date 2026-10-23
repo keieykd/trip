@@ -298,6 +298,29 @@
       .tool-shell{border-radius:28px}.tool-panel{padding:20px 15px}.tool-tabs{padding:10px}.tool-tab{min-width:112px;padding:11px 12px}.tool-intro{display:block}.tool-intro p{margin-top:8px}.map-days,.food-grid,.task-grid,.field-grid,.food-hero{grid-template-columns:1fr}.food-hero-main,.reserve-note{padding:24px}.food-card{min-height:0}.mobile-tools{position:fixed;z-index:75;left:50%;bottom:10px;transform:translateX(-50%);display:flex;padding:6px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(20,32,28,.9);backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.25);transition:opacity .25s ease,transform .25s ease}.map-in-view .mobile-tools{opacity:0;transform:translate(-50%,80px);pointer-events:none}.mobile-tools a{padding:8px 12px;color:white;text-decoration:none;font-size:.68rem;font-weight:900;white-space:nowrap}.mobile-tools a:first-child{color:#f1cf68}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+  
+    /* Keep expanded text below the photo and summary, preserving image composition. */
+    .day-expansion{grid-column:1/-1;order:3;margin:0 28px 24px;padding-top:16px}
+    .day-expansion .day-detail{align-items:start}
+    .day-media{min-height:360px}
+    .day-media img{position:absolute;inset:0}
+    .day-body{overflow-wrap:anywhere}
+    .time-block{min-width:0;overflow-wrap:anywhere}
+    summary::after{flex:0 0 30px}
+    [id]{scroll-margin-top:94px}
+    .check input{flex-shrink:0}
+    .countdown.is-status b{font-size:clamp(1.8rem,4vw,2.7rem)}
+    .tool-tab{min-height:44px}
+    @media(max-width:900px){.day-media{min-height:0}.day-expansion{margin:0 24px 24px}}
+    @media(max-width:620px){
+      .day-expansion{margin:0 18px 20px}
+      .time-block span,.note-block{font-size:.88rem}
+      .day-summary{font-size:.95rem}
+      .map-filter span,.map-place{min-height:44px;display:flex;align-items:center}
+      .mobile-tools a{min-height:44px;display:flex;align-items:center}
+      body{padding-bottom:88px}
+    }
+
   </style>
 </head>
 <body>
@@ -339,7 +362,7 @@
       <aside class="trip-card" aria-label="出發倒數">
         <span class="eyebrow" style="color:#f2cf65">Departure</span>
         <strong>離晚秋旅行還有</strong>
-        <div class="countdown"><b id="daysLeft">—</b><span>天</span></div>
+        <div class="countdown"><b id="daysLeft">—</b><span id="countUnit">天</span></div>
         <p id="countNote">以台北時間計算；出發後會顯示旅行狀態。</p>
       </aside>
     </div>
@@ -363,7 +386,7 @@
             <div class="core-card__copy"><span class="core-card__num">02 · WAIT FOR LIGHT</span><h3>為秋葉留時間</h3><p>東京大學、昭和紀念公園與神宮外苑，各自有不同的城市秋色。</p></div>
           </article>
           <article class="core-card reveal" style="transition-delay:.2s">
-            <img src="assets/japan/yokohama-christmas-market.jpg" alt="橫濱紅磚倉庫聖誕市集夜景" loading="lazy">
+            <img src="assets/japan/yokohama-christmas-market.jpg" style="object-position:25% 55%" alt="橫濱紅磚倉庫聖誕市集夜景" loading="lazy">
             <div class="core-card__copy"><span class="core-card__num">03 · DINNER &amp; CHRISTMAS NIGHTS</span><h3>和食與聖誕夜</h3><p>青山川上庵的和食晚餐、丸之內的香檳金街道，最後是橫濱港邊主場。</p></div>
           </article>
         </div>
@@ -454,7 +477,7 @@
               <a class="time-route" href="#d1" data-map-day="d1" style="--day-color:#d9a8b7"><b>D1</b><span>成田 T2 → 上野・鶯谷</span><small>約 50–70 分</small></a>
               <a class="time-route" href="#d2" data-map-day="d2" style="--day-color:#9fbd9f"><b>D2</b><span>東大 → 湯島 → 御茶之水雪具街</span><small>市區順向移動</small></a>
               <a class="time-route" href="#d3" data-map-day="d3" style="--day-color:#91b4c4"><b>D3</b><span>上野 → 草津溫泉</span><small>約 3 小時</small></a>
-              <a class="time-route" href="#d4" data-map-day="d4" style="--day-color:#d5b66f"><b>D4</b><span>草津 → 立川 → 鶯谷</span><small>約 4 小時＋園內</small></a>
+              <a class="time-route" href="#d4" data-map-day="d4" style="--day-color:#d5b66f"><b>D4</b><span>草津 → 立川 → 鶯谷</span><small>約 5 小時20分到入園</small></a>
               <a class="time-route" href="#d5" data-map-day="d5" style="--day-color:#d69a86"><b>D5</b><span>外苑 → 川越 → 丸之內</span><small>早出晚歸</small></a>
               <a class="time-route" href="#d6" data-map-day="d6" style="--day-color:#b29bd0"><b>D6</b><span>鶴卷溫泉 → 橫濱港區</span><small>約 80–100 分</small></a>
               <a class="time-route" href="#d7" data-map-day="d7" style="--day-color:#8bbcb4"><b>D7</b><span>京成上野 → 成田 T2</span><small>約 45 分</small></a>
@@ -479,14 +502,15 @@
               <h3>抵達東京，先把腳步放慢</h3>
               <p class="day-summary">成田進城、入住鶯谷，傍晚順遊上野聖誕市集；晚餐與散步留在上野、阿美橫一帶，舒服適應東京的第一晚。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=日暮里駅" target="_blank" rel="noopener">日暮里</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷駅" target="_blank" rel="noopener">鶯谷・上野</a></div>
-              <details><summary>查看時間與備案</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看時間與備案</summary><div class="day-detail">
                 <div class="time-block"><b>14:20</b><span>JX802 抵達成田 T2；入境、領行李抓 60–90 分。</span></div>
                 <div class="time-block"><b>16:10–17:00</b><span>依實際入境進度搭 Skyliner 至日暮里，再搭山手線一站至鶯谷。</span></div>
                 <div class="time-block"><b>17:30–18:30（彈性）</b><span>上野聖誕市集：袴腰廣場與不忍池區依體力擇一或順走，抓約一小時；阿美橫散步視時間安排。</span></div>
                 <div class="time-block"><b>20:00 前後</b><span>鶯谷附近晚餐；名店訂不到就選鄰近餐廳。</span></div>
                 <div class="note-block">上野東京 Christmas Advent 已公告：袴腰廣場 11/6–12/25、12:00–23:00；不忍池區 11/18–12/25，週日 12:00–22:00。<a href="https://christmas-advent.jp/tokyo-ueno/" target="_blank" rel="noopener">官方資訊</a>。抵達日不排跨區夜景；若航班或入境延誤，市集直接略過，先吃飯休息。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d2">
@@ -496,7 +520,9 @@
               <h3>東大銀杏、湯島菊花祭與御茶之水雪具街</h3>
               <p class="day-summary">上午拍東京大學銀杏、欣賞湯島天滿宮菊花祭；下午留足三小時到御茶之水／神田小川町雪具街，讓發發比較、試穿雪衣雪褲。早上帶空登機箱出門，採買後直接帶箱前往表參道喝下午茶、逛街與晚餐；回鶯谷放箱改為有需要才採用的選項。晚餐暫排青山川上庵，若Visa訂到11/23鶯谷園，則把傍晚活動一起調整至上野、鶯谷一帶。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=東京大学本郷キャンパス" target="_blank" rel="noopener">東京大學</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=湯島天満宮" target="_blank" rel="noopener">湯島天滿宮</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=Victoria御茶ノ水本店" target="_blank" rel="noopener">御茶之水雪具街</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=青山川上庵" target="_blank" rel="noopener">青山川上庵</a></div>
-              <details><summary>查看時間與動線</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看時間與動線</summary><div class="day-detail">
                 <div class="time-block"><b>08:00–09:30</b><span>早上帶空登機箱出門，東京大學本鄉校區拍銀杏並木、安田講堂周邊；拍照時輪流顧箱，遇階梯改走無障礙動線。</span></div>
                 <div class="time-block"><b>09:30–10:40</b><span>由東京大學步行前往湯島天滿宮，約 09:55–10:40 欣賞文京菊花祭，拍攝菊花展示與菊人形。</span></div>
                 <div class="time-block"><b>10:40–12:00</b><span>前往御茶之水／神田小川町一帶，途中午餐；此段含移動緩衝，並非指定車次。</span></div>
@@ -505,26 +531,26 @@
                 <div class="time-block"><b>16:00–18:00</b><span>前往表參道，安排Café Kitsuné青山店下午茶與街區逛街，再前往晚餐。箱子可隨行；咖啡店及餐廳能否放箱尚待確認，必要時在表參道順路寄物，最後回原處取箱，不假設店家代管。此段包含候位緩衝，並非已預約時段。<a href="https://maisonkitsune.com/jp_en/storelocator-cafekitsune-aoyama" target="_blank" rel="noopener">咖啡店官方資訊</a>。</span></div>
                 <div class="time-block"><b>18:30–20:00（用餐規劃）</b><span>青山川上庵：蕎麥麵搭配日式小菜，兩人不含酒預抓 ¥6,000–8,000，為點餐估算；16:00後另加10%服務費。尚未訂位；若Visa訂到11/23鶯谷園，當晚以鶯谷園取代，勿重複訂位。</span></div>
                 <div class="time-block"><b>20:00–21:00</b><span>晚餐後表參道街區散步，拍店面、建築夜景，再返回鶯谷飯店。若Visa訂到11/23鶯谷園，下午茶與晚餐動線改至上野、鶯谷一帶。</span></div>
-                <div class="note-block">文京菊花祭為 2026/11/1–11/23，今天是最後一天；湯島天滿宮安排約45分鐘。為發發買雪衣留足時間，根津神社、谷中銀座移出今天。登機箱從早上隨行，中午不用回飯店拿箱；採買後直接帶箱前往表參道；順路寄物為備案，回飯店放箱僅在購物量大或想休息時採用。若Visa訂到11/23鶯谷園，則買完回鶯谷放箱，再接上野下午茶與鶯谷園，依訂位結果確認。時間為規劃區間，若採買延長就縮短逛街。Victoria官方目前公告祝日11:00–19:30、石井神田本館10:00–20:30，臨時異動以店家公告為準。<a href="https://store.victoria.supersports.com/21001" target="_blank" rel="noopener">Victoria官方店鋪</a>、<a href="https://www.ishii-sports.com/shop/kandahonkan/" target="_blank" rel="noopener">石井官方店鋪</a>。<a href="https://www.gotokyo.org/en/spot/ev144/index.html" target="_blank" rel="noopener">菊花祭官方資訊</a>。晚餐改為青山川上庵（南青山3-14-1），非外苑前分店。<a href="https://www.kawakamian.com/shops/aoyama.php" target="_blank" rel="noopener">官方店鋪</a>、<a href="https://www.kawakamian.com/shops/aoyama_menu.php" target="_blank" rel="noopener">官方菜單</a>。</div>
+                <div class="note-block">文京菊花祭為 2026/11/1–11/23，今天是最後一天；湯島天滿宮安排約45分鐘。為發發買雪衣留足時間，根津神社、谷中銀座移出今天。登機箱從早上隨行，中午不用回飯店拿箱；採買後直接帶箱前往表參道；順路寄物為備案，回飯店放箱僅在購物量大或想休息時採用。若Visa訂到11/23鶯谷園，則買完回鶯谷放箱，再接上野下午茶與鶯谷園，依訂位結果確認。時間為規劃區間，若採買延長就縮短逛街。Victoria官方目前公告祝日11:00–19:30、石井神田本館10:00–20:30，臨時異動以店家公告為準。<a href="https://store.victoria.supersports.com/21001" target="_blank" rel="noopener">Victoria官方店鋪</a>、<a href="https://www.ishii-sports.com/shop/kandahonkan/index.html" target="_blank" rel="noopener">石井官網（目前維護中）</a>｜<a href="https://sports-kanda.com/shopinfo/ishii-main/" target="_blank" rel="noopener">神田商店協會店鋪資訊</a>。<a href="https://www.gotokyo.org/jp/spot/ev144/index.html" target="_blank" rel="noopener">菊花祭官方資訊（本次連線未成功，出發前再核對）</a>。晚餐改為青山川上庵（南青山3-14-1），非外苑前分店。<a href="https://www.kawakamian.com/shops/aoyama.php" target="_blank" rel="noopener">官方店鋪</a>、<a href="https://www.kawakamian.com/shops/aoyama_menu.php" target="_blank" rel="noopener">官方菜單</a>。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d3">
-            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-night.jpg" alt="草津溫泉湯畑夜景" loading="lazy" style="object-position:center 58%"><span class="media-note">Kusatsu · the night belongs to steam</span></div>
+            <div class="day-media"><img src="assets/japan/kusatsu-yubatake-night.webp" alt="草津溫泉湯畑夜景" loading="lazy" style="object-position:center 58%"><span class="media-note">Kusatsu · the night belongs to steam</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">3</span><span class="day-date">11.24 TUE</span><span class="pace">慢旅</span></div>
               <h3>草津溫泉，一泊二食</h3>
               <p class="day-summary">帶一個登機箱到草津，大行李留鶯谷。抵達巴士總站後聯絡望雲接送，提早寄放行李需確認；下午逛溫泉街，約15:00入住享受私人露天風呂，晚上留給旅館與湯畑。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=上野駅" target="_blank" rel="noopener">上野</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉湯畑" target="_blank" rel="noopener">草津溫泉</a></div>
-              <details><summary>查看交通與取捨</summary><div class="day-detail">
-                <div class="time-block"><b>10:00–12:18</b><span>草津・四萬1號，上野→長野原草津口；普通車全車指定席。12:31搭JR巴士直達草津溫泉，12:53抵達。</span></div>
+              
+            </div>
+            <details class="day-expansion"><summary>查看交通與取捨</summary><div class="day-detail">
+                <div class="time-block"><b>10:00–12:18</b><span>草津・四萬1號，上野→長野原草津口；普通車全車指定席。12:31搭JR急行巴士直達草津溫泉，12:53抵達。</span></div>
                 <div class="time-block"><b>13:00 前後</b><span>巴士抵達草津總站，請櫃台協助打電話給望雲安排接送；先到旅館處理登機箱寄放（提早寄放待確認），再到溫泉街午餐、湯畑散步。</span></div>
                 <div class="time-block"><b>14:15–15:00左右</b><span>西之河原通逛店、吃點心，約15:00回望雲辦入住（實際可入房時間依訂單），休息並享受房內私人露天風呂；公共露天風呂、熱乃湯表演列備選。</span></div>
                 <div class="time-block"><b>18:00或18:30晚餐</b><span>依旅館安排享用晚餐，17:00前完成入住。晚餐後視體力到湯畑看夜景，穿保暖外套，再回房泡湯休息。</span></div>
                 <div class="note-block">草津 11 月下旬是初冬，不是紅葉日。準備保暖、防滑鞋；大型行李留在鶯谷房內。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d4">
@@ -534,7 +560,9 @@
               <h3>望雲10:00退房，早餐晨湯後看昭和夜楓</h3>
               <p class="day-summary">早餐後再泡一次房內露天風呂，10:00退房；搭10:25巴士下山，經新前橋、高崎與東京前往西立川。縮短白天拍攝，保留銀杏傍晚與日本庭園夜景。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉湯畑" target="_blank" rel="noopener">草津晨景</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=西立川駅" target="_blank" rel="noopener">西立川</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=昭和記念公園日本庭園" target="_blank" rel="noopener">昭和紀念公園</a></div>
-              <details><summary>查看交通與拍攝節奏</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看交通與拍攝節奏</summary><div class="day-detail">
                 <div class="time-block"><b>早餐與晨湯｜10:00退房</b><span>早餐時段依旅館安排，吃完回房再泡一次露天風呂，09:30左右整理行李。望雲官方退房時間10:00，退房時索取住宿收據；前晚詢問是否能送往巴士總站，若無則步行約7–10分鐘，目標10:10到站候車。</span></div>
                 <div class="time-block"><b>10:25–14:12｜下山與鐵路</b><span>10:25草津巴士→10:53長野原草津口（平日普通停靠班次）；11:11吾妻線532M→12:39新前橋；12:52上越線738M→13:02高崎；13:16淺間616號新幹線→14:12東京。注意532M終點是新前橋，必須下車轉往高崎。</span></div>
                 <div class="time-block"><b>14:12–約15:30｜前往公園</b><span>東京站搭中央線，必要時在立川站內轉青梅線至西立川，不額外出站寄箱。約15:30到西立川後，在改札外公園口通道寄放登機箱，再步行至西立川口；含寄物緩衝，約15:45入園為估算，市區電車不鎖定班次。午餐以沿途方便購買的飯糰、三明治為主，不另排餐廳。</span></div>
@@ -542,7 +570,6 @@
                 <div class="time-block"><b>16:30–19:30</b><span>2026秋之夜散步已確認10/29–11/29、16:30–20:30點燈。11/18起購買11/25日本庭園＋公園入園套票¥1,600／人；白天庭園16:00清場後再憑夜票入內；約19:30從西立川口離園，到西立川站原處取箱，再前往立川晚餐、返回鶯谷。</span></div>
                 <div class="note-block">已確定10:00退房，不安排提早離館。回程訂高崎13:16→東京14:12淺間616號指定席，10/25台灣09:00開賣。新前橋轉乘13分鐘、高崎轉乘14分鐘；如前段延誤，先處理後續車票改乘。早餐時間與退房送站服務待入住時確認；帶一個登機箱，大行李留鶯谷；到西立川站再順路寄物，不為放箱在立川額外出站。三腳架夜間限指定位置，20:30結束點燈、21:00閉園。鶯谷園若獲11/25晚場空位，另行確認提早離園時間，尚未視為已訂。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d5">
@@ -550,9 +577,11 @@
             <div class="day-body">
               <div class="day-top"><span class="day-num">5</span><span class="day-date">11.26 THU</span><span class="pace full">完整但順</span></div>
               <h3>外苑清晨銀杏、川越小江戶與丸之內聖誕夜</h3>
-              <p class="day-summary">清晨拍神宮外苑、白天逛川越；下午直接到東京站吃極味屋，再回鶯谷洗澡、換衣服與休息，約19:30重返丸之內，先看聖誕樹／燈光秀，再逛仲通與東京站夜景。一保堂有時間才逛。</p>
+              <p class="day-summary">清晨拍神宮外苑、白天逛川越；下午直接到東京站吃極味屋，再回鶯谷洗澡、換衣服與休息，約19:30重返丸之內，先看聖誕樹／燈光秀，再逛仲通與東京站夜景。20:00–20:45預留一保堂購物，街景散步接在後面。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=明治神宮外苑いちょう並木" target="_blank" rel="noopener">神宮外苑</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=川越一番街商店街" target="_blank" rel="noopener">川越</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=丸の内仲通り" target="_blank" rel="noopener">丸之內</a></div>
-              <details><summary>查看整日銜接</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看整日銜接</summary><div class="day-detail">
                 <div class="time-block"><b>06:20–08:05</b><span>由鶯谷前往青山一丁目；07:10 左右拍神宮外苑銀杏晨光，08:05 出發前往川越。</span></div>
                 <div class="time-block"><b>09:45–12:00</b><span>喜多院／中院，再進藏造老街、時之鐘與菓子屋橫丁。</span></div>
                 <div class="time-block"><b>12:00–14:00</b><span>川越自由散步，中午少量點心或輕食，留胃給下午極味屋；冰川神社視體力與時間決定，14:00左右出發。</span></div>
@@ -562,50 +591,51 @@
                 <div class="time-block"><b>17:45–18:45左右</b><span><strong>回房洗澡、換掉有油煙味的衣服，休息與充電</strong>；保留約一小時，不把這段再塞景點。</span></div>
                 <div class="time-block"><b>18:45–19:30左右</b><span>由鶯谷再次出發前往丸之內；以下為規劃區間，2026聖誕樹觀賞截止、燈光秀末場與仲通熄燈時間仍待官方公告。</span></div>
                 <div class="time-block"><b>約19:30起｜聖誕樹優先</b><span>先到丸ビル1樓看HOGWARTS SNOW TREE與音樂燈光秀，再逛仲通燈飾、拍東京站。<strong>19:30仍可觀賞燈光秀尚未確認</strong>；截至2026/10/21官方預告10月下旬公布細節，不把客服21:00當活動截止。待公告後核對並調整出門順序。KITTE僅有餘力再去，回程依體力決定。</span></div>
-                <div class="time-block"><b>一保堂新丸大樓店｜茶粉與器具購物</b><span>聖誕樹／燈光秀優先，再視店家營業時間順逛新丸大樓B1的一保堂（現行週四11:00–21:00）。預計到店買<strong>明昔20g ×2：單價¥3,024／約NT$635，兩盒¥6,048</strong>，清飲用，圓潤、有厚度，也帶一點微苦。<br>備選：<strong>関の白20g：¥2,160／約NT$454</strong>，味道飽滿、降低預算可選；<strong>幾世の昔20g：¥1,512／約NT$318</strong>，清爽溫和；<strong>月影20g：¥2,484／約NT$522</strong>，秋季限定、有貨再看。備選不必全買。<br>茶筅目標：一保堂奈良高山100本立4支＋中國製100本立3支；另看匹配茶筅架、竹茶杓，分店品項與庫存未確認，不打電話、不預約、不另跨區追貨。沒時間就11/28合羽橋補齊，已買的勾選清單避免重複。<a href="https://www.google.com/maps/search/?api=1&amp;query=一保堂茶舗新丸ビル店" target="_blank" rel="noopener">導航</a>｜<a href="https://www.ippodo-tea.co.jp/pages/store-shin-marunouchi" target="_blank" rel="noopener">官方店鋪</a>。</span></div>
+                <div class="time-block"><b>20:00–20:45｜一保堂新丸大樓店</b><span>19:30先看聖誕樹，接著在21:00閉店前到新丸大樓B1一保堂購物；仲通與東京站街景放在購物後。若演出正式時刻與此衝突，再調整順序；目前店鋪（現行週四11:00–21:00）。預計到店買<strong>明昔20g ×2：單價¥3,024／約NT$635，兩盒¥6,048</strong>，清飲用，圓潤、有厚度，也帶一點微苦。<br>備選：<strong>関の白20g：¥2,160／約NT$454</strong>，味道飽滿、降低預算可選；<strong>幾世の昔20g：¥1,512／約NT$318</strong>，清爽溫和；<strong>月影20g：¥2,484／約NT$522</strong>，秋季限定、有貨再看。備選不必全買。<br>茶筅目標：一保堂奈良高山100本立4支＋中國製100本立3支；另看匹配茶筅架、竹茶杓，分店品項與庫存未確認，不打電話、不預約、不另跨區追貨。沒時間就11/28合羽橋補齊，已買的勾選清單避免重複。<a href="https://www.google.com/maps/search/?api=1&amp;query=一保堂茶舗新丸ビル店" target="_blank" rel="noopener">導航</a>｜<a href="https://www.ippodo-tea.co.jp/pages/store-shin-marunouchi" target="_blank" rel="noopener">官方店鋪</a>。</span></div>
                 <div class="note-block">丸之內 2026 哈利波特聖誕活動已確認為 11/12–12/25；仲通燈飾為 11/12–2027/2/14。本晚以主題聖誕樹、音樂燈光秀與街景為主；市集攤位、限定商品與詳細演出時間待10月下旬公告。<a href="https://www.marunouchi.com/pickup/event/10727/" target="_blank" rel="noopener">官方活動資訊</a>。下午極味屋用餐後固定回鶯谷洗澡、換衣休息，再出門看丸之內；若候位延誤，縮短購物與夜間散步。若Visa訂到11/26鶯谷園20:00–21:00，會與本版晚間衝突，須重新安排並避免同日兩餐肉類，不視為兩者可同時照表執行。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d6">
-            <div class="day-media"><img src="assets/japan/yokohama-christmas-market.jpg" alt="橫濱紅磚倉庫聖誕市集" loading="lazy"><span class="media-note">Yokohama · Christmas by the harbour</span></div>
+            <div class="day-media"><img src="assets/japan/yokohama-christmas-market.jpg" style="object-position:25% 55%" alt="橫濱紅磚倉庫聖誕市集" loading="lazy"><span class="media-note">Yokohama · Christmas by the harbour</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">6</span><span class="day-date">11.27 FRI</span><span class="pace long">長日但值得</span></div>
               <h3>親戚午餐，接橫濱聖誕夜</h3>
               <p class="day-summary">白天與親戚相聚，傍晚沿汽車道走向紅磚倉庫，把市集、港景與晚餐留在同一個區域。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=海老名駅" target="_blank" rel="noopener">海老名</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=横浜赤レンガ倉庫" target="_blank" rel="noopener">橫濱港區</a></div>
-              <details><summary>查看晚間取捨</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看晚間取捨</summary><div class="day-detail">
                 <div class="time-block"><b>09:15–11:30</b><span>經新宿搭小田急前往鶴卷溫泉；注意快速急行不停本站。</span></div>
                 <div class="time-block"><b>12:00–13:30</b><span>你、發發與兩位長輩共4人午餐，已與親戚溝通安排完成；依約定進行，不再列入提醒。</span></div>
-                <div class="time-block"><b>14:30–16:15</b><span>經海老名轉相鐵至橫濱，再走汽車道前往港區。</span></div>
+                <div class="time-block"><b>14:30–16:15</b><span>鶴卷溫泉搭小田急至海老名，轉相鐵至橫濱，再轉JR至櫻木町；其後步行汽車道往紅磚倉庫。16:15為預估到櫻木町時間，另留約30分鐘港區步行。</span></div>
                 <div class="time-block"><b>16:45–19:00</b><span>本行程聖誕主場：橫濱紅磚倉庫，留時間逛德式木屋、吃東西與拍入夜港景。2026已確認11/20–12/25；11/27營業11:00–21:00。普通票¥500／人、優先票¥2,000／人；11/6台灣11:00開賣，普通票預購仍需排一般隊伍。</span></div>
                 <div class="time-block"><b>19:00–20:00</b><span>大棧橋屋頂甲板拍港區夜景；天冷或體力不足就改在紅磚倉庫附近休息、吃晚餐。</span></div>
                 <div class="time-block"><b>20:00 後（彈性）</b><span>晚餐與返回鶯谷。BALLPARK Xmas 僅在2026確認舉辦、當晚仍開放且有餘力時順遊，不為它壓縮紅磚市集與大棧橋。</span></div>
                 <div class="note-block">橫濱是這趟唯一必保留、也唯一先預留票價的市集。若 BALLPARK 未續辦，不找替代點，把時間留給大棧橋與晚餐。</div>
               </div></details>
-            </div>
           </article>
 
           <article class="day-card reveal" id="d7">
             <div class="day-media"><img src="assets/japan/narita-t2-departure.jpg" alt="成田國際機場第二航廈" loading="lazy" style="object-position:center 44%"><span class="media-note">Kappabashi · matcha tools, then home</span></div>
             <div class="day-body">
               <div class="day-top"><span class="day-num">7</span><span class="day-date">11.28 SAT</span><span class="pace">茶器採買＋返程</span></div>
-              <h3>合羽橋挑四件茶器，淺草買抹茶粉</h3>
+              <h3>合羽橋挑茶器，淺草買抹茶粉</h3>
               <p class="day-summary">帶登機箱逛合羽橋，重點挑陶瓷倒口點茶碗，並補齊11/26一保堂未買到的高山百本立竹茶筅、茶筅架與竹茶杓；出門先看購物勾選清單，已買的不重複買，其他器具已有。淺草午餐後買抹茶粉，14:00左右回鶯谷取齊行李，再去成田；伴手禮留機場買，不排阿美橫、多慶屋。</p>
               <div class="micro-route"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E3%81%BE%E3%81%88%E7%94%B0" target="_blank" rel="noopener">合羽橋前田</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%82%B5%E3%83%92%E3%82%B5%E3%83%B3%E3%83%AC%E3%83%83%E3%83%89%20%E5%90%88%E7%BE%BD%E6%A9%8B%E5%BA%97" target="_blank" rel="noopener">アサヒサンレッド</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A3%BD%E3%80%85%E5%96%9C%E5%9C%92%20%E6%B5%85%E8%8D%89%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">壽々喜園</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%AF%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">鶯谷取行李</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BA%AC%E6%88%90%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">京成上野</a><i></i><a href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF%E7%AC%AC2%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB" target="_blank" rel="noopener">成田T2</a></div>
-              <details><summary>查看時間、逐店購物清單與返程</summary><div class="day-detail">
+              
+            </div>
+            <details class="day-expansion"><summary>查看時間、逐店購物清單與返程</summary><div class="day-detail">
                 <div class="time-block"><b>08:30–10:00｜早餐、退房、到合羽橋</b><span>依飯店規定退房，大行李寄飯店，帶登機箱裝茶器。早餐後移動到合羽橋，10:00左右開始逛店；交通與步行包含在預留時間內。</span></div>
-                <div class="time-block"><b>10:00–11:00｜かっぱ橋まえ田</b><span>松谷1-10-10，週六目前公告10:00–16:50。先核對11/26已購品；尚未買到才找<strong>奈良高山製百本立竹茶筅</strong>：官方販售翠華園・谷村彌三郎製白竹百本立，標價¥9,440含稅，網店目前缺貨不代表當天實體有貨。再挑<strong>匹配的茶筅架</strong>（官方確認另售），同時看看陶瓷。<a href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E3%81%BE%E3%81%88%E7%94%B0" target="_blank" rel="noopener">導航</a>｜<a href="https://www.kappa-maeda.co.jp/SHOP/57545.html" target="_blank" rel="noopener">百本立商品與價格</a>｜<a href="https://www.kappabashi.or.jp/shops/91/" target="_blank" rel="noopener">實體店資訊</a>。</span></div>
+                <div class="time-block"><b>10:00–11:00｜かっぱ橋まえ田</b><span>松谷1-10-10，週六目前公告10:00–16:50。先核對11/26已購品；先看<strong>茶筅架與陶瓷器具</strong>。奈良高山百本立僅作現場比較：官方販售翠華園・谷村彌三郎製白竹百本立，標價¥9,440含稅，網店目前缺貨不代表當天實體有貨；比一保堂目標價高，不自動購買替代，未買齊先記缺額。再挑<strong>匹配的茶筅架</strong>（官方確認另售），同時看看陶瓷。<a href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E3%81%BE%E3%81%88%E7%94%B0" target="_blank" rel="noopener">導航</a>｜<a href="https://www.kappa-maeda.co.jp/SHOP/57545.html" target="_blank" rel="noopener">百本立商品與價格</a>｜<a href="https://www.kappabashi.or.jp/shops/91/" target="_blank" rel="noopener">實體店資訊</a>。</span></div>
                 <div class="time-block"><b>11:00–12:00｜アサヒサンレッド＋周邊器皿店</b><span>松谷2-12-6，商店街目前公布週六10:00–17:00。重點挑<strong>竹茶杓1支、陶瓷倒口點茶碗1只</strong>；前一家已買的不要重複。官方確認有茶碗、茶筅、茶杓；倒口碗款式與高山百本立規格未獲確認，現場看喜歡的再買。<a href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%82%B5%E3%83%92%E3%82%B5%E3%83%B3%E3%83%AC%E3%83%83%E3%83%89%20%E5%90%88%E7%BE%BD%E6%A9%8B%E5%BA%97" target="_blank" rel="noopener">導航</a>｜<a href="https://asahisunred.com/pages/cha-lp-kappabashi" target="_blank" rel="noopener">官方茶器介紹</a>。</span></div>
                 <div class="time-block"><b>12:00–13:00｜淺草午餐</b><span>在附近吃午餐、坐下休息，不安排需要長時間排隊的餐廳。已買茶器請店家包妥、固定放入登機箱，避免碰撞。</span></div>
                 <div class="time-block"><b>13:00–13:40左右｜壽々喜園</b><span>淺草3-31-5，現行一般營業11:00–17:00。首選買<strong>鶴羽の音20g ×1：¥2,800／約NT$588</strong>，上級款、口感圓潤帶甘味，清飲用；及<strong>手軽に本格抹茶30g ×2：單價¥800／約NT$168，兩包¥1,600</strong>，純抹茶、日常練習與拿鐵用。兩款共3件合計¥4,400。<br>備選：<strong>深緑の風20g：¥2,300／約NT$483</strong>，帶甘味、飲感清爽，鶴羽缺貨可選；<strong>水鏡の月20g：¥1,800／約NT$378</strong>，清飲入門、降低預算可選。備選不必全買。<br>連同一保堂明昔，預計明昔2盒、鶴羽の音1盒、手軽に本格抹茶2包，共5件120g，合計¥10,448／約NT$2,194。2026/10/22官方含稅網店參考價，台幣以0.21估算，當日店頭庫存與價格為準。不要誤買含糖「抹茶オーレの素」。甜點僅有餘裕時加。<a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A3%BD%E3%80%85%E5%96%9C%E5%9C%92%20%E6%B5%85%E8%8D%89%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">導航</a>｜<a href="https://www.suzukien.tokyo/view/category/matcha" target="_blank" rel="noopener">茶粉官方清單</a>。</span></div>
                 <div class="time-block"><b>14:00–15:00左右｜回鶯谷取行李</b><span>約14:00離開淺草，返回飯店取齊所有大行李，整理茶器與收據；不因找缺貨商品額外跨區追貨。</span></div>
                 <div class="time-block"><b>15:00後–約17:00｜前往成田T2</b><span>取齊行李後前往京成上野，搭選定的Skyliner去成田第二航廈。班次尚未選定；目標約17:00抵達，預留購物退稅所需程序、報到、托運與安檢時間。</span></div>
                 <div class="time-block"><b>機場購物 → 20:10返程</b><span>紀念品、一般伴手禮集中到機場買；完成必要手續後依時間購物。依現有訂單搭JX805 20:10返台，登機時間與航廈依航空公司通知。</span></div>
-                <div class="note-block"><strong>四件器具就好：</strong>①茶筅購買目標共7支：一保堂高山茶筌100本立4支（日本奈良製，工房未公開；每支¥6,930／約NT$1,455）＋一保堂一般竹製100本立3支（中國製；每支¥4,400／約NT$924）。合計¥40,920／約NT$8,593，台幣以0.21試算。新丸大樓分店品項、購買數量限制及庫存未確認；未買到先記缺額，不自動換成其他店昂貴款②茶筅架1個（配尺寸）③竹茶杓1支（平滑無毛刺）④陶瓷倒口點茶碗1只（內壁平滑、碗底有揮動空間、倒口俐落、釉色握感喜歡）。杯子、細篩、秤、溫度計等已有，不再買。現場挑選，無需電話、預約或先保留；有販售紀錄不等於當日有庫存。日本退稅流程與離境查驗依最新公告，商品及收據保持可查驗。</div>
+                <div class="note-block"><strong>器具只買這四種類：</strong>①茶筅購買目標共7支：一保堂高山茶筌100本立4支（日本奈良製，工房未公開；每支¥6,930／約NT$1,455）＋一保堂一般竹製100本立3支（中國製；每支¥4,400／約NT$924）。合計¥40,920／約NT$8,593，台幣以0.21試算。新丸大樓分店品項、購買數量限制及庫存未確認；未買到先記缺額，不自動換成其他店昂貴款。<br>②茶筅架1個（配尺寸）<br>③竹茶杓1支（平滑無毛刺）<br>④陶瓷倒口點茶碗1只（內壁平滑、碗底有揮動空間、倒口俐落、釉色握感喜歡）。杯子、細篩、秤、溫度計等已有，不再買。現場挑選，無需電話、預約或先保留；有販售紀錄不等於當日有庫存。日本退稅流程與離境查驗依最新公告，商品及收據保持可查驗。</div>
               </div></details>
-            </div>
           </article>
         </div>
       </div>
@@ -632,7 +662,7 @@
                 <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=成田国際空港第2ターミナル" target="_blank" rel="noopener">成田 T2</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=日暮里駅" target="_blank" rel="noopener">日暮里站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷駅" target="_blank" rel="noopener">鶯谷站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=アメ横商店街" target="_blank" rel="noopener">阿美橫</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=不忍池" target="_blank" rel="noopener">不忍池</a>
               </div><p class="map-transfer">Skyliner 至日暮里約 36–40 分；山手線至鶯谷約 3 分。</p></details>
               <details class="day-map"><summary><span><b>D2</b>東大 → 湯島 → 御茶之水雪具街</span></summary><div class="map-places">
-                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=東京大学本郷キャンパス正門" target="_blank" rel="noopener">東大正門</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=湯島天満宮" target="_blank" rel="noopener">湯島天滿宮・菊花祭</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=Victoria御茶ノ水本店" target="_blank" rel="noopener">御茶之水雪具街・Victoria</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=表参道ヒルズ" target="_blank" rel="noopener">表參道</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=青山川上庵" target="_blank" rel="noopener">青山川上庵</a>
+                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=東京大学本郷キャンパス正門" target="_blank" rel="noopener">東大正門</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=湯島天満宮" target="_blank" rel="noopener">湯島天滿宮・菊花祭</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=Victoria御茶ノ水本店" target="_blank" rel="noopener">御茶之水雪具街・Victoria</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=表参道ヒルズ" target="_blank" rel="noopener">表參道Hills</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=青山川上庵" target="_blank" rel="noopener">青山川上庵</a>
               </div><p class="map-transfer">表參道A4出口至青山川上庵步行約5分鐘；目標18:30用餐，尚待訂位。</p></details>
               <details class="day-map"><summary><span><b>D3</b>上野 → 草津溫泉</span></summary><div class="map-places">
                 <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=上野駅" target="_blank" rel="noopener">上野站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉バスターミナル" target="_blank" rel="noopener">草津巴士總站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉湯畑" target="_blank" rel="noopener">湯畑</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=西の河原露天風呂" target="_blank" rel="noopener">西之河原露天風呂</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=熱乃湯" target="_blank" rel="noopener">熱乃湯</a>
@@ -641,12 +671,12 @@
                 <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉湯畑" target="_blank" rel="noopener">湯畑晨景</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=長野原草津口駅" target="_blank" rel="noopener">長野原草津口</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=西立川駅" target="_blank" rel="noopener">西立川站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=国営昭和記念公園西立川口" target="_blank" rel="noopener">西立川口</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=昭和記念公園日本庭園" target="_blank" rel="noopener">日本庭園</a>
               </div><p class="map-transfer">跨區移動約 4 小時；正式班表公布後核對巴士、JR 與夜間活動最後入場。</p></details>
               <details class="day-map"><summary><span><b>D5</b>外苑 → 川越 → 丸之內</span></summary><div class="map-places"><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=極味や東京駅店" target="_blank" rel="noopener">極味屋・下午用餐</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=一保堂茶舗新丸ビル店" target="_blank" rel="noopener">一保堂新丸B1・百本立／架／茶杓</a>
-                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=明治神宮外苑いちょう並木" target="_blank" rel="noopener">神宮外苑銀杏</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=喜多院" target="_blank" rel="noopener">喜多院</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=川越一番街商店街" target="_blank" rel="noopener">藏造老街</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=時の鐘" target="_blank" rel="noopener">時之鐘</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷駅" target="_blank" rel="noopener">鶯谷飯店・洗澡休息</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=丸の内仲通り" target="_blank" rel="noopener">丸之內仲通</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=KITTE丸の内" target="_blank" rel="noopener">KITTE</a>
+                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=明治神宮外苑いちょう並木" target="_blank" rel="noopener">神宮外苑銀杏</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=喜多院" target="_blank" rel="noopener">喜多院</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=川越一番街商店街" target="_blank" rel="noopener">藏造老街</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=時の鐘" target="_blank" rel="noopener">時之鐘</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷駅" target="_blank" rel="noopener">鶯谷站・再步行回飯店洗澡</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=丸の内仲通り" target="_blank" rel="noopener">丸之內仲通</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=KITTE丸の内" target="_blank" rel="noopener">KITTE</a>
               </div><p class="map-transfer">06:20出門；外苑→川越，14:00左右離開川越→東京站，約15:30–17:00極味屋（含候位）→鶯谷飯店洗澡換衣休息→約19:30丸之內先看聖誕樹。燈光秀末場待確認，一保堂有時間才逛；均為規劃區間。</p></details>
               <details class="day-map"><summary><span><b>D6</b>鶴卷溫泉 → 橫濱</span></summary><div class="map-places">
-                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=弘法の里湯" target="_blank" rel="noopener">弘法之里湯</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=海老名駅" target="_blank" rel="noopener">海老名站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=汽車道" target="_blank" rel="noopener">汽車道</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜赤レンガ倉庫" target="_blank" rel="noopener">紅磚倉庫</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=大さん橋" target="_blank" rel="noopener">大棧橋</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜公園" target="_blank" rel="noopener">BALLPARK 候補</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜中華街" target="_blank" rel="noopener">中華街</a>
+                <a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=鶴巻温泉駅" target="_blank" rel="noopener">鶴卷溫泉站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=弘法の里湯" target="_blank" rel="noopener">弘法之里湯（額外備選）</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=海老名駅" target="_blank" rel="noopener">海老名站</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=汽車道" target="_blank" rel="noopener">汽車道</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜赤レンガ倉庫" target="_blank" rel="noopener">紅磚倉庫</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=大さん橋" target="_blank" rel="noopener">大棧橋</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜公園" target="_blank" rel="noopener">BALLPARK 候補</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=横浜中華街" target="_blank" rel="noopener">中華街（額外備選）</a>
               </div><p class="map-transfer">上野至鶴卷溫泉約 2 小時；鶴卷溫泉至橫濱約 75–90 分。</p></details>
-              <details class="day-map"><summary><span><b>D7</b>合羽橋 → 淺草 → 鶯谷取行李 → 成田</span></summary><div class="map-places"><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E3%81%BE%E3%81%88%E7%94%B0" target="_blank" rel="noopener">前田・高山百本立／架</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%82%B5%E3%83%92%E3%82%B5%E3%83%B3%E3%83%AC%E3%83%83%E3%83%89%20%E5%90%88%E7%BE%BD%E6%A9%8B%E5%BA%97" target="_blank" rel="noopener">茶杓／倒口點茶碗</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A3%BD%E3%80%85%E5%96%9C%E5%9C%92%20%E6%B5%85%E8%8D%89%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">壽々喜園・鶴羽の音／日常抹茶</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%AF%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">鶯谷・取齊行李</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BA%AC%E6%88%90%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">京成上野</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF%E7%AC%AC2%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB" target="_blank" rel="noopener">成田T2</a></div><p class="map-transfer">帶登機箱逛店，14:00左右離開淺草回鶯谷取齊行李。Skyliner班次待選、目標約17:00到成田。紀念品到機場買；不排阿美橫、多慶屋。</p></details>
+              <details class="day-map"><summary><span><b>D7</b>合羽橋 → 淺草 → 鶯谷取行李 → 成田</span></summary><div class="map-places"><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E3%81%BE%E3%81%88%E7%94%B0" target="_blank" rel="noopener">前田・高山百本立／架</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%82%B5%E3%83%92%E3%82%B5%E3%83%B3%E3%83%AC%E3%83%83%E3%83%89%20%E5%90%88%E7%BE%BD%E6%A9%8B%E5%BA%97" target="_blank" rel="noopener">茶杓／倒口點茶碗</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A3%BD%E3%80%85%E5%96%9C%E5%9C%92%20%E6%B5%85%E8%8D%89%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">壽々喜園・鶴羽の音／日常抹茶</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%AF%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">鶯谷站・再步行回飯店取行李</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BA%AC%E6%88%90%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">京成上野</a><a class="map-place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF%E7%AC%AC2%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB" target="_blank" rel="noopener">成田T2</a></div><p class="map-transfer">帶登機箱逛店，14:00左右離開淺草回鶯谷取齊行李。Skyliner班次待選、目標約17:00到成田。紀念品到機場買；不排阿美橫、多慶屋。</p></details>
             </div>
             <div class="tool-tip"><strong>出發前：</strong>在 Google Maps 把重要地點加入同一個清單，並下載東京、群馬離線地圖；訊號不穩時仍能找到位置。</div>
           </div>
@@ -654,13 +684,13 @@
           <div class="tool-panel" id="tool-food" role="tabpanel" aria-labelledby="tab-food" hidden>
             <div class="tool-intro"><h3>發發選餐廳，動線替你把關</h3><p>保留真正順路的店。價位以 ¥ 符號作相對比較，營業時間與菜單仍需在出發前再次確認。</p></div>
             <article class="food-hero">
-              <div class="food-hero-main"><span class="food-kicker">FIRST CHOICE · D1 20:00</span><h4>鶯谷園</h4><p>這趟最想吃的燒肉。離住宿基地近，抵達夜不必再跨區；舊版推薦特上部位與厚切牛舌。熱門且主要接受電話聯絡，優先交由 Visa 禮賓協助。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷園+焼肉" target="_blank" rel="noopener">Google Maps</a><a class="action-link secondary" href="tel:+81338748717">+81 3-3874-8717</a></div></div>
-              <div class="reserve-note"><b>10/22 送出代訂委託</b><span>請 Visa 禮賓先確認店家最新開放規則，再協助致電；目標預訂 11/22 20:00、2 位，並確認當日營業、取消規則與可否指定禁菸座位。</span></div>
+              <div class="food-hero-main"><span class="food-kicker">FIRST CHOICE · D1 19:30</span><h4>鶯谷園</h4><p>這趟最想吃的燒肉。離住宿基地近，抵達夜不必再跨區；舊版推薦特上部位與厚切牛舌。熱門且主要接受電話聯絡，優先交由 Visa 禮賓協助。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=鶯谷園+焼肉" target="_blank" rel="noopener">Google Maps</a><a class="action-link secondary" href="tel:+81338748717">+81 3-3874-8717</a></div></div>
+              <div class="reserve-note"><b>代訂委託已送出・等候回覆</b><span>請 Visa 禮賓先確認店家最新開放規則，再協助致電；目標預訂11/22 19:30、2位（19:00–20:30可接受），並確認當日營業、取消規則與可否指定禁菸座位。</span></div>
             </article>
             <div class="food-grid"><article class="food-card"><div class="food-meta"><span>D5 · 下午主餐</span><span>現場候位</span></div><h4>極味屋 東京站店</h4><p>川越後約15:30–17:00預留候位與用餐，八重北1樓改札外；不接受預約，下午不保證免排隊。吃完回鶯谷洗澡換衣休息，再去丸之內，不再另排一頓完整晚餐。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=極味や東京駅店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.gransta.jp/mall/gransta_yaekita/kiwamiya/" target="_blank" rel="noopener">官方</a></div></article><article class="food-card"><div class="food-meta"><span>D2 · 和食晚餐</span><span>¥¥</span></div><h4>青山 川上庵</h4><p>表參道A4出口步行5分鐘，南青山3-14-1。鴨南蕎麥麵 ¥2,750、核桃醬蕎麥麵 ¥1,540；16:00後另收10%服務費。兩人點餐預抓 ¥6,000–8,000（估算，非套餐價），11/23座位尚待預訂。</p><div class="food-actions"><a class="action-link" href="https://www.kawakamian.com/shops/aoyama.php" target="_blank" rel="noopener">官方店鋪</a><a class="action-link" href="https://www.kawakamian.com/shops/aoyama_menu.php" target="_blank" rel="noopener">菜單</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D3 · 草津午餐</span><span>¥</span></div><h4>三國家</h4><p>湯畑附近蕎麥名店；三國蕎麥配舞茸天婦羅是舊版首選。午間排隊時，不犧牲旅館報到時間。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=草津温泉+三國家" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.kusatsu-onsen.ne.jp/kankou/1059.php" target="_blank" rel="noopener">店家資訊</a></div></article>
-              <article class="food-card"><div class="food-meta"><span>D5 · 川越正式午餐</span><span>¥¥¥</span></div><h4>小川菊</h4><p>江戶時代延續至今的老鋪鰻魚飯，最符合老街主題。熱門時可能提早停止候位，抵達老街先登記。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=小川菊+川越" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.ogakiku.com/" target="_blank" rel="noopener">官方</a></div></article>
-              <article class="food-card"><div class="food-meta"><span>D5 · 川越替代</span><span>¥¥¥</span></div><h4>川越 いちのや</h4><p>同樣是鰻魚老鋪，空間與座位選擇相對多。小川菊候位太久時，作為不破壞行程的正式候補。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=川越いちのや" target="_blank" rel="noopener">Google Maps</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D5 · 改動主餐才考慮</span><span>¥¥¥</span></div><h4>小川菊</h4><p>江戶時代延續至今的老鋪鰻魚飯，最符合老街主題。熱門時可能提早停止候位，目前主線是輕食後下午極味屋；只有取消極味屋、改吃川越主餐時才考慮。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=小川菊+川越" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://www.ogakiku.com/" target="_blank" rel="noopener">官方</a></div></article>
+              <article class="food-card"><div class="food-meta"><span>D5 · 改動主餐才考慮</span><span>¥¥¥</span></div><h4>川越 いちのや</h4><p>同樣是鰻魚老鋪，空間與座位選擇相對多。小川菊候位太久時，僅在取消下午極味屋、改吃川越主餐時作為候補。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=川越いちのや" target="_blank" rel="noopener">Google Maps</a></div></article>
               <article class="food-card"><div class="food-meta"><span>D6 · 最自然的第一選</span><span>4 人</span></div><h4>親戚午餐已安排完成</h4><p>11/27 12:00，4人，依已與親戚溝通好的安排進行。</p><div class="food-actions"><a class="action-link" href="#d6">查看 D6 時間</a></div></article>
               
               <article class="food-card"><div class="food-meta"><span>D7 · 上野收尾</span><span>¥¥¥</span></div><h4>鰻割烹 伊豆榮</h4><p>上野池之端的傳統鰻魚與日本料理，座位舒適、可電話預約，適合把最後一餐吃得完整；D7以淺草午餐為主，本店僅回到上野且時間充裕時候補，不為此折返。</p><div class="food-actions"><a class="action-link" href="https://www.google.com/maps/search/?api=1&amp;query=伊豆榮本店" target="_blank" rel="noopener">導航</a><a class="action-link" href="https://izuei.co.jp/shop/" target="_blank" rel="noopener">官方</a></div></article>
@@ -672,8 +702,8 @@
           <div class="tool-panel" id="tool-book" role="tabpanel" aria-labelledby="tab-book" hidden>
             <div class="tool-intro"><h3>只有會影響行程的待辦</h3><p>先處理會售罄或需要人工聯絡的項目；一般市區交通維持 Suica 彈性移動。</p></div>
             <div class="task-grid">
-              <article class="task-card"><span class="task-date">11/26先看・11/28補齊</span><strong>抹茶器具四種類＋茶粉三款</strong><p>合羽橋前田：高山百本立竹茶筅、匹配茶筅架；アサヒサンレッド及附近店：竹茶杓、陶瓷倒口點茶碗。茶粉首選：一保堂明昔20g ×2（單價¥3,024，小計¥6,048）；壽々喜園鶴羽の音20g ×1（¥2,800）＋手軽に本格抹茶30g ×2（單價¥800，小計¥1,600），合計¥10,448／約NT$2,194。各店備選與價格見對應日期逐店清單。其他器具已有，不買套組、不打電話、不預約；庫存不保證，詳見<a href="#d7">D7逐店清單</a>。11/26約19:30回到丸之內先看聖誕樹／燈光秀，一保堂新丸大樓B1有時間才逛，找高山百本立、架、茶杓，有喜歡且有貨就買；11/28重點挑陶瓷、補缺件，買齊就不重複買。</p></article>
-              <article class="task-card"><span class="task-date">用餐前確認</span><strong>青山川上庵｜11/23 18:30・2位</strong><p>聯絡 +81 3-5411-7171 確認座位。目標兩人不含酒 ¥6,000–8,000，依實際點餐計價；16:00後另加10%服務費。</p></article><article class="task-card"><span class="task-date">2026.10.22 起優先處理</span><strong>鶯谷園｜Visa 禮賓代訂</strong><p>目標 11/22 20:00、2 位。提供電話 +81 3-3874-8717，請禮賓先確認最新訂位開放規則，再確認營業、取消規則與座位條件。</p></article>
+              <article class="task-card"><span class="task-date">11/26先看・11/28補齊</span><strong>抹茶器具四種類＋茶粉三款</strong><p>合羽橋前田：高山百本立竹茶筅、匹配茶筅架；アサヒサンレッド及附近店：竹茶杓、陶瓷倒口點茶碗。茶粉首選：一保堂明昔20g ×2（單價¥3,024，小計¥6,048）；壽々喜園鶴羽の音20g ×1（¥2,800）＋手軽に本格抹茶30g ×2（單價¥800，小計¥1,600），合計¥10,448／約NT$2,194。各店備選與價格見對應日期逐店清單。其他器具已有，不買套組、不打電話、不預約；庫存不保證，詳見<a href="#d7">D7逐店清單</a>。11/26約19:30回到丸之內先看聖誕樹／燈光秀，一保堂新丸大樓B1預留20:00–20:45購物，找高山百本立、架、茶杓，有喜歡且有貨就買；11/28重點挑陶瓷、補缺件，買齊就不重複買。</p></article>
+              <article class="task-card"><span class="task-date">用餐前確認</span><strong>青山川上庵｜11/23 18:30・2位</strong><p>聯絡 +81 3-5411-7171 確認座位。目標兩人不含酒 ¥6,000–8,000，依實際點餐計價；16:00後另加10%服務費。</p></article><article class="task-card"><span class="task-date">已委託・約10/25查看回覆</span><strong>鶯谷園｜Visa 禮賓代訂</strong><p>首選11/22 19:30、2位（19:00–20:30可接受）；備選11/23 18:00–20:30（首選19:00）、11/26 20:00–21:00、11/25 20:30–21:00。尚未確認訂位；Visa預計10/25左右回覆。提供電話 +81 3-3874-8717，請禮賓先確認最新訂位開放規則，再確認營業、取消規則與座位條件。</p></article>
               <article class="task-card"><span class="task-date">2026.10.24–10.25 前後</span><strong>草津特急｜去回程指定席</strong><p>10/24台灣09:00訂11/24草津・四萬1號，上野10:00→長野原草津口12:18，接12:31巴士→草津12:53。回程10:25巴士→10:53長野原草津口，11:11普通車→12:39新前橋，12:52普通車→13:02高崎，再接13:16淺間616號→東京14:12；新幹線指定席10/25台灣09:00起購買，普通車與路線巴士不訂座。</p></article>
               <article class="task-card"><span class="task-date">2026.09–10</span><strong>秋季點燈與三晚聖誕行程</strong><p>上野市集、丸之內哈利波特活動與橫濱紅磚市集已確認。橫濱11/6台灣11:00開賣，11/27普通票¥500／人；昭和11/18起買11/25日本庭園＋入園套票¥1,600／人。丸之內演出時刻與 BALLPARK 另待核對。</p></article>
               
@@ -705,7 +735,7 @@
             <h3>完成就打勾</h3>
             <p>勾選狀態只存在這台裝置，不會上傳。</p>
             <div class="checklist" id="checklist"><label class="check"><input type="checkbox" data-key="matcha-chasen"><span>11/26一保堂目標：奈良高山100本立4支（¥6,930／支）＋中國製100本立3支（¥4,400／支），共7支¥40,920；分店庫存與限購待現場確認，記錄實買數量</span></label><label class="check"><input type="checkbox" data-key="matcha-holder"><span>11/26先看、11/28補缺：茶筅架1個，配合選中茶筅尺寸</span></label><label class="check"><input type="checkbox" data-key="matcha-scoop"><span>11/26先看、11/28合羽橋補缺：竹茶杓1支，平滑無毛刺</span></label><label class="check"><input type="checkbox" data-key="matcha-bowl"><span>合羽橋：陶瓷倒口點茶碗1只，內壁平滑、倒口好用、釉色握感喜歡</span></label><label class="check"><input type="checkbox" data-key="matcha-powder"><span>11/26一保堂：明昔20g ×2（單價¥3,024，小計¥6,048）；11/28壽々喜園：鶴羽の音20g ×1（¥2,800）＋手軽に本格抹茶30g ×2（單價¥800，小計¥1,600）。三款¥10,448／約NT$2,194；缺貨才看各店備選</span></label><label class="check"><input type="checkbox" data-key="aoyama-dinner"><span>確認11/23 18:30青山川上庵兩人座位</span></label>
-              <label class="check"><input type="checkbox" data-key="uguisudani"><span>10/22 起請 Visa 禮賓確認規則並代訂 11/22 鶯谷園晚餐</span></label>
+              <label class="check"><input type="checkbox" data-key="uguisudani"><span>Visa鶯谷園代訂需求已送出：首選11/22 19:30；約10/25查看回覆，尚未確認訂位</span></label>
               <label class="check"><input type="checkbox" data-key="train"><span>10/24台灣09:00訂去程草津・四萬1號；10/25台灣09:00訂回程高崎→東京淺間616號指定席</span></label>
               <label class="check"><input type="checkbox" data-key="events"><span>11/6橫濱普通票開賣；11/18昭和日本庭園套票開賣；丸之內演出時刻另核對</span></label>
               
@@ -715,7 +745,7 @@
           </div>
           <div class="status-board reveal" style="transition-delay:.12s">
             <h3>資訊狀態</h3>
-            <p>2026.10.21 更新上野市集、丸之內哈利波特與橫濱聖誕公告；昭和夜間活動已確認，青山川上庵座位待訂，親戚午餐已完成。</p>
+            <p>2026.10.23 整站檢查：同步行程、購物與訂位委託，修正圖片裁切和失效JR連結。上野、丸之內及橫濱公告已核對；昭和夜間活動已確認，青山川上庵座位待訂，親戚午餐已完成。</p>
             <div class="status-list"><div class="status-row"><span class="status-tag">已調整</span><b>11/23青山川上庵和食晚餐</b><span>餐廳待訂</span></div>
               <div class="status-row"><span class="status-tag">已確定</span><b>旅行日期、航班與住宿架構</b><span>依現有訂單</span></div>
               <div class="status-row"><span class="status-tag">已確認</span><b>2026/11/1 日本退稅改採 Refund 方式</b><span>國稅廳</span></div>
@@ -725,13 +755,13 @@
               <div class="status-row"><span class="status-tag watch">再核對</span><b>11 月 JR 特急、草津巴士與活動當日時間</b><span>出發前一週</span></div>
             </div>
             <div class="official-links">
-              <a href="https://www.jreast.co.jp/takasaki/kusatsu_shima/" target="_blank" rel="noopener">JR 東日本</a>
+              <a href="https://www.jreast.co.jp/takasaki/kusatsu-shima_akagi/pdf/jikokuhyo.pdf" target="_blank" rel="noopener">JR 東日本</a>
               <a href="https://www.showakinen-koen.jp/autumn-night-walk/" target="_blank" rel="noopener">昭和紀念公園</a>
               <a href="https://www.kawakamian.com/shops/aoyama.php" target="_blank" rel="noopener">青山川上庵</a>
               <a href="https://christmas-advent.jp/tokyo-ueno/" target="_blank" rel="noopener">上野聖誕市集</a>
               <a href="https://www.marunouchi.com/pickup/event/10727/" target="_blank" rel="noopener">丸之內哈利波特聖誕活動</a>
               <a href="https://www.yokohama-akarenga.jp/christmas/" target="_blank" rel="noopener">橫濱紅磚倉庫</a>
-              <a href="https://ballparkfantasia.com/" target="_blank" rel="noopener">BALLPARK Xmas</a>
+              <a href="https://ballparkfantasia.com/" target="_blank" rel="noopener">BALLPARK官方（目前仍為2025頁）</a>
               <a href="https://www.nta.go.jp/publication/pamph/shohi/menzei/201805/format/002.htm" target="_blank" rel="noopener">日本國稅廳</a>
             </div>
           </div>
@@ -757,7 +787,7 @@
             <li>出發前確認連住訂單、草津晚餐最晚報到時間，以及東京旅館保留房間的安排。</li>
           </ul></details>
           <details class="info-card"><summary><span class="info-title"><span class="icon">🎟️</span>活動與票券</span></summary><ul>
-            <li>上野市集、丸之內哈利波特與橫濱市集已公告2026會期；昭和夜間活動與 BALLPARK 仍需另行核對。</li>
+            <li>上野市集、丸之內哈利波特與橫濱市集已公告2026會期；昭和夜間活動已確認會期，依11/25日期購票；BALLPARK是否舉辦仍待公告。</li>
             <li>神宮外苑只安排11/26清晨銀杏；當晚保留丸之內哈利波特主題活動，詳細演出與市集攤位待後續公告。</li>
             <li>橫濱是預留門票的聖誕主場：11/27普通票¥500／人、優先票¥2,000／人；11/6台灣11:00開賣。普通票預購仍須排一般隊伍，預計16:45入場。</li>
           </ul></details>
@@ -805,14 +835,14 @@
       const daysLeft = document.getElementById('daysLeft');
       const countNote = document.getElementById('countNote');
       if (now < trip) daysLeft.textContent = Math.ceil((trip - now) / 86400000);
-      else if (now < end) { daysLeft.textContent = '旅行中'; countNote.textContent = '今天只需要享受眼前的行程。'; }
-      else { daysLeft.textContent = '已出發'; countNote.textContent = '這趟晚秋旅行已成為回憶。'; }
+      else if (now < end) { document.getElementById('countUnit').hidden = true; daysLeft.parentElement.classList.add('is-status'); daysLeft.textContent = '旅行中'; countNote.textContent = '今天只需要享受眼前的行程。'; }
+      else { document.getElementById('countUnit').hidden = true; daysLeft.parentElement.classList.add('is-status'); daysLeft.textContent = '已返程'; countNote.textContent = '這趟晚秋旅行已成為回憶。'; }
 
       addEventListener('scroll', () => topbar.classList.toggle('scrolled', scrollY > 35), {passive:true});
 
       const io = new IntersectionObserver(entries => entries.forEach(entry => {
         if (entry.isIntersecting) { entry.target.classList.add('seen'); io.unobserve(entry.target); }
-      }), {threshold:.12});
+      }), {threshold:0});
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
       const geoMap = document.getElementById('geoMap');
